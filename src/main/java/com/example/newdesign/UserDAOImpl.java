@@ -8,9 +8,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) {
 
-        String sql = "INSERT INTO users (fName, lName, email, phone, password) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection conn = DBconnection.getConnection();
+        try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, user.getFirstName());
@@ -30,17 +30,17 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean validateUser(String email, String password) {
-        String sql = "SELECT password FROM users WHERE email = ?";;
+        String sql = "SELECT passwordHash FROM Users WHERE email = ?";
 
-        try( Connection conn = DBconnection.getConnection();
-        PreparedStatement stmt = conn.prepareStatement(sql)){
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setString(1, email);
             var rs = stmt.executeQuery();
 
             if (rs.next()) {
 
-                String storedHash = rs.getString("password");
-
+                String storedHash = rs.getString("passwordHash");
                 String inputHash = Integer.toHexString(password.hashCode());
 
                 return storedHash.equals(inputHash);
@@ -51,9 +51,9 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return false;
-        }
-
     }
+}
+
 
 
 
