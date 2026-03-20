@@ -1,0 +1,71 @@
+package com.example.newdesign;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.scene.control.*;
+
+import java.io.IOException;
+
+public class HelloController {
+    @FXML
+    private Label welcomeText;
+
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField passwordField;
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Button SignUpButton;
+    @FXML
+    protected void onSignUpClick() throws IOException {
+
+        Stage stage = (Stage) SignUpButton.getScene().getWindow();
+        FXMLLoader loader= new FXMLLoader(HelloApplication.class.getResource("signUp-view.fxml")
+        );
+           Scene scene=new Scene(loader.load(), 800, 500);
+           stage.setScene(scene);
+
+    }
+
+    @FXML
+    public void handleLogin() throws IOException {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        //null field error
+        if(email.isEmpty() || password.isEmpty()){
+            showAlert("Error", "All fields should be filled");
+            return;
+        }
+
+        UserDAO dao = new UserDAOImpl();
+         boolean isValid = dao.validateUser(email, password);
+
+         if(isValid){
+             Stage stage = (Stage) loginButton.getScene().getWindow();
+             FXMLLoader  loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+             Scene scene = new Scene(loader.load(), 800, 500);
+             stage.setScene(scene);
+
+         }
+         else {
+             showAlert("Error", "Invalid email or password");}
+}
+
+
+
+    // created new alert fucntion for any errors that occurs during login
+    public void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();}
+}
