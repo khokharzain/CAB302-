@@ -15,7 +15,7 @@
            >
     <ImageView fitHeight="${signUp.height}"
                fitWidth="${signUp.width}">
-        <Image url="@desk.jpg"/>
+        <Image url="@background5.jpeg"/>
     </ImageView>
 
 
@@ -40,7 +40,7 @@
                     GridPane.rowIndex="0" GridPane.columnIndex="1"
                        promptText="first name"
                        style="
-                   -fx-background-color: #3A5074;
+                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
                    -fx-font-size: 14px;
@@ -52,7 +52,7 @@
                     GridPane.rowIndex="1" GridPane.columnIndex="1"
                        promptText="last name"
                        style="
-                   -fx-background-color: #3A5074;
+                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
                    -fx-font-size: 14px;
@@ -63,7 +63,7 @@
                     GridPane.rowIndex="2" GridPane.columnIndex="1"
                        promptText="phone"
                        style="
-                   -fx-background-color: #3A5074;
+                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
                    -fx-font-size: 14px;
@@ -74,7 +74,7 @@
                     GridPane.rowIndex="3" GridPane.columnIndex="1"
                        promptText="email"
                        style="
-                   -fx-background-color: #3A5074;
+                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
                    -fx-font-size: 14px;
@@ -86,7 +86,7 @@
                     GridPane.rowIndex="4" GridPane.columnIndex="1"
                            promptText="password"
                        style="
-                   -fx-background-color: #3A5074;
+                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
                    -fx-font-size: 14px;
@@ -96,13 +96,13 @@
                      GridPane.halignment="CENTER"
                     GridPane.columnSpan="2"
                     onAction="#handleRegister"
-                    style="-fx-background-color:#4458BF; -fx-text-fill: white;"/>
+                    style="-fx-background-color:#672170; -fx-text-fill: white;"/>
             <Button fx:id="backToLogin"
                     text="Already have an account!" GridPane.rowIndex="7" GridPane.columnIndex="0"
                      GridPane.halignment="CENTER"
                     GridPane.columnSpan="2"
                     onAction="#backtoLoginOnClick"
-                    style="-fx-background-color: transparent; -fx-text-fill: blue;"/>
+                    style="-fx-background-color: transparent; -fx-text-fill: white;"/>
 
 
 

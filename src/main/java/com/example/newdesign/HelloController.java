@@ -39,28 +39,32 @@ public class HelloController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
-        //null field error
-        if(email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             showAlert("Error", "All fields should be filled");
             return;
         }
 
         UserDAO dao = new UserDAOImpl();
-         boolean isValid = dao.validateUser(email, password);
+        User user = dao.login(email, password);
 
-         if(isValid){
-             Stage stage = (Stage) loginButton.getScene().getWindow();
-             FXMLLoader  loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-             Scene scene = new Scene(loader.load(), 800, 500);
-             stage.setScene(scene);
+        if (user != null) {
 
-         }
-         else {
-             showAlert("Error", "Invalid email or password");}
-}
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource("main-view.fxml"));
 
+            Scene scene = new Scene(loader.load(), 700, 800);
 
+            // 🔥 THIS IS THE IMPORTANT PART
+            mainController controller = loader.getController();
+            controller.setUser(user);
 
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(scene);
+
+        } else {
+            showAlert("Error", "Invalid email or password");
+        }
+    }
     // created new alert fucntion for any errors that occurs during login
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -69,3 +73,8 @@ public class HelloController {
         alert.setContentText(message);
         alert.showAndWait();}
 }
+
+
+
+
+

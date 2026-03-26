@@ -7,12 +7,23 @@ public class User {
     private String phone;
     private String passwordHash;
 
+
+    // construction for the sign in page
     public User(String firstName, String lastName, String email, String phone, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         setPassword(password); // only special logic here
+    }
+
+
+    // this is the construction for the Login page that doesnt need any password and get the user informamtion only
+    public User(String firstName, String lastName, String email, String phone){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.email=email;
+        this.phone=phone;
     }
 
     // getters

@@ -2,6 +2,7 @@ package com.example.newdesign;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -29,28 +30,39 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean validateUser(String email, String password) {
-        String sql = "SELECT passwordHash FROM Users WHERE email = ?";
+    public User login(String email, String password) {
+
+        String sql = "SELECT * FROM Users WHERE email = ?";
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, email);
-            var rs = stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
 
-                String storedHash = rs.getString("passwordHash");
+                // 🔐 hash input password
                 String inputHash = Integer.toHexString(password.hashCode());
+                String storedHash = rs.getString("passwordHash");
 
-                return storedHash.equals(inputHash);
+                // compare hashes
+                if (storedHash.equals(inputHash)) {
+
+                    return new User(
+                            rs.getString("firstName"),
+                            rs.getString("lastName"),
+                            rs.getString("email"),
+                            rs.getString("phone")
+                    );
+                }
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
 }
 
