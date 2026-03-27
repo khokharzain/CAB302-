@@ -29,7 +29,7 @@ public class HelloController {
         Stage stage = (Stage) SignUpButton.getScene().getWindow();
         FXMLLoader loader= new FXMLLoader(HelloApplication.class.getResource("signUp-view.fxml")
         );
-           Scene scene=new Scene(loader.load(), 800, 500);
+           Scene scene=new Scene(loader.load(), 1200, 800);
            stage.setScene(scene);
 
     }
@@ -52,7 +52,7 @@ public class HelloController {
             FXMLLoader loader = new FXMLLoader(
                     HelloApplication.class.getResource("main-view.fxml"));
 
-            Scene scene = new Scene(loader.load(), 700, 800);
+            Scene scene = new Scene(loader.load(), 1200, 800);
 
             // 🔥 THIS IS THE IMPORTANT PART
             mainController controller = loader.getController();

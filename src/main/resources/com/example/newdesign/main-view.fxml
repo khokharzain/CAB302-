@@ -25,8 +25,8 @@
             </padding>
 
             <!-- LEFT SIDE -->
-            <VBox fx:id="profileButton"
-                  onMouseClicked="#handleClick"
+            <VBox fx:id="profilelayout"
+                  onMouseClicked="#handleProfClick"
                   prefWidth="200.0"
                   maxHeight="250"
                   alignment="TOP_LEFT"
@@ -81,7 +81,7 @@
             <Label text="Home" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
             <Label text="Search" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
             <Label text="AI Chat" style ="-fx-text-fill: white; -fx-font-size: 14px;"/>
-            <Label text="Profile" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Button fx:id="profileButton" text="Profile" style=" -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;" onAction="#handleProfileButton"/>
 
         </HBox>
 

@@ -25,14 +25,24 @@ public class mainController {
     private Label phoneLabel;
 
 
-
     @FXML
-    private VBox profileButton;
-    public void handleClick() throws Exception {
+    private Button profileButton;
+
+    public void handleProfileButton() throws Exception{
         Stage stage = (Stage) profileButton.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
 
-        Scene scene = new Scene(loader.load(), 800, 500);
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private VBox profilelayout;
+    public void handleProfClick() throws Exception {
+        Stage stage = (Stage) profilelayout.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+
+        Scene scene = new Scene(loader.load(), 1200, 800);
         stage.setScene(scene);
 
     }

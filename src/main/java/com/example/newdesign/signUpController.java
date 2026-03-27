@@ -117,7 +117,7 @@ public class signUpController {
     protected void backtoLoginOnClick() throws IOException {
         Stage stage = (Stage) backToLogin.getScene().getWindow();
         FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlloader.load(), 800, 500);
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
         stage.setScene(scene);
     }
 
