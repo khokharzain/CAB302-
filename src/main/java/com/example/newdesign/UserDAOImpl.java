@@ -9,7 +9,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) {
 
-        String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash, profile_picture) VALUES (?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash, profile_picture) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -19,7 +19,13 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getPasswordHash());
-            stmt.setString(6,user.getProfilePicture());
+
+            // ✅ Ensure profile picture is never null
+            if (user.getProfilePicture() == null) {
+                stmt.setString(6, "default.png");
+            } else {
+                stmt.setString(6, user.getProfilePicture());
+            }
 
             stmt.executeUpdate();
 
@@ -43,19 +49,26 @@ public class UserDAOImpl implements UserDAO {
 
             if (rs.next()) {
 
-                // 🔐 hash input password
                 String inputHash = Integer.toHexString(password.hashCode());
                 String storedHash = rs.getString("passwordHash");
 
-                // compare hashes
                 if (storedHash.equals(inputHash)) {
+
+                    String profilePic = rs.getString("profile_picture");
+
+                    // ✅ Handle NULL safely
+                    if (profilePic == null || profilePic.isEmpty()) {
+                        profilePic = "default.png";
+                    }
+
+                    System.out.println("Loaded profile pic: " + profilePic); // DEBUG
 
                     return new User(
                             rs.getString("firstName"),
                             rs.getString("lastName"),
                             rs.getString("email"),
                             rs.getString("phone"),
-                            rs.getString("profile_picture")
+                            profilePic
                     );
                 }
             }
@@ -67,10 +80,3 @@ public class UserDAOImpl implements UserDAO {
         return null;
     }
 }
-
-
-
-
-
-
-

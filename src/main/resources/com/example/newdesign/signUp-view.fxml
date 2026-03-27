@@ -15,7 +15,7 @@
            >
     <ImageView fitHeight="${signUp.height}"
                fitWidth="${signUp.width}">
-        <Image url="@background5.jpeg"/>
+        <Image url="@images/background5.jpeg"/>
     </ImageView>
 
 
