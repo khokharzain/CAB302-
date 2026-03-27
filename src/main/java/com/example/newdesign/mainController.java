@@ -7,9 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 public class mainController {
 
+    @FXML
+    private ImageView profilePicture;
     @FXML
     private Label firstNameLabel;
     @FXML
@@ -37,5 +41,17 @@ public class mainController {
         lastNameLabel.setText(user.getLastName());
         emailLabel.setText(user.getEmail());
         phoneLabel.setText(user.getPhone());
+        // loading image is a little bit different than the above
+        String imageName = user.getProfilePicture();
+        var url = getClass().getResource("/com/example/newdesign/images/" + imageName);
+
+        if(url != null){
+            profilePicture.setImage(new Image(url.toExternalForm()));
+        }else {
+            System.out.println("image not found in main page");
+        }
+
+
+
     }
 }

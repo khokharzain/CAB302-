@@ -35,7 +35,7 @@
         <GridPane hgap="10" vgap="10" alignment="CENTER">
             <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"
 
-            style="-fx-text-fill: #14193A;"/>
+            style="-fx-text-fill: white;"/>
             <TextField  fx:id="fNameField"
                     GridPane.rowIndex="0" GridPane.columnIndex="1"
                        promptText="first name"
@@ -47,7 +47,7 @@
                    "/>
 
             <Label text="Last Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"
-            style="-fx-text-fill: #14193A;"/>
+            style="-fx-text-fill: white;"/>
             <TextField fx:id="lNameField"
                     GridPane.rowIndex="1" GridPane.columnIndex="1"
                        promptText="last name"
@@ -58,7 +58,7 @@
                    -fx-font-size: 14px;
                    "/>
             <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0"
-                   style="-fx-text-fill: #14193A;"/>
+                   style="-fx-text-fill: white;"/>
             <TextField fx:id="phoneField"
                     GridPane.rowIndex="2" GridPane.columnIndex="1"
                        promptText="phone"
@@ -69,7 +69,7 @@
                    -fx-font-size: 14px;
                    "/>
             <Label text="Email:" GridPane.rowIndex="3" GridPane.columnIndex="0"
-                   style="-fx-text-fill: #14193A;"/>
+                   style="-fx-text-fill: white;"/>
             <TextField  fx:id="emailField"
                     GridPane.rowIndex="3" GridPane.columnIndex="1"
                        promptText="email"
@@ -81,7 +81,7 @@
                    "/>
 
             <Label text="Password:" GridPane.rowIndex="4" GridPane.columnIndex="0"
-                   style="-fx-text-fill: #14193A;"/>
+                   style="-fx-text-fill: white;"/>
             <PasswordField  fx:id="passwordField"
                     GridPane.rowIndex="4" GridPane.columnIndex="1"
                            promptText="password"
@@ -92,13 +92,36 @@
                    -fx-font-size: 14px;
                    "/>
 
-            <Button text="      Register     " GridPane.rowIndex="5" GridPane.columnIndex="1"
+            <!-- Profile Preview -->
+            <ImageView fx:id="profileImageView"
+                       fitWidth="50" fitHeight="50"
+                       GridPane.rowIndex="7" GridPane.columnIndex="0"
+
+                       GridPane.halignment="CENTER"/>
+
+            <HBox spacing="10"
+                  alignment="CENTER"
+                  GridPane.rowIndex="6"
+                  GridPane.columnIndex="0"
+                  GridPane.columnSpan="2">
+
+                <ImageView fx:id="img1" fitWidth="50" fitHeight="50"
+                           onMouseClicked="#selectAvatar1"/>
+
+                <ImageView fx:id="img2" fitWidth="50" fitHeight="50"
+                           onMouseClicked="#selectAvatar2"/>
+
+                <ImageView fx:id="img3" fitWidth="50" fitHeight="50"
+                           onMouseClicked="#selectAvatar3"/>
+            </HBox>
+
+            <Button text="      Register     " GridPane.rowIndex="7" GridPane.columnIndex="1"
                      GridPane.halignment="CENTER"
-                    GridPane.columnSpan="2"
+
                     onAction="#handleRegister"
                     style="-fx-background-color:#672170; -fx-text-fill: white;"/>
             <Button fx:id="backToLogin"
-                    text="Already have an account!" GridPane.rowIndex="7" GridPane.columnIndex="0"
+                    text="Already have an account!" GridPane.rowIndex="8" GridPane.columnIndex="0"
                      GridPane.halignment="CENTER"
                     GridPane.columnSpan="2"
                     onAction="#backtoLoginOnClick"

@@ -7,6 +7,6 @@ public class Launcher {
 
         DataBaseInitialiser.initialize(); // create table
 
-        Application.launch(HelloApplication.class, args); // 👈 FIX
+        Application.launch(HelloApplication.class, args);
     }
 }

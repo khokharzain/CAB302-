@@ -9,7 +9,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void addUser(User user) {
 
-        String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash, profile_picture) VALUES (?, ?, ?, ?, ?,?)";
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -19,6 +19,7 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getPasswordHash());
+            stmt.setString(6,user.getProfilePicture());
 
             stmt.executeUpdate();
 
@@ -53,7 +54,8 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("firstName"),
                             rs.getString("lastName"),
                             rs.getString("email"),
-                            rs.getString("phone")
+                            rs.getString("phone"),
+                            rs.getString("profile_picture")
                     );
                 }
             }
