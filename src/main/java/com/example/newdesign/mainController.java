@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
+
 
 import java.io.File;
 
@@ -87,6 +90,10 @@ public class mainController {
         controller.setUser(currentUser); // 🔥 CRITICAL
 
         Stage stage = (Stage) profileButton.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 
@@ -102,6 +109,10 @@ public class mainController {
         controller.setUser(currentUser); // 🔥 CRITICAL
 
         Stage stage = (Stage) profilelayout.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 }

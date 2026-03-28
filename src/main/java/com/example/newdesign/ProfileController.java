@@ -1,5 +1,6 @@
 package com.example.newdesign;
 
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -123,6 +125,10 @@ public class ProfileController {
         controller.setUser(currentUser);
 
         Stage stage = (Stage) profileImage.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 }

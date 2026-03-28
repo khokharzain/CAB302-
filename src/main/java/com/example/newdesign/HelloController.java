@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -27,11 +29,20 @@ public class HelloController {
     protected void onSignUpClick() throws IOException {
 
         Stage stage = (Stage) SignUpButton.getScene().getWindow();
-        FXMLLoader loader= new FXMLLoader(HelloApplication.class.getResource("signUp-view.fxml")
-        );
-           Scene scene=new Scene(loader.load(), 1200, 800);
-           stage.setScene(scene);
 
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("signUp-view.fxml")
+        );
+
+        Scene scene = new Scene(loader.load(), 1200, 800);
+
+        //  Fade animation
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+
+        stage.setScene(scene);
     }
 
     @FXML
@@ -59,6 +70,10 @@ public class HelloController {
             controller.setUser(user);
 
             Stage stage = (Stage) loginButton.getScene().getWindow();
+            FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+            fade.setFromValue(0);
+            fade.setToValue(1);
+            fade.play();
             stage.setScene(scene);
 
         } else {

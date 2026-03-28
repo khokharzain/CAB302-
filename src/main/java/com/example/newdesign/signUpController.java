@@ -1,5 +1,6 @@
 package com.example.newdesign;
 
+import javafx.animation.FadeTransition;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 public class signUpController {
 
@@ -118,6 +120,10 @@ public class signUpController {
         Stage stage = (Stage) backToLogin.getScene().getWindow();
         FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 
