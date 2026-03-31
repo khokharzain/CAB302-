@@ -119,7 +119,7 @@
                      GridPane.halignment="CENTER"
 
                     onAction="#handleRegister"
-                    style="-fx-background-color:#672170; -fx-text-fill: white;"/>
+                    style="-fx-background-color:linear-gradient(to right, #E752E9, #7D187E); -fx-text-fill: white;"/>
             <Button fx:id="backToLogin"
                     text="Already have an account!" GridPane.rowIndex="8" GridPane.columnIndex="0"
                      GridPane.halignment="CENTER"

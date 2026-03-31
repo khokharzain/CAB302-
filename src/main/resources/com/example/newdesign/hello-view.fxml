@@ -103,7 +103,7 @@
                 onAction="#handleLogin"
 
                 style="
-                -fx-background-color: #672170;
+                -fx-background-color: linear-gradient(to right, #E752E9, #7D187E);
                 -fx-background-radius: 12;
                 -fx-text-fill: white;
                 -fx-font-size: 15px;

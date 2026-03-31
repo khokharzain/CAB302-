@@ -39,6 +39,10 @@ public class mainController {
     @FXML
     private VBox profilelayout;
 
+    //the getter for the search button in main page
+    @FXML
+    private Button searchButton;
+
     // ✅ Set user when logged in
     public void setUser(User user) {
         this.currentUser = user;
@@ -106,9 +110,24 @@ public class mainController {
         Scene scene = new Scene(loader.load(), 1200, 800);
 
         ProfileController controller = loader.getController();
-        controller.setUser(currentUser); // 🔥 CRITICAL
+        controller.setUser(currentUser); // setting cuttent user
 
         Stage stage = (Stage) profilelayout.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+        stage.setScene(scene);
+    }
+
+
+    public void handleSearchButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("search-view.fxml")
+        );
+
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) searchButton.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
         fade.setFromValue(0);
         fade.setToValue(1);
