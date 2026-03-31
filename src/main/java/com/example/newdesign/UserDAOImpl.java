@@ -3,6 +3,8 @@ package com.example.newdesign;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -78,5 +80,48 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return null;
+    }
+
+    @Override
+    public List<User> searchUsers(String keyword) {
+
+        String sql = "SELECT * FROM Users WHERE firstName LIKE ? OR lastName LIKE ?";
+
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String searchPattern = keyword + "%";
+
+            stmt.setString(1, searchPattern);
+            stmt.setString(2, searchPattern);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                String profilePic = rs.getString("profile_picture");
+
+                if (profilePic == null || profilePic.isEmpty()) {
+                    profilePic = "default.png";
+                }
+
+                User user = new User(
+                        rs.getString("firstName"),
+                        rs.getString("lastName"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        profilePic
+                );
+
+                users.add(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return users;
     }
 }
