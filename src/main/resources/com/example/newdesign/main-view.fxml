@@ -16,7 +16,7 @@
           AnchorPane.rightAnchor="0"
           AnchorPane.bottomAnchor="0">
 
-        <!-- 🔴 HEADER -->
+        <!--  HEADER -->
         <HBox prefHeight="100"
               style="-fx-background-color: linear-gradient(to right, #432769, #780D78);"
               alignment="CENTER_LEFT">
@@ -26,17 +26,19 @@
             </padding>
 
             <Label text="SkillDev"
-                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+                   style="-fx-text-fill: linear-gradient(to bottom, white, #e0e0e0);
+              -fx-font-size: 24px;
+              -fx-font-weight: bold;"/>
         </HBox>
 
-        <!-- 🧱 MAIN CONTENT -->
+        <!-- MAIN CONTENT -->
         <HBox spacing="20" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
 
             <padding>
                 <Insets top="20" bottom="20" left="20" right="20"/>
             </padding>
 
-            <!-- 👤 PROFILE CARD -->
+            <!-- PROFILE CARD -->
             <StackPane prefWidth="200" maxHeight="250"
                        style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);">
 

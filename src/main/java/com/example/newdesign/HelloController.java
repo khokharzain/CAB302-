@@ -97,6 +97,48 @@ public class HelloController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    public void handleForgotPassword() {
+
+        // Step 1: ask for email
+        TextInputDialog emailDialog = new TextInputDialog();
+
+        emailDialog.setTitle("Forgot Password");
+        emailDialog.setHeaderText("Enter your email");
+        emailDialog.setContentText("Email:");
+
+        emailDialog.showAndWait().ifPresent(email -> {
+
+            if (email.isEmpty()) {
+                showAlert("Error", "Email cannot be empty");
+                return;
+            }
+
+            // Step 2: ask for new password
+            TextInputDialog passDialog = new TextInputDialog();
+            passDialog.setTitle("Reset Password");
+            passDialog.setHeaderText("Enter your new password");
+            passDialog.setContentText("New Password:");
+
+            passDialog.showAndWait().ifPresent(newPassword -> {
+
+                if (newPassword.isEmpty()) {
+                    showAlert("Error", "Password cannot be empty");
+                    return;
+                }
+
+                UserDAOImpl dao = new UserDAOImpl();
+                boolean success = dao.resetPassword(email, newPassword);
+
+                if (success) {
+                    showAlert("Success", "Password updated successfully!");
+                } else {
+                    showAlert("Error", "Email not found");
+                }
+            });
+        });
+    }
 }
 
 

@@ -10,4 +10,8 @@ public interface UserDAO {
     // search function in search page
     List<User> searchUsers(String keyword);
 
+    //handle forgot password option
+    boolean resetPassword(String email, String newPassword);
+
+
 }

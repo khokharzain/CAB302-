@@ -124,4 +124,30 @@ public class UserDAOImpl implements UserDAO {
 
         return users;
     }
+
+
+
+    // reseting the password if user cant login
+    public boolean resetPassword(String email, String newPassword) {
+
+        String sql = "UPDATE Users SET passwordHash = ? WHERE email = ?";
+
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            String hash = Integer.toHexString(newPassword.hashCode());
+
+            stmt.setString(1, hash);
+            stmt.setString(2, email);
+
+            int rows = stmt.executeUpdate();
+
+            return rows > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
