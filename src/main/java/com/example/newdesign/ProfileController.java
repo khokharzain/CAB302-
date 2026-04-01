@@ -24,12 +24,15 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
-        profileImage.setOnMouseClicked(e -> chooseProfilePicture());
-    }
 
-    public void setUser(User user) {
-        this.currentUser = user;
-        loadProfileImage();
+        // ✅ Get user from SessionManager
+        currentUser = SessionManager.getUser();
+
+        if (currentUser != null) {
+            loadProfileImage();
+        }
+
+        profileImage.setOnMouseClicked(e -> chooseProfilePicture());
     }
 
     private void chooseProfilePicture() {
@@ -59,13 +62,16 @@ public class ProfileController {
 
                 Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                // ✅ Save to DB
+                // Save to DB
                 saveProfilePicture(newFileName);
 
-                // ✅ Update current user object
+                // Update object
                 currentUser.setProfilePicture(newFileName);
 
-                // ✅ Refresh UI
+                // ✅ Update session
+                SessionManager.setUser(currentUser);
+
+                // Refresh UI
                 loadProfileImage();
 
             } catch (Exception e) {
@@ -97,12 +103,12 @@ public class ProfileController {
                 File file = new File("profile_images/" + currentUser.getProfilePicture());
 
                 if (file.exists()) {
-                    profileImage.setImage(null);
                     profileImage.setImage(new Image(file.toURI().toString(), false));
                     return;
                 }
             }
 
+            // default image
             profileImage.setImage(new Image(
                     getClass().getResource("/com/example/newdesign/images/default.png").toString()
             ));
@@ -112,17 +118,17 @@ public class ProfileController {
         }
     }
 
-    // ✅ BACK BUTTON
+    // BACK BUTTON
     @FXML
     private void handleBack() throws Exception {
+
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("main-view.fxml")
         );
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
-        mainController controller = loader.getController();
-        controller.setUser(currentUser);
+
 
         Stage stage = (Stage) profileImage.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());

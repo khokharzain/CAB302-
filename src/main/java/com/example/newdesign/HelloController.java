@@ -13,18 +13,22 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 public class HelloController {
+
     @FXML
     private Label welcomeText;
 
     @FXML
     private TextField emailField;
+
     @FXML
     private TextField passwordField;
+
     @FXML
     private Button loginButton;
 
     @FXML
     private Button SignUpButton;
+
     @FXML
     protected void onSignUpClick() throws IOException {
 
@@ -36,7 +40,6 @@ public class HelloController {
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
-        //  Fade animation
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
         fade.setFromValue(0);
         fade.setToValue(1);
@@ -47,6 +50,7 @@ public class HelloController {
 
     @FXML
     public void handleLogin() throws IOException {
+
         String email = emailField.getText();
         String password = passwordField.getText();
 
@@ -60,36 +64,39 @@ public class HelloController {
 
         if (user != null) {
 
+            // ✅ FIX: SET USER FIRST (VERY IMPORTANT)
+            SessionManager.setUser(user);
+
+            System.out.println("LOGIN USER: " + user.getFirstName()); // debug
+
             FXMLLoader loader = new FXMLLoader(
-                    HelloApplication.class.getResource("main-view.fxml"));
+                    HelloApplication.class.getResource("main-view.fxml")
+            );
 
             Scene scene = new Scene(loader.load(), 1200, 800);
 
-            // 🔥 THIS IS THE IMPORTANT PART
-            mainController controller = loader.getController();
-            controller.setUser(user);
-
             Stage stage = (Stage) loginButton.getScene().getWindow();
+
             FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
             fade.setFromValue(0);
             fade.setToValue(1);
             fade.play();
+
             stage.setScene(scene);
 
         } else {
             showAlert("Error", "Invalid email or password");
         }
     }
-    // created new alert fucntion for any errors that occurs during login
+
+    // Alert helper
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();}
+        alert.showAndWait();
+    }
 }
-
-
-
 
 

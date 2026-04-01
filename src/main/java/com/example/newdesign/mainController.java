@@ -43,6 +43,19 @@ public class mainController {
     @FXML
     private Button searchButton;
 
+
+
+    // getting user form sessionManager
+    @FXML
+    public void initialize() {
+        User user = SessionManager.getUser();
+
+        if (user != null) {
+            setUser(user);
+        }
+    }
+
+
     // ✅ Set user when logged in
     public void setUser(User user) {
         this.currentUser = user;
@@ -90,8 +103,7 @@ public class mainController {
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
-        ProfileController controller = loader.getController();
-        controller.setUser(currentUser); // 🔥 CRITICAL
+
 
         Stage stage = (Stage) profileButton.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
@@ -109,8 +121,7 @@ public class mainController {
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
-        ProfileController controller = loader.getController();
-        controller.setUser(currentUser); // setting cuttent user
+
 
         Stage stage = (Stage) profilelayout.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
@@ -127,6 +138,7 @@ public class mainController {
         );
 
         Scene scene = new Scene(loader.load(), 1200, 800);
+        SessionManager.setUser(currentUser);
         Stage stage = (Stage) searchButton.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
         fade.setFromValue(0);

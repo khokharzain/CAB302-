@@ -1,17 +1,26 @@
 package com.example.newdesign;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.List;
 
 public class SearchController {
+
+    @FXML
+    private Button profileButton;
+
+    @FXML
+    private Button homeButton;
 
     @FXML
     private TextField searchField;
@@ -20,6 +29,10 @@ public class SearchController {
     private VBox resultsContainer;
 
     private UserDAOImpl userDAO = new UserDAOImpl();
+
+
+
+
 
     @FXML
     public void initialize() {
@@ -100,5 +113,23 @@ public class SearchController {
 
             resultsContainer.getChildren().add(card);
         }
+    }
+
+    @FXML
+    private void handleHomeButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) homeButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handleProfileButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(scene);
     }
 }

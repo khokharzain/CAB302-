@@ -68,10 +68,10 @@
               prefHeight="40"
               style="-fx-background-color: linear-gradient(to right, #432769, #780D78);">
 
-            <Label text="Home" style="-fx-text-fill: white;"/>
+            <Button fx:id="homeButton" text="Home" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#handleHomeButton" />
             <Button text="Search" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
             <Label text="AI Chat" style="-fx-text-fill: white;"/>
-            <Button text="Profile" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
+            <Button fx:id= "profileButton" text="Profile" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#handleProfileButton"/>
 
         </HBox>
 
