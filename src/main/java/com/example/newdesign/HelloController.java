@@ -3,12 +3,16 @@ package com.example.newdesign;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
+import javafx.geometry.Pos;
 
 import java.io.IOException;
 
@@ -101,43 +105,71 @@ public class HelloController {
     @FXML
     public void handleForgotPassword() {
 
-        // Step 1: ask for email
-        TextInputDialog emailDialog = new TextInputDialog();
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Reset Password");
 
-        emailDialog.setTitle("Forgot Password");
-        emailDialog.setHeaderText("Enter your email");
-        emailDialog.setContentText("Email:");
+        VBox layout = new VBox(15);
+        layout.setStyle("""
+        -fx-background-color: white;
+        -fx-padding: 25;
+        -fx-alignment: center;
+        -fx-background-radius: 15;
+    """);
 
-        emailDialog.showAndWait().ifPresent(email -> {
+        Label title = new Label("Reset Your Password");
+        title.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-            if (email.isEmpty()) {
-                showAlert("Error", "Email cannot be empty");
+        TextField emailField = new TextField();
+        emailField.setPromptText("Enter your email");
+
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("New password");
+
+        Label message = new Label();
+        message.setStyle("-fx-text-fill: red;");
+
+        Button submitBtn = new Button("Update Password");
+        submitBtn.setStyle("""
+        -fx-background-color: #6A0DAD;
+        -fx-text-fill: white;
+        -fx-font-weight: bold;
+        -fx-padding: 8 20;
+        -fx-background-radius: 10;
+    """);
+
+        submitBtn.setOnAction(e -> {
+            String email = emailField.getText();
+            String newPassword = passwordField.getText();
+
+            if (email.isEmpty() || newPassword.isEmpty()) {
+                message.setText("All fields are required");
                 return;
             }
 
-            // Step 2: ask for new password
-            TextInputDialog passDialog = new TextInputDialog();
-            passDialog.setTitle("Reset Password");
-            passDialog.setHeaderText("Enter your new password");
-            passDialog.setContentText("New Password:");
+            UserDAOImpl dao = new UserDAOImpl();
+            boolean success = dao.resetPassword(email, newPassword);
 
-            passDialog.showAndWait().ifPresent(newPassword -> {
-
-                if (newPassword.isEmpty()) {
-                    showAlert("Error", "Password cannot be empty");
-                    return;
-                }
-
-                UserDAOImpl dao = new UserDAOImpl();
-                boolean success = dao.resetPassword(email, newPassword);
-
-                if (success) {
-                    showAlert("Success", "Password updated successfully!");
-                } else {
-                    showAlert("Error", "Email not found");
-                }
-            });
+            if (success) {
+                message.setStyle("-fx-text-fill: green;");
+                message.setText("Password updated successfully!");
+            } else {
+                message.setStyle("-fx-text-fill: red;");
+                message.setText("Email not found");
+            }
         });
+
+        Button closeBtn = new Button("Close");
+        closeBtn.setOnAction(e -> dialog.close());
+
+        HBox buttons = new HBox(10, submitBtn, closeBtn);
+        buttons.setAlignment(Pos.CENTER);
+
+        layout.getChildren().addAll(title, emailField, passwordField, message, buttons);
+
+        Scene scene = new Scene(layout, 350, 280);
+        dialog.setScene(scene);
+        dialog.showAndWait();
     }
 }
 

@@ -62,7 +62,15 @@ public class SearchController {
 
             // Card container
             HBox card = new HBox(15);
-            card.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 10;");
+            card.setStyle(
+                    "-fx-background-color: #C9CABC;" +
+                            "-fx-border-color: #147A5E;" +
+                            "-fx-border-width: 1;" +
+                            "-fx-border-radius:15;" +
+                            "-fx-background-radius:15;" +
+                            "-fx-padding: 10;"
+
+            );
             card.setPrefHeight(60);
 
             // Profile image
@@ -104,11 +112,16 @@ public class SearchController {
 
             // Optional: hover effect (makes it feel modern)
             card.setOnMouseEntered(e ->
-                    card.setStyle("-fx-background-color: #EAEAEA; -fx-padding: 10; -fx-background-radius: 10;")
+                    card.setStyle("-fx-background-color: #EAEAEA; -fx-padding: 10; -fx-background-radius: 15;")
             );
 
             card.setOnMouseExited(e ->
-                    card.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 10;")
+                    card.setStyle("-fx-background-color: #C9CABC;" +
+            "-fx-border-color: #147A5E;" +
+                    "-fx-border-width: 1;" +
+                            "-fx-border-radius:15;" +
+                            "-fx-background-radius:15;" +
+                            "-fx-padding: 10;")
             );
 
             resultsContainer.getChildren().add(card);

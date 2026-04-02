@@ -85,17 +85,17 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> searchUsers(String keyword) {
 
-        String sql = "SELECT * FROM Users WHERE firstName LIKE ? OR lastName LIKE ?";
+        String sql = "SELECT * FROM Users WHERE LOWER(firstName || ' ' || lastName) LIKE LOWER(?)";
 
         List<User> users = new ArrayList<>();
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            String searchPattern = keyword + "%";
+            String searchPattern = keyword.toLowerCase() + "%";
 
             stmt.setString(1, searchPattern);
-            stmt.setString(2, searchPattern);
+
 
             ResultSet rs = stmt.executeQuery();
 
