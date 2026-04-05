@@ -24,7 +24,6 @@
                >
 
         <image>
-            <Image url="@images/background5.jpeg"/>
         </image>
 
     </ImageView>
@@ -42,7 +41,6 @@
           style="
           -fx-background-color: rgba(100,100,100,0.3);
           -fx-background-radius: 25;
-          -fx-border-color: rgba(150,180,255,0.6);
           -fx-border-width: 2;
           -fx-border-radius: 25;
           -fx-padding: 40;
@@ -66,10 +64,8 @@
                    maxWidth="290"
                    prefHeight="60"
                    style="
-                   -fx-background-color: #A21FB3;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
-                   -fx-prompt-text-fill: #A9B7D0;
                    -fx-font-size: 14px;
                    "/>
 
@@ -82,10 +78,8 @@
 
                        prefHeight="60"
                        style="
-                       -fx-background-color: #A21FB3;
                        -fx-background-radius: 12;
                        -fx-text-fill: white;
-                       -fx-prompt-text-fill: #A9B7D0;
                        -fx-font-size: 14px;
                        "/>
 
@@ -103,7 +97,6 @@
                 onAction="#handleLogin"
 
                 style="
-                -fx-background-color: linear-gradient(to right, #E752E9, #7D187E);
                 -fx-background-radius: 12;
                 -fx-text-fill: white;
                 -fx-font-size: 15px;
