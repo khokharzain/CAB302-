@@ -1,5 +1,7 @@
 package com.example.newdesign;
 
+import javafx.application.Application;
+
 public class Hobby {
     private int id;
     private int userId;           // Which user owns this hobby
@@ -35,4 +37,6 @@ public class Hobby {
     public String toString() {
         return hobbyName;
     }
+
+
 }

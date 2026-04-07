@@ -10,21 +10,21 @@
 <?import javafx.scene.image.ImageView?>
 
 <AnchorPane fx:id="root"
-        xmlns:fx="http://javafx.com/fxml"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.newdesign.HelloController"
-            >
+>
     <ImageView
             preserveRatio="false"
             fitWidth="${root.width}"
             fitHeight="${root.height}"
             AnchorPane.topAnchor="0"
-               AnchorPane.bottomAnchor="0"
-               AnchorPane.leftAnchor="0"
-               AnchorPane.rightAnchor="0"
-               >
+            AnchorPane.bottomAnchor="0"
+            AnchorPane.leftAnchor="0"
+            AnchorPane.rightAnchor="0"
+    >
 
         <image>
-            <Image url="@images/wallpaper.jpeg"/>
+            <Image url="@images/background8.png"/>
         </image>
 
     </ImageView>
@@ -33,8 +33,8 @@
     <!-- Login Card -->
     <VBox alignment="CENTER"
           spacing="25"
-          AnchorPane.leftAnchor="140"
-          AnchorPane.rightAnchor="140"
+          AnchorPane.leftAnchor="120"
+          AnchorPane.rightAnchor="520"
           AnchorPane.topAnchor="100"
           AnchorPane.bottomAnchor="100"
 
@@ -58,41 +58,49 @@
                style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
 
 
-
         <!-- Email -->
-        <TextField  fx:id="emailField"
-                promptText="Email"
+        <TextField fx:id="emailField"
+                   promptText="Email"
                    prefWidth="200"
                    maxWidth="290"
                    prefHeight="60"
                    style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-text-fill: white;
-                   -fx-prompt-text-fill: white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
 
 
         <!-- Password -->
         <PasswordField fx:id="passwordField"
-                promptText="Password"
+                       promptText="Password"
                        prefWidth="200"
                        maxWidth="290"
 
                        prefHeight="60"
                        style="
-                       -fx-background-color: #587B71;
-                       -fx-background-radius: 12;
-                       -fx-text-fill: white;
-                       -fx-prompt-text-fill: white;
-                       -fx-font-size: 14px;
-                       "/>
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
+                   -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
+                   "/>
 
 
         <!-- Forgot password -->
         <Button text="Forgot password?"
-               style="-fx-text-fill: white; -fx-background-color:transparent; -fx-font-size: 12px;" onAction="#handleForgotPassword"/>
+                style="-fx-text-fill: white; -fx-background-color:transparent; -fx-font-size: 12px;"
+                onAction="#handleForgotPassword"/>
 
 
         <!-- Login button -->
@@ -103,19 +111,20 @@
                 onAction="#handleLogin"
 
                 style="
-                -fx-background-color:#2E6E5C;
-                -fx-background-radius: 12;
-                -fx-text-fill: white;
+                -fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                -fx-background-radius: 15;
+                -fx-text-fill: black;
                 -fx-font-size: 15px;
                 -fx-font-weight: bold;
+                -fx-effect: dropshadow(gaussian, rgba(0,255,183,0.4), 15, 0.3, 0, 5);
                 "/>
 
 
         <!-- Sign up text -->
         <Button fx:id="SignUpButton"
                 text="Don't have an account? Sign up"
-               style="-fx-text-fill: white; -fx-font-size: 12px; -fx-background-color: transparent;"
-        onAction="#onSignUpClick"/>
+                style="-fx-text-fill: white; -fx-font-size: 12px; -fx-background-color: transparent;"
+                onAction="#onSignUpClick"/>
 
     </VBox>
 
