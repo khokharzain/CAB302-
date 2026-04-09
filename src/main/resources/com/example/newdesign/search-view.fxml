@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
@@ -54,6 +56,9 @@
                               -fx-font-size: 14px;"/>
         </HBox>
 
+         <!--suggestion container in here-->
+        <VBox fx:id="suggestionsContainer" alignment ="CENTER" spacing="10"/>
+
 
         <!-- RESULTS -->
         <ScrollPane fitToWidth="true"
@@ -74,12 +79,53 @@
               prefHeight="20"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
 
-            <Button fx:id="homeButton" text="Home" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#handleHomeButton" />
-            <Button text="Search" style="-fx-background-color: transparent; -fx-text-fill: white;"/>
-            <Label text="AI Chat" style="-fx-text-fill: white;"/>
-            <Button fx:id= "profileButton" text="Profile" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#handleProfileButton"/>
+            <Button fx:id="homeButton"
+                    style="-fx-background-color: transparent;" onAction="#handleHomeButton"
+            ><graphic>
+                <ImageView fitHeight="20" fitWidth="20">
+                    <image>
+                        <Image url="@Icons/HomeBlack.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            </Button>
+            <Button fx:id="searchButton"
+
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/SearchBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Label>
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/AiBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Label>
+
+            <Button fx:id="profileButton"
+                    onAction="#handleProfileButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/profileBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
         </HBox>
+
+
 
     </VBox>
 
