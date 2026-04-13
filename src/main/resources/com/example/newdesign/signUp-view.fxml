@@ -8,93 +8,123 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <AnchorPane fx:id="signUp"
-            xmlns="http://javafx.com/javafx"
+        xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.newdesign.signUpController"
             prefHeight="500" prefWidth="800"
->
+           >
     <ImageView fitHeight="${signUp.height}"
                fitWidth="${signUp.width}">
-        <Image url="@images/wallpaper.jpeg"/>
+        <Image url="@images/background8.png"/>
     </ImageView>
 
 
     <VBox alignment="CENTER" spacing="10"
-          AnchorPane.topAnchor="50"
-          AnchorPane.bottomAnchor="50"
-          AnchorPane.leftAnchor="200"
-          AnchorPane.rightAnchor="200"
+          AnchorPane.topAnchor="100"
+          AnchorPane.bottomAnchor="100"
+          AnchorPane.leftAnchor="120"
+          AnchorPane.rightAnchor="520"
           style="
           -fx-background-color: rgba(100,100,100,0.3);
           -fx-background-radius: 25;
           -fx-border-color: #00FFB7;
           -fx-border-width: 2;
           -fx-border-radius: 25;
-          -fx-padding: 40;
+          -fx-padding: 20;
           ">
-        <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <GridPane hgap="20" vgap="20" alignment="CENTER">
             <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"
 
-                   style="-fx-text-fill: white;"/>
+                   prefHeight="40"
+            style="-fx-text-fill: white;"/>
             <TextField  fx:id="fNameField"
-                        GridPane.rowIndex="0" GridPane.columnIndex="1"
-                        promptText="first name"
+                    prefHeight="40"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1"
+                    promptText="first name"
                         style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-prompt-text-fill:white;
-                   -fx-text-fill: white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
 
             <Label text="Last Name:" GridPane.rowIndex="1" GridPane.columnIndex="0"
-                   style="-fx-text-fill: white;"/>
+            style="-fx-text-fill: white;"
+                   prefHeight="40"/>
             <TextField fx:id="lNameField"
-                       GridPane.rowIndex="1" GridPane.columnIndex="1"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1"
                        promptText="last name"
+                       prefHeight="40"
                        style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-prompt-text-fill: white;
-                   -fx-text-fill: white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
             <Label text="Phone:" GridPane.rowIndex="2" GridPane.columnIndex="0"
-                   style="-fx-text-fill: white;"/>
+                   style="-fx-text-fill: white;"
+                   prefHeight="40"/>
             <TextField fx:id="phoneField"
-                       GridPane.rowIndex="2" GridPane.columnIndex="1"
+                    GridPane.rowIndex="2" GridPane.columnIndex="1"
                        promptText="phone"
+                       prefHeight="40"
                        style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-prompt-text-fill: white;
-                   -fx-text-fill: white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
             <Label text="Email:" GridPane.rowIndex="3" GridPane.columnIndex="0"
-                   style="-fx-text-fill: white;"/>
+                   style="-fx-text-fill: white;"
+                   prefHeight="40"/>
             <TextField  fx:id="emailField"
-                        GridPane.rowIndex="3" GridPane.columnIndex="1"
-                        promptText="email"
+                    GridPane.rowIndex="3" GridPane.columnIndex="1"
+                       promptText="email"
+                        prefHeight="40"
                         style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-prompt-text-fill: white;
-                   -fx-text-fill: white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
 
             <Label text="Password:" GridPane.rowIndex="4" GridPane.columnIndex="0"
-                   style="-fx-text-fill: white;"/>
+                   style="-fx-text-fill: white;"
+                   prefHeight="40"/>
             <PasswordField  fx:id="passwordField"
-                            GridPane.rowIndex="4" GridPane.columnIndex="1"
-                            promptText="password"
+                    GridPane.rowIndex="4" GridPane.columnIndex="1"
+                           promptText="password"
+                            prefHeight="40"
                             style="
-                   -fx-background-color: #587B71;
-                   -fx-background-radius: 12;
-                   -fx-text-fill: white;
-                   -fx-prompt-text-fill:white;
+                  -fx-background-color: rgba(255,255,255,0.1);
+                  -fx-background-radius: 15;
+                   -fx-border-color: rgba(255,255,255,0.2);
+                   -fx-border-radius: 15;
+                    -fx-text-fill: white;
+                    -fx-prompt-text-fill: #CFEFE5;
                    -fx-font-size: 14px;
+                   -fx-padding: 0 15;
+
                    "/>
 
             <!-- Profile Preview -->
@@ -121,18 +151,34 @@
             </HBox>
 
             <Button text="      Register     " GridPane.rowIndex="7" GridPane.columnIndex="1"
-                    GridPane.halignment="CENTER"
+                     GridPane.halignment="CENTER"
+                    prefHeight="40"
 
                     onAction="#handleRegister"
-                    style="-fx-background-color: #2E6E5C; -fx-text-fill: white;"/>
+                    style="
+                -fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                -fx-background-radius: 15;
+                -fx-text-fill: black;
+                -fx-font-size: 15px;
+                -fx-font-weight: bold;
+                -fx-effect: dropshadow(gaussian, rgba(0,255,183,0.4), 15, 0.3, 0, 5);
+                "/>
             <Button fx:id="backToLogin"
                     text="Already have an account!" GridPane.rowIndex="8" GridPane.columnIndex="0"
-                    GridPane.halignment="CENTER"
+                     GridPane.halignment="CENTER"
                     GridPane.columnSpan="2"
                     onAction="#backtoLoginOnClick"
                     style="-fx-background-color: transparent; -fx-text-fill: white;"/>
 
+
+
+
         </GridPane>
+
+
+
+
+
 
     </VBox>
 </AnchorPane>

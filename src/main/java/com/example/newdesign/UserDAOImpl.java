@@ -133,17 +133,25 @@ public class UserDAOImpl implements UserDAO {
     public List<User> searchUsers(String keyword) {
 
         // ========== BYRON'S UPDATE: Also search by username ==========
-        String sql = "SELECT * FROM Users WHERE LOWER(firstName || ' ' || lastName) LIKE LOWER(?) OR LOWER(username) LIKE LOWER(?)";
+        String sql = """
+       SELECT DISTINCT u.*
+       FROM Users u
+       LEFT JOIN Skills s ON u.id = s.userId
+       WHERE LOWER(u.firstName || ' ' || u.lastName) LIKE LOWER(?)
+       OR LOWER(u.username) LIKE LOWER(?)
+       OR LOWER(s.skillName) LIKE LOWER(?)
+       """;
 
         List<User> users = new ArrayList<>();
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            String searchPattern = "%" + keyword.toLowerCase() + "%";
+            String searchPattern = keyword.toLowerCase() + "%";
 
             stmt.setString(1, searchPattern);
             stmt.setString(2, searchPattern);
+            stmt.setString(3, searchPattern);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -527,5 +535,35 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return reviews;
+    }
+
+
+
+    /// this method gets the top wanted skills and will appear in the search page
+
+    public List<String> getMostWantedSkills(int limit) {
+        String sql = """
+                SELECT skillName, COUNT(*) as count FROM skills
+                WHERE type = 'TEACH'
+                GROUP BY skillName
+                ORDER BY count DESC
+                LIMIT ?
+                
+                """;
+
+        List<String> skills = new ArrayList<>();
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                skills.add(rs.getString("skillName"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return skills;
+        }return skills;
+
     }
 }
