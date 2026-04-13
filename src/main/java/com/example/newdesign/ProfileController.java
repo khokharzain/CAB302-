@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -53,6 +54,12 @@ public class ProfileController {
     @FXML private Button addLearnSkillButton;
     @FXML private Button addHobbyButton;
 
+
+    @FXML
+    private HBox headerBar;
+    @FXML
+    private HBox bottomNav;
+
     // ========== Initialization ==========
 
     @FXML
@@ -70,6 +77,28 @@ public class ProfileController {
 
         // Click to change profile picture
         profileImage.setOnMouseClicked(e -> chooseProfilePicture());
+
+        applyTheme();
+    }
+
+
+    // Applying theme color in here
+    private void applyTheme(){
+        String gradient = "linear-gradient(to right, "
+                + ThemeManager.primaryStart + ", "
+                + ThemeManager.primaryEnd + ")";
+
+        String headerStyle =
+                "-fx-background-color: " + gradient + ";" +
+                        "-fx-background-radius:15;" +
+                        "-fx-border-radius:15;" +
+                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
+
+        if (headerBar != null)
+            headerBar.setStyle(headerStyle);
+
+        if (bottomNav != null)
+            bottomNav.setStyle("-fx-background-color: " + gradient + ";");
     }
 
     // ========== Load Data ==========

@@ -28,8 +28,16 @@ public class SearchController {
 
     @FXML
     private VBox resultsContainer;
+    @FXML
+    private HBox headerBar;
 
-    // ✅ NEW: container for trending skills (ADD THIS IN FXML TOO)
+    @FXML
+    private HBox bottomNav;
+
+    @FXML
+    private Label searchLabel;
+
+    // container for trending skills (ADD THIS IN FXML TOO)
     @FXML
     private VBox suggestionsContainer;
 
@@ -54,6 +62,48 @@ public class SearchController {
             List<User> users = userDAO.searchUsers(newValue.trim());
             updateResults(users);
         });
+
+        applyTheme();
+    }
+
+    private void applyTheme(){
+        String gradient = "linear-gradient(to right, " +
+                ThemeManager.primaryStart + "," +
+                ThemeManager.primaryEnd + ")";
+
+        String headerStyle =
+                "-fx-background-color: " + gradient + ";" +
+                        "-fx-background-radius:15;" +
+                        "-fx-border-radius:15;" +
+                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
+
+        if(headerBar != null){
+            headerBar.setStyle(headerStyle);
+
+
+        }
+
+        if(bottomNav != null){
+            bottomNav.setStyle("-fx-background-color:" + gradient + ";");
+
+        }
+        if(searchLabel!= null){
+            searchLabel.setStyle("-fx-background-color: transparent;-fx-text-fill:" + gradient + "; -fx-font-size: 36px; -fx-font-weight: bold;");
+        }
+
+        if(searchField != null){
+            if (searchField != null) {
+                searchField.setStyle(
+                        "-fx-background-color: #EFEFEF;" +
+                                "-fx-border-color: " + ThemeManager.primaryStart + ";" +
+                                "-fx-border-radius: 25;" +
+                                "-fx-border-width: 2;" +
+                                "-fx-background-radius: 25;" +
+                                "-fx-padding: 0 15;" +
+                                "-fx-font-size: 14px;"
+                );
+            }
+        }
     }
 
     //  NEW: show clickable trending skills
@@ -75,7 +125,7 @@ public class SearchController {
 
             skillBtn.setStyle(
                     "-fx-background-color: #EFEFEF;" +
-                            "-fx-border-color:#147A5E;"+
+                            "-fx-border-color:"+ThemeManager.primaryStart + ";"+
                             "-fx-border-radius:15;"+
                             "-fx-border-width:1;"+
                             "-fx-text-fill: black;" +
