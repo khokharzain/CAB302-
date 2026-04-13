@@ -10,20 +10,21 @@
 <?import javafx.scene.image.ImageView?>
 
 <AnchorPane fx:id="root"
-        xmlns:fx="http://javafx.com/fxml"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.newdesign.HelloController"
-            >
+>
     <ImageView
             preserveRatio="false"
             fitWidth="${root.width}"
             fitHeight="${root.height}"
             AnchorPane.topAnchor="0"
-               AnchorPane.bottomAnchor="0"
-               AnchorPane.leftAnchor="0"
-               AnchorPane.rightAnchor="0"
-               >
+            AnchorPane.bottomAnchor="0"
+            AnchorPane.leftAnchor="0"
+            AnchorPane.rightAnchor="0"
+    >
 
         <image>
+            <Image url="@images/wallpaper.jpeg"/>
         </image>
 
     </ImageView>
@@ -41,6 +42,7 @@
           style="
           -fx-background-color: rgba(100,100,100,0.3);
           -fx-background-radius: 25;
+          -fx-border-color: #00FFB7;
           -fx-border-width: 2;
           -fx-border-radius: 25;
           -fx-padding: 40;
@@ -59,34 +61,38 @@
 
         <!-- Email -->
         <TextField  fx:id="emailField"
-                promptText="Email"
-                   prefWidth="200"
-                   maxWidth="290"
-                   prefHeight="60"
-                   style="
+                    promptText="Email"
+                    prefWidth="200"
+                    maxWidth="290"
+                    prefHeight="60"
+                    style="
+                   -fx-background-color: #587B71;
                    -fx-background-radius: 12;
                    -fx-text-fill: white;
+                   -fx-prompt-text-fill: white;
                    -fx-font-size: 14px;
                    "/>
 
 
         <!-- Password -->
         <PasswordField fx:id="passwordField"
-                promptText="Password"
+                       promptText="Password"
                        prefWidth="200"
                        maxWidth="290"
 
                        prefHeight="60"
                        style="
+                       -fx-background-color: #587B71;
                        -fx-background-radius: 12;
                        -fx-text-fill: white;
+                       -fx-prompt-text-fill: white;
                        -fx-font-size: 14px;
                        "/>
 
 
         <!-- Forgot password -->
         <Button text="Forgot password?"
-               style="-fx-text-fill: white; -fx-background-color:transparent; -fx-font-size: 12px;" onAction="#handleForgotPassword"/>
+                style="-fx-text-fill: white; -fx-background-color:transparent; -fx-font-size: 12px;" onAction="#handleForgotPassword"/>
 
 
         <!-- Login button -->
@@ -97,6 +103,7 @@
                 onAction="#handleLogin"
 
                 style="
+                -fx-background-color:#2E6E5C;
                 -fx-background-radius: 12;
                 -fx-text-fill: white;
                 -fx-font-size: 15px;
@@ -107,8 +114,8 @@
         <!-- Sign up text -->
         <Button fx:id="SignUpButton"
                 text="Don't have an account? Sign up"
-               style="-fx-text-fill: white; -fx-font-size: 12px; -fx-background-color: transparent;"
-        onAction="#onSignUpClick"/>
+                style="-fx-text-fill: white; -fx-font-size: 12px; -fx-background-color: transparent;"
+                onAction="#onSignUpClick"/>
 
     </VBox>
 
