@@ -6,4 +6,8 @@ module com.example.newdesign {
 
     opens com.example.newdesign to javafx.fxml;
     exports com.example.newdesign;
+    exports com.example.newdesign.controller;
+    opens com.example.newdesign.controller to javafx.fxml;
+    exports com.example.newdesign.model;
+    opens com.example.newdesign.model to javafx.fxml;
 }

@@ -1,5 +1,6 @@
 package com.example.newdesign;
 
+import com.example.newdesign.model.DataBaseInitialiser;
 import javafx.application.Application;
 
 public class Launcher {

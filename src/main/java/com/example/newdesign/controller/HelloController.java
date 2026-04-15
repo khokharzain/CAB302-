@@ -1,5 +1,7 @@
-package com.example.newdesign;
+package com.example.newdesign.controller;
 
+import com.example.newdesign.*;
+import com.example.newdesign.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -11,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import javafx.stage.Modality;
-import javafx.stage.StageStyle;
 import javafx.geometry.Pos;
 
 import java.io.IOException;

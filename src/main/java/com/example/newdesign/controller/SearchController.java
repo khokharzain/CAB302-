@@ -1,5 +1,7 @@
-package com.example.newdesign;
+package com.example.newdesign.controller;
 
+import com.example.newdesign.*;
+import com.example.newdesign.model.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;

@@ -1,4 +1,4 @@
-package com.example.newdesign;
+package com.example.newdesign.model;
 
 import java.sql.Connection;
 import java.sql.Statement;

@@ -1,6 +1,4 @@
-package com.example.newdesign;
-
-import javafx.application.Application;
+package com.example.newdesign.model;
 
 public class Hobby {
     private int id;

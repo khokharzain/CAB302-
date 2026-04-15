@@ -1,4 +1,4 @@
-package com.example.newdesign;
+package com.example.newdesign.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

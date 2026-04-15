@@ -1,4 +1,4 @@
-package com.example.newdesign;
+package com.example.newdesign.model;
 
 public class Skill {
     private int id;

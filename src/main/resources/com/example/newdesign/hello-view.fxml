@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="root"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.newdesign.HelloController"
+            fx:controller="com.example.newdesign.controller.HelloController"
 >
     <ImageView
             preserveRatio="false"

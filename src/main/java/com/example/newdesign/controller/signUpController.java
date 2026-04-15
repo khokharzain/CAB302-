@@ -1,5 +1,7 @@
-package com.example.newdesign;
+package com.example.newdesign.controller;
 
+import com.example.newdesign.model.*;
+import com.example.newdesign.*;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.*;
 import javafx.fxml.FXML;
