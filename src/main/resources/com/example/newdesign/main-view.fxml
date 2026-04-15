@@ -121,6 +121,8 @@
             <!-- MAIN PANEL -->
             <VBox fx:id="mainContent"
                   HBox.hgrow="ALWAYS"
+                  style="-fx-background-color: #FFFFFF;
+                                   -fx-background-radius: 0 20 20 0;"
                   >
             </VBox>
 

@@ -90,30 +90,35 @@ public class mainController {
     public void setGreen() {
         ThemeManager.primaryStart = "#0C4D3B";
         ThemeManager.primaryEnd = "#0EBB8A";
+        ThemeManager.primaryBackGround = "#DCFFE4";
         applyTheme();
     }
 
     public void setBlue() {
         ThemeManager.primaryStart = "#1E88E5";
         ThemeManager.primaryEnd = "#64B5F6";
+        ThemeManager.primaryBackGround = "#DCF3FF";
         applyTheme();
     }
 
     public void setPurple() {
         ThemeManager.primaryStart = "#6A1B9A";
         ThemeManager.primaryEnd = "#BA68C8";
+        ThemeManager.primaryBackGround = "#DFC5E6";
         applyTheme();
     }
 
     public void setOrange() {
         ThemeManager.primaryStart = "#EF6C00";
         ThemeManager.primaryEnd = "#FFB74D";
+        ThemeManager.primaryBackGround = "#FFDCB6";
         applyTheme();
     }
 
     public void setRed() {
         ThemeManager.primaryStart = "#C62828";
         ThemeManager.primaryEnd = "#EF5350";
+        ThemeManager.primaryBackGround = "#E9AEAE";
         applyTheme();
     }
 
