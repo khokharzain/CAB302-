@@ -67,7 +67,8 @@
 
             <VBox fx:id="resultsContainer"
                   spacing="10"
-                  style="-fx-padding: 10;">
+                  style="-fx-padding: 10;"
+                  >
             </VBox>
 
         </ScrollPane>

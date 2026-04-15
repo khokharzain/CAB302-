@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.newdesign.controller.ProfileController"
+            prefHeight="800.0" prefWidth="1200.0"
+            style="-fx-background-color: #F5F5F5;">
+
+    <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <!-- ========== HEADER ========== -->
+        <HBox prefHeight="100"
+              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                     -fx-background-radius: 0 0 15 15;
+                     -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
+              alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+            <Label text="SkillDev"
+                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton"
+                    text="Back to Search"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"
+                    onAction="#handleSearch"/>
+        </HBox>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    VBox.vgrow="ALWAYS">
+            <VBox spacing="20" style="-fx-padding: 30;">
+
+                <!-- ========== PROFILE CARD ========== -->
+                <VBox style="-fx-background-color: white;
+                             -fx-background-radius: 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                             -fx-padding: 25;">
+                    <HBox spacing="25" alignment="TOP_LEFT">
+                        <VBox alignment="CENTER" spacing="10">
+                            <ImageView fx:id="profileImage"
+                                       fitHeight="120"
+                                       fitWidth="120"
+                                       preserveRatio="true"
+                                       style="-fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);"/>
+                        </VBox>
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <VBox alignment="TOP_RIGHT">
+                                <Button fx:id="messageButton"
+                                        text="Message"
+                                        style="-fx-background-color: #0C4D3B;
+                                           -fx-text-fill: white;
+                                           -fx-font-weight: bold;
+                                           -fx-padding: 8 20;
+                                           -fx-background-radius: 20;"
+                                        onAction="#handleEditProfile"/>
+                            </VBox>
+                            <Label fx:id="fullNameLabel"
+                                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1F1F1F;"/>
+                            <Label fx:id="usernameLabel"
+                                   style="-fx-font-size: 14px; -fx-text-fill: #0EBB8A;"/>
+                            <Label fx:id="emailLabel"
+                                   style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+                            <Label fx:id="phoneLabel"
+                                   style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+                            <Label fx:id="locationLabel"
+                                   style="-fx-font-size: 14px; -fx-text-fill: #555555;"/>
+                            <Label fx:id="joinDateLabel"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #888888;"/>
+                        </VBox>
+                    </HBox>
+                    <Separator style="-fx-padding: 15 0 10 0;"/>
+                    <Label text="Bio"
+                           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
+                    <Label fx:id="bioLabel"
+                           style="-fx-text-fill: #555555; -fx-wrap-text: true;"
+                           wrapText="true"/>
+                    <Separator style="-fx-padding: 15 0 10 0;"/>
+                    <Label fx:id="ratingLabel"
+                           style="-fx-font-size: 14px; -fx-text-fill: #FFB800;"/>
+                </VBox>
+
+                <!-- ========== SKILLS SECTION ========== -->
+                <HBox spacing="20">
+                    <VBox spacing="10" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 20;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                                 -fx-padding: 20;">
+                        <Label text="Skills I Can Teach"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
+                        <VBox fx:id="teachSkillsContainer" spacing="8"/>
+                    </VBox>
+                    <VBox spacing="10" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color: white;
+                                 -fx-background-radius: 20;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                                 -fx-padding: 20;">
+                        <Label text="Skills I Want to Learn"
+                               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
+                        <VBox fx:id="learnSkillsContainer" spacing="8"/>
+                    </VBox>
+                </HBox>
+
+                <!-- ========== HOBBIES SECTION ========== -->
+                <VBox spacing="10"
+                      style="-fx-background-color: white;
+                             -fx-background-radius: 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                             -fx-padding: 20;">
+                    <Label text="Hobbies"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
+                    <VBox fx:id="hobbiesContainer" spacing="8"/>
+                </VBox>
+
+                <!-- ========== REVIEWS SECTION ========== -->
+                <VBox spacing="10"
+                      style="-fx-background-color: white;
+                             -fx-background-radius: 20;
+                             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                             -fx-padding: 20;">
+                    <Label text="Reviews"
+                           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
+                    <VBox fx:id="reviewsContainer" spacing="10"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+
+        <!-- ========== BOTTOM NAVIGATION ========== -->
+        <HBox alignment="CENTER"
+              spacing="50"
+              prefHeight="60"
+              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
+            <Button fx:id="homeButton"
+                    style="-fx-background-color: transparent;" onAction="#handleHome"
+            ><graphic>
+                <ImageView fitHeight="20" fitWidth="20">
+                    <image>
+                        <Image url="@Icons/HomeBlack.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            </Button>
+            <Button fx:id="searchButton"
+                    onAction="#handleSearch"
+
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/SearchBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button onAction="#handleAIChat"
+               style="-fx-background-color:transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/AiBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="profileButton"
+                    onAction="#handleProfile"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/profileBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

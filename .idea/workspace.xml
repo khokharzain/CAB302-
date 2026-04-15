@@ -5,33 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/otherUserProfile-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/DBconnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DBconnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/DataBaseInitialiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DataBaseInitialiser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Hobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Hobby.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Launcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/MessagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Proficiency.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Proficiency.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Review.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/SessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/SessionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Skill.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/SkillType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/SkillType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/UserDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/UserDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/mainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/mainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/signUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/signUpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/hello-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/signUp-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/signUp-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/MessagingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/MessagingTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +71,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "#2 on arabella-branch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-",
+    "last_opened_file_path": "C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-/src/main/resources/com/example/newdesign",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -106,6 +84,14 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\arabe\OneDrive\Desktop\Projects\QUT Stuff\Sem 1\CAB302\Assessments\Group Project\CAB302-\src\main\resources\com\example\newdesign" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.newdesign.controller" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -132,7 +118,7 @@
       <workItem from="1775392946074" duration="969000" />
       <workItem from="1775551731347" duration="888000" />
       <workItem from="1776069770299" duration="11097000" />
-      <workItem from="1776237882359" duration="4206000" />
+      <workItem from="1776237882359" duration="11140000" />
     </task>
     <servers />
   </component>
