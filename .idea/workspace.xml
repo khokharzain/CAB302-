@@ -5,30 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/AiBlack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/AiGreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/HomeBlack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/HomeGreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/SearchBlack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/SearchGreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/profileBlack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/profileGreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/images/background7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/images/background8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Hobby.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/Hobby.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/UserDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/UserDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/hello-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/hello-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/signUp-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/signUp-view.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/MessagingTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -68,14 +59,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.HelloApplication.executor": "Debug",
-    "Application.Launcher.executor": "Run",
+    "Application.Launcher.executor": "Debug",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "#2 on Merging arabella-branch",
+    "git-widget-placeholder": "#2 on arabella-branch",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-",
     "node.js.detected.package.eslint": "true",
@@ -115,7 +106,8 @@
       <workItem from="1775391213155" duration="1712000" />
       <workItem from="1775392946074" duration="969000" />
       <workItem from="1775551731347" duration="888000" />
-      <workItem from="1776069770299" duration="323000" />
+      <workItem from="1776069770299" duration="11097000" />
+      <workItem from="1776237882359" duration="3489000" />
     </task>
     <servers />
   </component>
