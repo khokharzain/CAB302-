@@ -163,6 +163,15 @@ public class SearchController {
                     )
             );
 
+            //Set to view profile of clicked box
+            card.setOnMouseClicked(event -> {
+                try {
+                    handleOtherProfileButton();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             resultsContainer.getChildren().add(card);
         }
     }
@@ -175,9 +184,10 @@ public class SearchController {
         stage.setScene(scene);
     }
 
+    //Other User Profile views
     @FXML
-    private void handleProfileButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+    private void handleOtherProfileButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(scene);
