@@ -157,6 +157,21 @@
                 </graphic>
             </Button>
 
+            <Button fx:id="postButton"
+                    onAction="#handlePostButton"
+
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/post.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+
+
             <Label>
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">

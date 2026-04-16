@@ -36,6 +36,8 @@ public class mainController {
 
     @FXML
     private Button profileButton;
+    @FXML
+    private Button postButton;
 
     @FXML
     private VBox profilelayout;
@@ -169,6 +171,23 @@ public class mainController {
 
 
     // ================= NAVIGATION =================
+
+
+    //handling post page
+
+    public void handlePostButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+
+        Scene scene = new Scene(loader.load(), 1200, 800);
+
+        Stage stage = (Stage)  postButton.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+        stage.setScene(scene);
+
+    }
     public void handleProfileButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("profile-view.fxml")
