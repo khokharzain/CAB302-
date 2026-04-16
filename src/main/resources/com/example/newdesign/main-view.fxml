@@ -17,51 +17,62 @@
           AnchorPane.rightAnchor="0"
           AnchorPane.bottomAnchor="0">
 
-        <!--  HEADER -->
-        <HBox prefHeight="60"
-              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
-              -fx-background-radius:15;
-              -fx-border-radius:15;
-               -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
-              alignment="CENTER_LEFT">
+        <!-- HEADER + MENU WRAPPER -->
+        <HBox fx:id="headerBar"
+              prefHeight="80"
+              alignment="CENTER_LEFT"
+              spacing="10">
 
             <padding>
-                <Insets top="20" left="20" right="20" bottom="20"/>
+                <Insets top="10" left="20" right="20" bottom="10"/>
             </padding>
 
             <Label text="SkillDev"
-                   style="-fx-text-fill: linear-gradient(to bottom, white, #e0e0e0);
-              -fx-font-size: 24px;
-              -fx-font-weight: bold;"/>
+                   style="-fx-text-fill: white;
+                  -fx-font-size: 24px;
+                  -fx-font-weight: bold;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!--  NEW MENU BUTTON -->
+            <MenuButton text="☰"
+                        style="-fx-background-color: transparent;
+                       -fx-text-fill: white;
+                       -fx-font-size: 18px;">
+
+                <items>
+                    <MenuItem style ="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)" onAction="#setGreen"/>
+                    <MenuItem style ="-fx-background-color: linear-gradient(to right, #1E88E5, #64B5F6)" onAction="#setBlue"/>
+                    <MenuItem style ="-fx-background-color: linear-gradient(to right, #6A1B9A, #BA68C8)" onAction="#setPurple"/>
+                    <MenuItem style ="-fx-background-color: linear-gradient(to right, #EF6C00, #FFB74D)" onAction="#setOrange"/>
+                    <MenuItem style ="-fx-background-color: linear-gradient(to right, #C62828, #EF5350)" onAction="#setRed"/>
+                </items>
+
+            </MenuButton>
+
         </HBox>
 
-        <!-- MAIN CONTENT -->
+        <!-- MAIN CONTENT (unchanged) -->
         <HBox spacing="20" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
-
             <padding>
                 <Insets top="20" bottom="20" left="20" right="20"/>
             </padding>
 
             <!-- PROFILE CARD -->
             <StackPane prefWidth="200" maxHeight="250"
-                       style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
-                         ">
+                       style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);">
 
-                <!-- 🎨 BACKGROUND SPLIT -->
                 <HBox>
 
-                    <!-- LEFT PURPLE STRIP -->
-                    <Region prefWidth="60"
-                            style="-fx-background-color: linear-gradient(to top, #0C4D3B, #0EBB8A);
-                                   -fx-background-radius: 20 0 0 20;"/>
+                    <!-- LEFT STRIP (now dynamic) -->
+                    <Region fx:id="profileStrip"
+                            prefWidth="60"/>
 
-                    <!-- RIGHT WHITE CARD -->
                     <Region HBox.hgrow="ALWAYS"
                             style="-fx-background-color: #FFFFFF;
                                    -fx-background-radius: 0 20 20 0;"/>
                 </HBox>
 
-                <!-- 📄 CONTENT -->
                 <VBox fx:id="profilelayout"
                       onMouseClicked="#handleProfClick"
                       alignment="TOP_LEFT"
@@ -107,19 +118,19 @@
 
             </StackPane>
 
-            <!-- 📄 MAIN CONTENT PANEL -->
+            <!-- MAIN PANEL -->
             <VBox fx:id="mainContent"
                   HBox.hgrow="ALWAYS"
                   style="-fx-background-color: #FFFFFF;
-                         -fx-background-radius: 20;
-                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
-                         -fx-padding: 20;">
+                                   -fx-background-radius: 0 20 20 0;"
+                  >
             </VBox>
 
         </HBox>
 
-        <!--  BOTTOM NAV -->
-        <HBox alignment="CENTER"
+        <!-- BOTTOM NAV -->
+        <HBox  fx:id="bottomNav"
+                alignment="CENTER"
               spacing="50"
               prefHeight="20"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)">

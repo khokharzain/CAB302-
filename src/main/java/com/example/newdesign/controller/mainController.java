@@ -99,7 +99,9 @@ public class mainController {
 
     // ✅ Open profile page (Button)
     public void handleProfileButton() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("profile-view.fxml")
+        );
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
@@ -115,7 +117,9 @@ public class mainController {
 
     // ✅ Open profile page (Click card)
     public void handleProfClick() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("profile-view.fxml")
+        );
 
         Scene scene = new Scene(loader.load(), 1200, 800);
 
@@ -131,7 +135,9 @@ public class mainController {
 
 
     public void handleSearchButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("search-view.fxml")
+        );
 
         Scene scene = new Scene(loader.load(), 1200, 800);
         SessionManager.setUser(currentUser);

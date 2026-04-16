@@ -16,7 +16,8 @@
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
         <!-- ========== HEADER ========== -->
-        <HBox prefHeight="100"
+        <HBox fx:id="headerBar"
+                prefHeight="100"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
                      -fx-background-radius: 0 0 15 15;
                      -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
@@ -169,7 +170,8 @@
         </ScrollPane>
 
         <!-- ========== BOTTOM NAVIGATION ========== -->
-        <HBox alignment="CENTER"
+        <HBox fx:id="bottomNav"
+                alignment="CENTER"
               spacing="50"
               prefHeight="60"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">

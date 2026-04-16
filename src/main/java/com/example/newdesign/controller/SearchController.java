@@ -1,11 +1,10 @@
 package com.example.newdesign.controller;
 
-import com.example.newdesign.*;
 import com.example.newdesign.model.*;
+import com.example.newdesign.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
@@ -57,7 +56,6 @@ public class SearchController {
             List<User> users = userDAO.searchUsers(newValue.trim());
             updateResults(users);
         });
-
     }
 
     //  NEW: show clickable trending skills
@@ -165,19 +163,9 @@ public class SearchController {
                     )
             );
 
-            //Set to view profile of clicked box
-            card.setOnMouseClicked(event -> {
-                try {
-                    handleOtherProfileButton();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
             resultsContainer.getChildren().add(card);
         }
     }
-
 
     @FXML
     private void handleHomeButton() throws Exception{
@@ -194,14 +182,4 @@ public class SearchController {
         Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(scene);
     }
-
-    //Other User Profile views
-    @FXML
-    private void handleOtherProfileButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileButton.getScene().getWindow();
-        stage.setScene(scene);
-    }
-
 }
