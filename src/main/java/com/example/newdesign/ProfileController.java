@@ -47,7 +47,8 @@ public class ProfileController {
 
     // Buttons
     @FXML private Button editProfileButton;
-    @FXML private Button backButton;
+    // === BYRON: Changed backButton to logoutButton ===
+    @FXML private Button logoutButton;
 
     // Add buttons
     @FXML private Button addTeachSkillButton;
@@ -102,10 +103,10 @@ public class ProfileController {
 
         if(editProfileButton != null){
             editProfileButton.setStyle("-fx-background-color:" + ThemeManager.primaryStart +";"+
-           " -fx-text-fill: white;" +
-            "-fx-font-weight: bold;" +
-            "-fx-padding: 8 20;" +
-           " -fx-background-radius: 20;");
+                    " -fx-text-fill: white;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-padding: 8 20;" +
+                    " -fx-background-radius: 20;");
         }
     }
 
@@ -602,11 +603,16 @@ public class ProfileController {
         loadReviews();
     }
 
+    // === BYRON: Changed from handleBack to handleLogout ===
     @FXML
-    private void handleBack() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+    private void handleLogout() throws Exception {
+        // Clear the session
+        SessionManager.clear();
+
+        // Go back to login screen
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
         FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
         fade.setFromValue(0);
         fade.setToValue(1);
