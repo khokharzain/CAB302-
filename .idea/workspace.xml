@@ -5,9 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/postController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/post.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/Icons/postblack.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/post-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/mainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/mainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/otherUserProfile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/otherUserProfile-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/profile-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,9 +76,9 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "#2 on arabella-branch",
+    "git-widget-placeholder": "Merging arabella-branch",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-/src/main/resources/com/example/newdesign",
+    "last_opened_file_path": "C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -118,7 +126,8 @@
       <workItem from="1775392946074" duration="969000" />
       <workItem from="1775551731347" duration="888000" />
       <workItem from="1776069770299" duration="11097000" />
-      <workItem from="1776237882359" duration="16694000" />
+      <workItem from="1776237882359" duration="17617000" />
+      <workItem from="1776947104944" duration="2597000" />
     </task>
     <servers />
   </component>

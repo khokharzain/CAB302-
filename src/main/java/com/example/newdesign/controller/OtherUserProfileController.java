@@ -57,7 +57,7 @@ public class OtherUserProfileController {
 
     @FXML
     public void initialize() {
-        otherUser = SessionManager.getUser();
+        otherUser = SearchController.Otheruser;
 
         if (otherUser != null) {
             loadProfileData();
@@ -371,6 +371,7 @@ public class OtherUserProfileController {
         dialog.setScene(scene);
         dialog.showAndWait();
     }
+
 
     // ========== Edit Profile ==========
 

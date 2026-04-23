@@ -101,6 +101,14 @@ public class ProfileController {
 
         if (bottomNav != null)
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+
+        if(editProfileButton != null){
+            editProfileButton.setStyle("-fx-background-color:" + ThemeManager.primaryStart +";"+
+           " -fx-text-fill: white;" +
+            "-fx-font-weight: bold;" +
+            "-fx-padding: 8 20;" +
+           " -fx-background-radius: 20;");
+        }
     }
 
     // ========== Load Data ==========
