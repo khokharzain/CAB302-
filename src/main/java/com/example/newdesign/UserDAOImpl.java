@@ -11,8 +11,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
-
-        // ========== BYRON'S UPDATE: Added username, bio, location, joinDate ==========
         String sql = "INSERT INTO Users (firstName, lastName, email, phone, passwordHash, profile_picture, username, bio, location, joinDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBconnection.connect();
@@ -24,14 +22,12 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(4, user.getPhone());
             stmt.setString(5, user.getPasswordHash());
 
-            // Ensure profile picture is never null
             if (user.getProfilePicture() == null) {
                 stmt.setString(6, "default.png");
             } else {
                 stmt.setString(6, user.getProfilePicture());
             }
 
-            // Byron's new fields
             stmt.setString(7, user.getUsername());
             stmt.setString(8, user.getBio());
             stmt.setString(9, user.getLocation());
@@ -39,7 +35,6 @@ public class UserDAOImpl implements UserDAO {
 
             stmt.executeUpdate();
 
-            // Get the auto-generated ID and set it on the user object
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(1));
@@ -47,7 +42,6 @@ public class UserDAOImpl implements UserDAO {
 
             System.out.println("User inserted successfully!");
 
-            // Byron: Save skills, hobbies after user is created
             if (user.getSkills() != null && !user.getSkills().isEmpty()) {
                 for (Skill skill : user.getSkills()) {
                     addSkill(skill);
@@ -67,8 +61,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User login(String email, String password) {
-
-        // ========== BYRON'S UPDATE: Select new columns (username, bio, location, joinDate) ==========
         String sql = "SELECT * FROM Users WHERE email = ?";
 
         try (Connection conn = DBconnection.connect();
@@ -86,14 +78,12 @@ public class UserDAOImpl implements UserDAO {
 
                     String profilePic = rs.getString("profile_picture");
 
-                    // Handle NULL safely
                     if (profilePic == null || profilePic.isEmpty()) {
                         profilePic = "default.png";
                     }
 
-                    System.out.println("Loaded profile pic: " + profilePic); // DEBUG
+                    System.out.println("Loaded profile pic: " + profilePic);
 
-                    // ========== BYRON'S UPDATE: Create User with all new fields ==========
                     User user = new User(
                             rs.getString("firstName"),
                             rs.getString("lastName"),
@@ -102,7 +92,6 @@ public class UserDAOImpl implements UserDAO {
                             profilePic
                     );
 
-                    // Set ID and new fields
                     user.setId(rs.getInt("id"));
                     user.setUsername(rs.getString("username"));
                     user.setBio(rs.getString("bio"));
@@ -113,7 +102,6 @@ public class UserDAOImpl implements UserDAO {
                         user.setJoinDate(java.time.LocalDate.parse(joinDateStr));
                     }
 
-                    // Byron: Load skills, hobbies, reviews from database
                     user.setSkills(getUserSkills(user.getId()));
                     user.setHobbies(getUserHobbies(user.getId()));
                     user.setReviews(getUserReviews(user.getId()));
@@ -131,8 +119,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> searchUsers(String keyword) {
-
-        // ========== BYRON'S UPDATE: Also search by username ==========
         String sql = """
        SELECT DISTINCT u.*
        FROM Users u
@@ -163,7 +149,6 @@ public class UserDAOImpl implements UserDAO {
                     profilePic = "default.png";
                 }
 
-                // ========== BYRON'S UPDATE: Create User with new fields ==========
                 User user = new User(
                         rs.getString("firstName"),
                         rs.getString("lastName"),
@@ -192,9 +177,7 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
-    // reseting the password if user cant login
     public boolean resetPassword(String email, String newPassword) {
-
         String sql = "UPDATE Users SET passwordHash = ? WHERE email = ?";
 
         try (Connection conn = DBconnection.connect();
@@ -278,7 +261,6 @@ public class UserDAOImpl implements UserDAO {
                     user.setJoinDate(java.time.LocalDate.parse(joinDateStr));
                 }
 
-                // Load skills, hobbies, reviews
                 user.setSkills(getUserSkills(user.getId()));
                 user.setHobbies(getUserHobbies(user.getId()));
                 user.setReviews(getUserReviews(user.getId()));
@@ -293,7 +275,6 @@ public class UserDAOImpl implements UserDAO {
         return null;
     }
 
-    // Skill management
     @Override
     public boolean addSkill(Skill skill) {
         String sql = "INSERT INTO Skills (userId, skillName, type, proficiency, category) VALUES (?, ?, ?, ?, ?)";
@@ -402,7 +383,6 @@ public class UserDAOImpl implements UserDAO {
         return skills;
     }
 
-    // Hobby management
     @Override
     public boolean addHobby(Hobby hobby) {
         String sql = "INSERT INTO Hobbies (userId, hobbyName) VALUES (?, ?)";
@@ -474,7 +454,14 @@ public class UserDAOImpl implements UserDAO {
         return hobbies;
     }
 
-    // Review management
+    // ========== REVIEW MANAGEMENT (Byron) ==========
+
+    /**
+     * Adds a review to the database.
+     *
+     * @param review
+     * @return true or false
+     */
     @Override
     public boolean addReview(Review review) {
         String sql = "INSERT INTO Reviews (reviewerId, revieweeId, exchangeId, rating, comment, createdAt) VALUES (?, ?, ?, ?, ?, ?)";
@@ -506,6 +493,12 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    /**
+     * Retrieves all reviews for a specific user (reviewee).
+     *
+     * @param userId
+     * @return reviews
+     */
     @Override
     public List<Review> getUserReviews(int userId) {
         String sql = "SELECT * FROM Reviews WHERE revieweeId = ? ORDER BY createdAt DESC";
@@ -537,9 +530,37 @@ public class UserDAOImpl implements UserDAO {
         return reviews;
     }
 
+    /**
+     * Checks if a user has already reviewed a specific exchange.
+     * Used to prevent duplicate reviews.
+     *
+     * @param reviewerId
+     * @param revieweeId
+     * @param exchangeId
+     * @return true or false
+     */
+    public boolean canUserReview(int reviewerId, int revieweeId, int exchangeId) {
+        String sql = "SELECT COUNT(*) FROM Reviews WHERE reviewerId = ? AND revieweeId = ? AND exchangeId = ?";
 
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    /// this method gets the top wanted skills and will appear in the search page
+            stmt.setInt(1, reviewerId);
+            stmt.setInt(2, revieweeId);
+            stmt.setInt(3, exchangeId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count == 0;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
 
     public List<String> getMostWantedSkills(int limit) {
         String sql = """
