@@ -111,7 +111,7 @@ public class SearchController {
         }
     }
 
-    //  NEW: show clickable trending skills
+    //   show clickable trending skills
     private void showSuggestions(List<String> skills) {
 
         suggestionsContainer.getChildren().clear();

@@ -20,6 +20,8 @@ import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.shape.Circle;
+import java.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class mainController {
 
     private User currentUser;
 
+
+    @FXML
+    private VBox mainContent;
     @FXML
     private ImageView profilePicture;
 
@@ -98,6 +103,8 @@ public class mainController {
 
     @FXML
     private VBox aiResponseArea;
+    @FXML
+    private HBox aiHeader;
 
     private UserDAOImpl userDAO = new UserDAOImpl();
     private List<User> allUsers = new ArrayList<>();
@@ -106,6 +113,8 @@ public class mainController {
 
     @FXML
     public void initialize() {
+
+        loadPosts();
         User sessionUser = SessionManager.getUser();
         if (sessionUser != null) {
             User fullUser = userDAO.getUserById(sessionUser.getId());
@@ -114,6 +123,8 @@ public class mainController {
         }
 
         applyTheme();
+
+
 
         if (aiPanel != null) {
             aiPanel.setVisible(false);
@@ -164,42 +175,58 @@ public class mainController {
 
         if (profileStrip != null)
             profileStrip.setStyle("-fx-background-color: " + gradient + ";");
+        if(floatingAISummoner != null){
+            aiHeader.setStyle("-fx-background-color:" + gradient + "; -fx-background-radius: 13 13 0 0;");
+            floatingAISummoner.setStyle(
+                    "-fx-background-color: " + gradient+ ";" +
+                            "-fx-background-radius: 50;" +
+                            "-fx-padding: 15;" +
+                            "-fx-cursor: hand;"
+            );
+        }
+
     }
 
     public void setGreen() {
         ThemeManager.primaryStart = "#0C4D3B";
         ThemeManager.primaryEnd = "#0EBB8A";
-        ThemeManager.primaryBackGround = "#DCFFE4";
+        ThemeManager.primaryBackGround = "#F1FBF0";
         applyTheme();
+        loadPosts();
     }
 
     public void setBlue() {
         ThemeManager.primaryStart = "#1E88E5";
         ThemeManager.primaryEnd = "#64B5F6";
-        ThemeManager.primaryBackGround = "#DCF3FF";
+        ThemeManager.primaryBackGround = "#F0F8FB";
         applyTheme();
+        loadPosts();
     }
 
     public void setPurple() {
         ThemeManager.primaryStart = "#6A1B9A";
         ThemeManager.primaryEnd = "#BA68C8";
-        ThemeManager.primaryBackGround = "#DFC5E6";
+        ThemeManager.primaryBackGround = "#FAF0FB";
         applyTheme();
+        loadPosts();
     }
 
     public void setOrange() {
         ThemeManager.primaryStart = "#EF6C00";
         ThemeManager.primaryEnd = "#FFB74D";
-        ThemeManager.primaryBackGround = "#FFDCB6";
+        ThemeManager.primaryBackGround = "#FBF4F0";
         applyTheme();
+        loadPosts();
     }
 
     public void setRed() {
         ThemeManager.primaryStart = "#C62828";
         ThemeManager.primaryEnd = "#EF5350";
-        ThemeManager.primaryBackGround = "#E9AEAE";
+        ThemeManager.primaryBackGround = "#FBF0F0";
         applyTheme();
+        loadPosts();
     }
+
 
     public void setUser(User user) {
         this.currentUser = user;
@@ -246,13 +273,21 @@ public class mainController {
 
                 if (file.exists()) {
                     profilePicture.setImage(new Image(file.toURI().toString(), false));
-                    return;
+                } else {
+                    profilePicture.setImage(new Image(
+                            getClass().getResource("/com/example/newdesign/images/default.png").toString()
+                    ));
                 }
+            } else {
+                profilePicture.setImage(new Image(
+                        getClass().getResource("/com/example/newdesign/images/default.png").toString()
+                ));
             }
 
-            profilePicture.setImage(new Image(
-                    getClass().getResource("/com/example/newdesign/images/default.png").toString()
-            ));
+           // circling the profile picture
+
+            Circle clip = new Circle(30, 30, 30); // adjust based on size
+            profilePicture.setClip(clip);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -276,6 +311,118 @@ public class mainController {
         }
     }
 
+
+    // This part load all posts from database by time and show them in the main content as cards
+    public void loadPosts(){
+
+        PostDAO postdao = new PostDaoImpl();
+        UserDAO userDao = new UserDAOImpl();
+
+        List<Post> posts = postdao.getAllPosts();
+
+        mainContent.getChildren().clear();
+
+        // 🔥 CRITICAL LINE
+        mainContent.setFillWidth(true);
+
+        for (Post post : posts){
+
+            User user = userDao.getUserById(post.getUserId());
+
+            VBox postCard = createPostCard(post, user);
+
+            // 🔥 FORCE FULL WIDTH
+            postCard.setMaxWidth(Double.MAX_VALUE);
+            VBox.setVgrow(postCard, Priority.NEVER);
+
+            mainContent.getChildren().add(postCard);
+        }
+    }
+
+    private VBox createPostCard(Post post, User user){
+
+        VBox card = new VBox(10);
+
+        // 🔥 THESE 3 LINES ARE THE KEY FIX
+        card.setPrefWidth(900);
+        card.setMaxWidth(900);
+
+        card.setPrefHeight(300);   // ⬅️ increase height
+        card.setMinHeight(300);
+
+        card.setStyle(
+                "-fx-background-color: linear-gradient(from 100% 0% to 0% 0%, " +
+                        ThemeManager.primaryBackGround + ", white);" +
+                        " -fx-background-radius: 15;"+
+                        "-fx-padding: 15;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);"
+        );
+
+        HBox userBox = new HBox(10);
+        userBox.setAlignment(Pos.CENTER_LEFT);
+        userBox.setMaxWidth(Double.MAX_VALUE);
+
+        ImageView profileImage = new ImageView();
+        profileImage.setFitWidth(40);
+        profileImage.setFitHeight(40);
+
+        try {
+            if (user != null && user.getProfilePicture() != null) {
+                File file = new File("profile_images/" + user.getProfilePicture());
+                if (file.exists()) {
+                    profileImage.setImage(new Image(file.toURI().toString()));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (profileImage.getImage() == null) {
+            profileImage.setImage(new Image(
+                    getClass().getResource("/com/example/newdesign/images/default.png").toExternalForm()
+            ));
+        }
+
+        Circle clip = new Circle(20, 20, 20);
+        profileImage.setClip(clip);
+
+        Label userName = new Label(
+                user != null ? user.getFirstName() + " " + user.getLastName() : "Unknown"
+        );
+        userName.setStyle(
+                "-fx-font-weight: bold;" +
+                        "-fx-font-size: 18px;" +
+                        "-fx-text-fill: black;"
+        );
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy • HH:mm");
+
+        Label date = new Label(post.getCreatedAt().format(formatter));
+        date.setStyle("-fx-text-fill: gray; -fx-font-size: 12;");
+
+        VBox nameBox = new VBox(userName, date);
+
+        userBox.getChildren().addAll(profileImage, nameBox);
+
+        //  a single line in the post feed
+        Separator separator = new Separator();
+        separator.setStyle("-fx-background-color: #E0E0E0;");
+        separator.setMaxWidth(Double.MAX_VALUE);
+
+        Label content = new Label(post.getContent());
+        content.setWrapText(true);
+        content.setMaxWidth(Double.MAX_VALUE);
+
+        card.getChildren().addAll(userBox, separator,  content);
+
+        return card;
+    }
+
+
+
+
+
+    // this part is for the handling buttons
     public void handlePostButton() throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
