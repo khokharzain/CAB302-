@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 
@@ -34,7 +34,6 @@
 
             <Region HBox.hgrow="ALWAYS"/>
 
-            <!--  NEW MENU BUTTON -->
             <MenuButton text="☰"
                         style="-fx-background-color: transparent;
                        -fx-text-fill: white;
@@ -46,13 +45,14 @@
                     <MenuItem style ="-fx-background-color: linear-gradient(to right, #6A1B9A, #BA68C8)" onAction="#setPurple"/>
                     <MenuItem style ="-fx-background-color: linear-gradient(to right, #EF6C00, #FFB74D)" onAction="#setOrange"/>
                     <MenuItem style ="-fx-background-color: linear-gradient(to right, #C62828, #EF5350)" onAction="#setRed"/>
+
                 </items>
 
             </MenuButton>
 
         </HBox>
 
-        <!-- MAIN CONTENT (unchanged) -->
+        <!-- MAIN CONTENT -->
         <HBox spacing="20" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
             <padding>
                 <Insets top="20" bottom="20" left="20" right="20"/>
@@ -63,8 +63,6 @@
                        style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);">
 
                 <HBox>
-
-                    <!-- LEFT STRIP (now dynamic) -->
                     <Region fx:id="profileStrip"
                             prefWidth="60"/>
 
@@ -118,29 +116,41 @@
 
             </StackPane>
 
-            <!-- MAIN PANEL -->
-            <VBox fx:id="mainContent"
-                  HBox.hgrow="ALWAYS"
-                  style="-fx-background-color: #FFFFFF;
-                                   -fx-background-radius: 0 20 20 0;"
-                  >
+            <VBox VBox.vgrow="ALWAYS">
+
+                <ScrollPane fx:id="scrollPane"
+                            fitToWidth="true"
+                            VBox.vgrow="ALWAYS"
+                            hbarPolicy="NEVER"
+                            style="-fx-background-color: transparent;">
+
+                    <content>
+                        <VBox fx:id="mainContent"
+                              spacing="15"
+                              fillWidth="true"
+                              style="-fx-background-color: #F7F5FA;
+                         -fx-padding: 20;">
+                        </VBox>
+                    </content>
+
+                </ScrollPane>
+
             </VBox>
 
         </HBox>
 
         <!-- BOTTOM NAV -->
-        <HBox  fx:id="bottomNav"
-                alignment="CENTER"
+        <HBox fx:id="bottomNav"
+              alignment="CENTER"
               spacing="50"
-              prefHeight="20"
+              prefHeight="30"
+              maxHeight="30"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)">
 
             <Label>
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/HomeBlack.png"/>
-                        </image>
+                        <Image url="@Icons/HomeBlack.png"/>
                     </ImageView>
                 </graphic>
             </Label>
@@ -150,51 +160,273 @@
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/SearchBlack.png"/>
-                        </image>
+                        <Image url="@Icons/SearchBlack.png"/>
                     </ImageView>
                 </graphic>
             </Button>
 
             <Button fx:id="postButton"
                     onAction="#handlePostButton"
-
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/post.png"/>
-                        </image>
+                        <Image url="@Icons/post.png"/>
                     </ImageView>
                 </graphic>
             </Button>
 
-
-
-            <Label>
+            <Button fx:id="requestPageButton"
+            onAction="#handleRequestPage"
+             style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/AiBlack.png"/>
-                        </image>
+                        <Image url="@Icons/AiBlack.png"/>
                     </ImageView>
                 </graphic>
-            </Label>
+            </Button>
 
             <Button fx:id="profileButton"
                     onAction="#handleProfileButton"
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/profileBlack.png"/>
-                        </image>
+                        <Image url="@Icons/profileBlack.png"/>
                     </ImageView>
                 </graphic>
             </Button>
 
         </HBox>
+
+    </VBox>
+
+    <!-- FLOATING AI BUTTON -->
+    <Button fx:id="floatingAISummoner"
+            onAction="#toggleAIPanel"
+            style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                   -fx-background-radius: 50;
+                   -fx-padding: 8;
+                   -fx-cursor: hand;"
+            AnchorPane.leftAnchor="20"
+            AnchorPane.bottomAnchor="60">
+        <graphic>
+            <ImageView fitHeight="28" fitWidth="28">
+                <Image url="@Icons/ai-icon.png"/>
+            </ImageView>
+        </graphic>
+    </Button>
+
+    <!-- FLOATING AI PANEL -->
+    <VBox fx:id="aiPanel"
+          spacing="10"
+          visible="false"
+          managed="false"
+          style="-fx-background-color: white;
+                 -fx-background-radius: 15;
+                 -fx-border-color: #0C4D3B;
+                 -fx-border-radius: 15;
+                 -fx-border-width: 2;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 20, 0, 0, 5);"
+          prefWidth="300"
+          prefHeight="450"
+          AnchorPane.leftAnchor="10"
+          AnchorPane.bottomAnchor="45">
+
+        <!-- Header -->
+        <HBox fx:id="aiHeader"
+
+              alignment="CENTER_LEFT"
+              spacing="10"
+              prefHeight="45">
+            <padding>
+                <Insets left="15" right="15"/>
+            </padding>
+            <Label style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;">
+                <graphic>
+                    <ImageView fitHeight="18" fitWidth="18">
+                        <Image url="@Icons/ai-icon.png"/>
+                    </ImageView>
+                </graphic>
+                AI ASSISTANT
+            </Label>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button onAction="#closeAIPanel"
+                    style="-fx-background-color: transparent; -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitHeight="14" fitWidth="14">
+                        <Image url="@Icons/close-icon.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
+
+        <!-- Welcome Message -->
+        <VBox spacing="8" style="-fx-padding: 20 15 15 15;">
+
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"
+                   text="Hello!"/>
+
+            <Label style="-fx-font-size: 15px; -fx-text-fill: #555555;"
+                   text="I'm your AI Assistant. What would you like to do today?"
+                   wrapText="true"/>
+
+            <Label style="-fx-font-size: 13px; -fx-text-fill: #888888; -fx-font-style: italic;"
+                   text="Click a button above to get started."
+                   wrapText="true"/>
+
+        </VBox>
+
+        <!-- Action Buttons Panel -->
+        <VBox fx:id="actionButtonsPanel"
+              spacing="8"
+              style="-fx-padding: 5 15 15 15; -fx-background-color: #F7F5FA;">
+
+            <Button onAction="#handleFindMatches"
+                    maxWidth="Infinity"
+                    prefHeight="32"
+                    style="-fx-background-color: #2E7D64;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-font-size: 13px;
+                           -fx-padding: 6 10;
+                           -fx-background-radius: 8;
+                           -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24">
+                        <Image url="@Icons/search-icon.png"/>
+                    </ImageView>
+                </graphic>
+                FIND MATCHES
+            </Button>
+
+            <Button onAction="#showComparePanel"
+                    maxWidth="Infinity"
+                    prefHeight="32"
+                    style="-fx-background-color: #26A69A;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-font-size: 13px;
+                           -fx-padding: 6 10;
+                           -fx-background-radius: 8;
+                           -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24">
+                        <Image url="@Icons/compare-icon.png"/>
+                    </ImageView>
+                </graphic>
+                COMPARE USERS
+            </Button>
+
+            <Button onAction="#handleGroupChat"
+                    maxWidth="Infinity"
+                    prefHeight="32"
+                    style="-fx-background-color: #F57C00;
+                    -fx-text-fill: white;
+                    -fx-font-weight: bold;
+                    -fx-font-size: 13px;
+                    -fx-padding: 6 10;
+                    -fx-background-radius: 8;
+                    -fx-cursor: hand;">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24">
+                        <Image url="@Icons/chat-icon.png"/>
+                    </ImageView>
+                </graphic>
+                GROUP CHAT
+            </Button>
+        </VBox>
+
+        <!-- Exit/Back Button -->
+        <Button fx:id="exitButton"
+                text="← BACK TO MENU"
+                onAction="#resetToMainMenu"
+                visible="false"
+                managed="false"
+                maxWidth="Infinity"
+                prefHeight="40"
+                style="-fx-background-color: #999999;
+                       -fx-text-fill: white;
+                       -fx-font-weight: bold;
+                       -fx-padding: 10;
+                       -fx-background-radius: 10;
+                       -fx-cursor: hand;"/>
+
+        <!-- Skill Selection Panel -->
+        <VBox fx:id="skillSelectionPanel"
+              spacing="8"
+              visible="false"
+              managed="false"
+              style="-fx-padding: 15; -fx-background-color: #F7F5FA;">
+
+            <Label text="Select a skill you want to learn:"
+                   style="-fx-font-weight: bold; -fx-text-fill: #0C4D3B; -fx-font-size: 13px;"/>
+
+            <ComboBox fx:id="skillCombo" promptText="Choose a skill..." prefWidth="Infinity" maxWidth="Infinity"/>
+
+            <HBox spacing="10">
+                <Button text="FIND MATCHES"
+                        onAction="#findMatchesForSelectedSkill"
+                        style="-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+                <Button text="CANCEL"
+                        onAction="#hideSkillSelectionPanel"
+                        style="-fx-background-color: #999999; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+
+        <!-- Compare Skill Selection Panel -->
+        <VBox fx:id="compareSkillSelectionPanel"
+              spacing="8"
+              visible="false"
+              managed="false"
+              style="-fx-padding: 15; -fx-background-color: #E8F5E9;">
+
+            <Label text="Select a skill to compare users by:"
+                   style="-fx-font-weight: bold; -fx-text-fill: #0C4D3B; -fx-font-size: 13px;"/>
+
+            <ComboBox fx:id="compareSkillCombo" promptText="Choose a skill..." prefWidth="Infinity" maxWidth="Infinity"/>
+
+            <HBox spacing="10">
+                <Button text="SHOW USERS"
+                        onAction="#showUsersForCompare"
+                        style="-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+                <Button text="CANCEL"
+                        onAction="#hideCompareSkillSelectionPanel"
+                        style="-fx-background-color: #999999; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+
+        <!-- Compare Panel -->
+        <VBox fx:id="comparePanel"
+              spacing="8"
+              visible="false"
+              managed="false"
+              style="-fx-padding: 15; -fx-background-color: #E8F5E9;">
+
+            <ScrollPane fitToWidth="true" prefHeight="250"
+                        style="-fx-background-color: transparent; -fx-background: transparent;">
+                <VBox fx:id="usersToCompareContainer" spacing="8"/>
+            </ScrollPane>
+
+            <HBox spacing="10">
+                <Button text="COMPARE SELECTED"
+                        onAction="#handleCompareSelectedUsers"
+                        style="-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+                <Button text="BACK"
+                        onAction="#backToSkillSelection"
+                        style="-fx-background-color: #999999; -fx-text-fill: white; -fx-padding: 8; -fx-background-radius: 8;"
+                        HBox.hgrow="ALWAYS"/>
+            </HBox>
+        </VBox>
+
+        <!-- Response Area -->
+        <VBox fx:id="aiResponseArea"
+              style="-fx-padding: 10;"
+              VBox.vgrow="ALWAYS">
+        </VBox>
 
     </VBox>
 

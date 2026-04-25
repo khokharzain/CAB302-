@@ -17,7 +17,7 @@
 
         <!-- ========== HEADER ========== -->
         <HBox fx:id="headerBar"
-                prefHeight="100"
+              prefHeight="100"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
                      -fx-background-radius: 0 0 15 15;
                      -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
@@ -28,10 +28,11 @@
             <Label text="SkillDev"
                    style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="backButton"
-                    text="Back to Home"
+            <!-- === BYRON: Changed Back to Home to Logout button === -->
+            <Button fx:id="logoutButton"
+                    text="Logout"
                     style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"
-                    onAction="#handleBack"/>
+                    onAction="#handleLogout"/>
         </HBox>
 
         <!-- ========== MAIN CONTENT ========== -->
@@ -171,63 +172,51 @@
 
         <!-- ========== BOTTOM NAVIGATION ========== -->
         <HBox fx:id="bottomNav"
-                alignment="CENTER"
+              alignment="CENTER"
               spacing="50"
               prefHeight="60"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
             <Button fx:id="homeButton"
-                    style="-fx-background-color: transparent;" onAction="#handleHome"
-            ><graphic>
-                <ImageView fitHeight="20" fitWidth="20">
-                    <image>
+                    style="-fx-background-color: transparent;"
+                    onAction="#handleHome">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
                         <Image url="@Icons/HomeBlack.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
+                    </ImageView>
+                </graphic>
             </Button>
             <Button fx:id="searchButton"
-                    onAction="#handleSearch"
-
-                    style="-fx-background-color: transparent;">
+                    style="-fx-background-color: transparent;"
+                    onAction="#handleSearch">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/SearchBlack.png"/>
-                        </image>
+                        <Image url="@Icons/SearchBlack.png"/>
                     </ImageView>
                 </graphic>
             </Button>
-
             <Button fx:id="postButton"
-
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/post.png"/>
-                        </image>
+                        <Image url="@Icons/post.png"/>
                     </ImageView>
                 </graphic>
             </Button>
-            <Button onAction="#handleAIChat"
-               style="-fx-background-color:transparent;">
+            <Button fx:id="aiChatButton"
+                    style="-fx-background-color: transparent;"
+                    onAction="#handleAIChat">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/AiBlack.png"/>
-                        </image>
+                        <Image url="@Icons/AiBlack.png"/>
                     </ImageView>
                 </graphic>
             </Button>
-
-            <Button fx:id="profileButton"
-                    onAction="#handleProfile"
-                    style="-fx-background-color: transparent;">
+            <Button fx:id="profileNavButton"
+                    style="-fx-background-color: transparent;"
+                    onAction="#handleProfile">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
-                        <image>
-                            <Image url="@Icons/profileBlack.png"/>
-                        </image>
+                        <Image url="@Icons/profileBlack.png"/>
                     </ImageView>
                 </graphic>
             </Button>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image ?>
+<?import javafx.geometry.Insets?>
+
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+
+            fx:controller="com.example.newdesign.controller.RequestController"
+            prefHeight="400.0" prefWidth="600.0">
+    <VBox alignment="CENTER">
+
+        <HBox fx:id="headerBar"
+              prefHeight="60"
+              alignment="CENTER_LEFT">
+
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+
+            <Label text="SkillDev"
+                   style="-fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold;"/>
+        </HBox>
+
+
+        <!--main content in here-->
+        <VBox fx:id="requestsContainer" VBox.vgrow="ALWAYS"/>
+
+
+        <HBox fx:id="bottomNav"
+              alignment="CENTER"
+              spacing="50"
+              prefHeight="30"
+              maxHeight="30"
+              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)">
+
+            <Button fx:id="homeButton"
+                    style="-fx-background-color: transparent"
+                    onAction="#handleHomeButton">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/HomeBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="searchButton"
+                    onAction="#handleSearchButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/SearchBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="postButton"
+                    onAction="#handlePostButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/post.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="requestPageButton"
+                    onAction="#handleRequestPage"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/AiBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="profileButton"
+                    onAction="#handleProfileButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/profileBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+        </HBox>
+
+
+
+    </VBox>
+    <StackPane fx:id="popupLayer"
+               visible="false"
+               style="-fx-background-color: rgba(0,0,0,0.4);"/>
+
+
+
+</StackPane>
+
+
+
