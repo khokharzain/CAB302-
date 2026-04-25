@@ -9,40 +9,28 @@ import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
-import java.io.File;
 
+import java.io.File;
 
 public class postController {
 
+    @FXML private HBox headerBar;
+    @FXML private HBox bottomNav;
 
-    @FXML
-    private HBox headerBar;
-    @FXML
-    private HBox bottomNav;
+    @FXML private TextArea postTextArea;
+    @FXML private Button publishButton;
 
-    @FXML
-    private TextArea postTextArea;
-    @FXML
-    private Button publishButton;
-    @FXML
-    private Button profileButton;
-    @FXML
-    private Button homeButton;
-    @FXML
-    private Button searchButton;
+    @FXML private Label userName;
+    @FXML private ImageView profileImage;
+    @FXML private StackPane rootPane;
 
-    @FXML
-    private Label userName;
-    @FXML
-    private ImageView profileImage;
 
-    @FXML
-    private StackPane rootPane;
+    @FXML private TextField maxParticipantsField;
 
+    private PostDAO postDAO = new PostDaoImpl();
 
     public void initialize(){
         loadCurrentUser();
-
         applyTheme();
     }
 
@@ -51,40 +39,23 @@ public class postController {
                 + ThemeManager.primaryStart + ", "
                 + ThemeManager.primaryEnd + ")";
 
-        String headerStyle =
-                "-fx-background-color: " + gradient + ";" +
-                        "-fx-background-radius:15;" +
-                        "-fx-border-radius:15;" +
-                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
-
-        String  ButtonStyle   ="-fx-background-color:" + gradient + ";"+
-                "-fx-text-fill: white;"+
-        "-fx-font-weight: bold;"+
-        "-fx-background-radius: 10;"+
-       " -fx-padding: 10 25;"+
-       " -fx-cursor: hand;";
-
         if (headerBar != null){
-            headerBar.setStyle(headerStyle);}
+            headerBar.setStyle("-fx-background-color: " + gradient + ";");
+        }
+
         if (bottomNav != null){
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+        }
+
         if(postTextArea != null){
-           postTextArea.setStyle("-fx-background-radius: 10;" +
-                   "  -fx-border-radius: 10;" +
-                   "-fx-focus-color: transparent;" +
-                   "   -fx-border-color:" + ThemeManager.primaryEnd + ";" +
-                   "   -fx-font-size: 13;");}
+            postTextArea.setStyle("-fx-background-radius: 10;");
+        }
+
         if(publishButton != null){
-            publishButton.setStyle(ButtonStyle);
+            publishButton.setStyle("-fx-background-color:" + gradient + "; -fx-text-fill: white;");
         }
-
-
-
-        }
-
     }
 
-    // loading name and profile pic from current infomration from the database
     private void loadCurrentUser() {
 
         User currentUser = SessionManager.getUser();
@@ -106,7 +77,6 @@ public class postController {
                 }
             }
 
-            // fallback image (from resources)
             profileImage.setImage(new Image(
                     getClass().getResource("/com/example/newdesign/images/default.png").toExternalForm()
             ));
@@ -118,83 +88,77 @@ public class postController {
         }
     }
 
-    // this function makes the profile picture circular
     private void applyCircleClip() {
         Circle clip = new Circle(22.5, 22.5, 22.5);
         profileImage.setClip(clip);
     }
 
-
-
-
-
-
-
-
-
-    // this part handle all buttons related to this page
+    // 🚀 FIXED PUBLISH METHOD
     public void handlePublish(){
+
         String content = postTextArea.getText();
-        //empty post not allowed
+
         if(content == null || content.isEmpty()){
             Notifier.showToast(rootPane, "Post cannot be empty");
             return;
         }
 
-        //gettinn information from session manager
         User currentUser = SessionManager.getUser();
-        //fallback
         if(currentUser == null){
             System.out.println("No user logged in");
             return;
         }
-        //creating new object then saving the object in database
 
-        Post post = new Post(currentUser.getId(), content);
-        PostDAO dao = new PostDaoImpl();
-        dao.addPost(post);
-        // now I want to cleasr the text area
+        //  get max participants
+        int maxParticipants = 1;
+
+        try {
+            if (maxParticipantsField != null && !maxParticipantsField.getText().isEmpty()) {
+                maxParticipants = Integer.parseInt(maxParticipantsField.getText());
+            }
+        } catch (Exception e) {
+            Notifier.showToast(rootPane, "Invalid number");
+            return;
+        }
+
+        // NEW CONSTRUCTOR
+        Post post = new Post(currentUser.getId(), content, maxParticipants);
+
+        postDAO.addPost(post);
 
         postTextArea.clear();
+        if(maxParticipantsField != null) maxParticipantsField.clear();
+
         Notifier.showToast(rootPane, "Post published!");
-
-
     }
 
+    // ================= NAVIGATION =================
 
-
-    public void  handleSearchButton() throws Exception{
-
+    public void handleSearchButton() throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) searchButton.getScene().getWindow();
+        Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
-
-
     }
+
     public void handlePostButton()throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) searchButton.getScene().getWindow();
+        Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
-
     }
+
     public void handleProfileButton()throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileButton.getScene().getWindow();
+        Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
     }
+
     public void handleHomeButton()throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) homeButton.getScene().getWindow();
+        Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
     }
-
-
-
-
-
-
 }
