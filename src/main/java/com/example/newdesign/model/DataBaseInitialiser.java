@@ -129,11 +129,30 @@ public class DataBaseInitialiser {
                     "UNIQUE(post_id, user_id)" +
                     ")";
             stmt.execute(createParticipantsTable);
+
+            //Arabella
+            //Create Message Table
+            String createMessageTable = "CREATE TABLE IF NOT EXISTS Messages (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                    "message_id INTEGER," +
+                    "sender_id INTEGER," +
+                    "reciever_id INTEGER," +
+                    "message TEXT," +
+                    "FOREIGN KEY(sender_id) REFERENCES Users(id)," +
+                    "FOREIGN KEY(sender_id) REFERENCES Users(id)"+
+                    ")";
+            stmt.execute(createMessageTable);
+            System.out.println("Created Messages table ✔");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // made some changes on the post database, new columns added as maxParticipants
+
+
+
+
 
 
 

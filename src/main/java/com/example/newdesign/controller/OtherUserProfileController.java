@@ -173,18 +173,7 @@ public class OtherUserProfileController {
         skillLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(skillLabel, Priority.ALWAYS);
 
-        Button removeButton = new Button("Remove");
-        removeButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
-        removeButton.setOnAction(e -> {
-            otherUser.removeSkill(skill);
-            loadSkills();
-
-            // ========== BYRON'S ADDITION: Save to database ==========
-            UserDAOImpl dao = new UserDAOImpl();
-            dao.removeSkill(skill.getId());
-        });
-
-        row.getChildren().addAll(skillLabel, removeButton);
+        row.getChildren().addAll(skillLabel);
         return row;
     }
 
@@ -199,18 +188,7 @@ public class OtherUserProfileController {
         hobbyLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(hobbyLabel, Priority.ALWAYS);
 
-        Button removeButton = new Button("Remove");
-        removeButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
-        removeButton.setOnAction(e -> {
-            otherUser.removeHobby(hobby);
-            loadHobbies();
-
-            // ========== BYRON'S ADDITION: Save to database ==========
-            UserDAOImpl dao = new UserDAOImpl();
-            dao.removeHobby(hobby.getId());
-        });
-
-        row.getChildren().addAll(hobbyLabel, removeButton);
+        row.getChildren().addAll(hobbyLabel);
         return row;
     }
 
