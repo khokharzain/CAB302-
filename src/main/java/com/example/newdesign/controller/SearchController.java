@@ -71,6 +71,7 @@ public class SearchController {
         });
 
         applyTheme();
+        Otheruser = null;
     }
 
     private void applyTheme(){
@@ -222,7 +223,13 @@ public class SearchController {
             card.setOnMouseClicked(event -> {
                 try {
                     Otheruser = userDAO.getUserById(user.getId());
-                    handleOtherProfileButton();
+                    if(Otheruser.getId() == SessionManager.getUser().getId()){
+                        handleProfileButton();
+                    }
+                    else {
+                        handleOtherProfileButton();
+                    }
+
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

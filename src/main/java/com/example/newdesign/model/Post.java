@@ -46,8 +46,8 @@ public class Post {
 
     public int getUserId(){
         return userId;
-
     }
+
     public int getMaxParticipants(){
         return maxParticipants;
     }

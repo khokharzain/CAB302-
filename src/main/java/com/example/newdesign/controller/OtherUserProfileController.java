@@ -2,7 +2,6 @@ package com.example.newdesign.controller;
 
 import com.example.newdesign.HelloApplication;
 import com.example.newdesign.model.*;
-import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -16,9 +15,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
@@ -31,6 +30,10 @@ public class OtherUserProfileController {
     private User otherUser;
 
     // ========== FXML Components ==========
+
+    //Header and Footer
+    @FXML private HBox bottomNav;
+    @FXML private HBox headerBar;
 
     // Profile Display
     @FXML private ImageView profileImage;
@@ -52,6 +55,7 @@ public class OtherUserProfileController {
     // Buttons
     @FXML private Button backButton;
     @FXML private Button messageButton;
+    @FXML private Button profileButton;
 
     // ========== Initialization ==========
 
@@ -70,7 +74,31 @@ public class OtherUserProfileController {
 
         // Click to change profile picture
         profileImage.setOnMouseClicked(e -> chooseProfilePicture());
+
+        applyTheme();
     }
+
+    //Themes
+    // Applying theme color in here
+    private void applyTheme(){
+        String gradient = "linear-gradient(to right, "
+                + ThemeManager.primaryStart + ", "
+                + ThemeManager.primaryEnd + ")";
+
+        String headerStyle =
+                "-fx-background-color: " + gradient + ";" +
+                        "-fx-background-radius:15;" +
+                        "-fx-border-radius:15;" +
+                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
+
+        if (headerBar != null)
+            headerBar.setStyle(headerStyle);
+
+        if (bottomNav != null)
+            bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+
+    }
+
 
     // ========== Load Data ==========
 
@@ -531,30 +559,27 @@ public class OtherUserProfileController {
     }
 
     @FXML
+    private void handleMessager() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("messager-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) messageButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private void handleProfile() throws IOException {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
     private void handleAIChat() {
         showAlert("Info", "AI Chat feature coming soon!");
     }
 
-    @FXML
-    private void handleProfile() {
-        // Refresh profile page
-        loadProfileData();
-        loadSkills();
-        loadHobbies();
-        loadReviews();
-    }
 
-    @FXML
-    private void handleBack() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) backButton.getScene().getWindow();
-        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
-        fade.setFromValue(0);
-        fade.setToValue(1);
-        fade.play();
-        stage.setScene(scene);
-    }
 
     // ========== Helper ==========
 

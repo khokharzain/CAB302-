@@ -52,12 +52,6 @@ public class ProfileController {
     // === BYRON: Changed backButton to logoutButton ===
     @FXML private Button logoutButton;
 
-    // Add buttons
-    @FXML private Button addTeachSkillButton;
-    @FXML private Button addLearnSkillButton;
-    @FXML private Button addHobbyButton;
-
-
     @FXML
     private HBox headerBar;
     @FXML

@@ -16,7 +16,8 @@
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
         <!-- ========== HEADER ========== -->
-        <HBox prefHeight="100"
+        <HBox fx:id="headerBar"
+              prefHeight="100"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
                      -fx-background-radius: 0 0 15 15;
                      -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
@@ -61,7 +62,7 @@
                                            -fx-font-weight: bold;
                                            -fx-padding: 8 20;
                                            -fx-background-radius: 20;"
-                                        onAction="#handleEditProfile"/>
+                                        onAction="#handleMessager"/>
                             </VBox>
                             <Label fx:id="fullNameLabel"
                                    style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1F1F1F;"/>
@@ -136,7 +137,8 @@
         </ScrollPane>
 
         <!-- ========== BOTTOM NAVIGATION ========== -->
-        <HBox alignment="CENTER"
+        <HBox fx:id="bottomNav"
+              alignment="CENTER"
               spacing="50"
               prefHeight="60"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
@@ -152,7 +154,6 @@
             </Button>
             <Button fx:id="searchButton"
                     onAction="#handleSearch"
-
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">

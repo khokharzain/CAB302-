@@ -90,7 +90,6 @@
             </graphic>
             </Button>
             <Button fx:id="searchButton"
-
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
@@ -101,7 +100,6 @@
                 </graphic>
             </Button>
             <Button fx:id="postButton"
-
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
@@ -123,7 +121,7 @@
             </Label>
 
             <Button fx:id="profileButton"
-                    onAction="#handleOtherProfileButton"
+                    onAction="#handleProfileButton"
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">

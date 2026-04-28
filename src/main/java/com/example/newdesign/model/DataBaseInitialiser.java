@@ -134,12 +134,11 @@ public class DataBaseInitialiser {
             //Create Message Table
             String createMessageTable = "CREATE TABLE IF NOT EXISTS Messages (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    "message_id INTEGER," +
-                    "sender_id INTEGER," +
-                    "reciever_id INTEGER," +
+                    "senderId INTEGER," +
+                    "recieverId INTEGER," +
                     "message TEXT," +
-                    "FOREIGN KEY(sender_id) REFERENCES Users(id)," +
-                    "FOREIGN KEY(sender_id) REFERENCES Users(id)"+
+                    "FOREIGN KEY(senderId) REFERENCES Users(id)," +
+                    "FOREIGN KEY(senderId) REFERENCES Users(id)"+
                     ")";
             stmt.execute(createMessageTable);
             System.out.println("Created Messages table ✔");

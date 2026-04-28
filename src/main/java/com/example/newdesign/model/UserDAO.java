@@ -33,4 +33,5 @@ public interface UserDAO {
     // Review management
     boolean addReview(Review review);
     List<Review> getUserReviews(int userId);
+
 }

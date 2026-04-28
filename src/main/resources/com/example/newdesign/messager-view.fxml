@@ -1,76 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.image.Image?>
 
-
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.newdesign.controller.MessagerController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="800.0" prefWidth="1200.0"
+            style="-fx-background-color: #F5F5F5;">
+
+    <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <!-- ========== HEADER ========== -->
+        <HBox  fx:id="headerBar"
+               prefHeight="100"
+               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                     -fx-background-radius: 0 0 15 15;
+                     -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
+              alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+            <Label text="SkillDev"
+                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton"
+                    text="Back"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"
+                    onAction="#handleOtherUserButton"/>
+        </HBox>
 
 
+        <!-- MAIN CONTENT -->
 
+        <VBox prefHeight="620" spacing="10" HBox.hgrow="ALWAYS"
+              style="-fx-background-color: white;
+                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                                 -fx-padding: 20;">
+            <VBox fx:id="messageContainer" spacing="8"/>
+        </VBox>
 
+        <HBox alignment="BOTTOM_CENTER" prefHeight="20">
+            <TextField fx:id="messageField" prefWidth="1150" alignment="BASELINE_LEFT"/>
+            <Button onAction="#handleSendButton" alignment="BASELINE_RIGHT">Send</Button>
+        </HBox>
 
-
-    <!-- FOOTER -->
-    <HBox alignment="CENTER"
-          spacing="50"
-          prefHeight="20"
-          style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
-
-        <Button fx:id="homeButton"
-                style="-fx-background-color: transparent;" onAction="#handleHomeButton"
-        ><graphic>
-            <ImageView fitHeight="20" fitWidth="20">
-                <image>
-                    <Image url="@Icons/HomeBlack.png"/>
-                </image>
-            </ImageView>
-        </graphic>
-        </Button>
-        <Button fx:id="searchButton"
-
-                style="-fx-background-color: transparent;">
-            <graphic>
+        <!-- ========== BOTTOM NAVIGATION ========== -->
+        <HBox fx:id = "bottomNav"
+              alignment="CENTER"
+              spacing="50"
+              prefHeight="60"
+              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
+            <Button fx:id="homeButton"
+                    style="-fx-background-color: transparent;" onAction="#handleHomeButton"
+            ><graphic>
                 <ImageView fitHeight="20" fitWidth="20">
                     <image>
-                        <Image url="@Icons/SearchBlack.png"/>
+                        <Image url="@Icons/HomeBlack.png"/>
                     </image>
                 </ImageView>
             </graphic>
-        </Button>
+            </Button>
+            <Button fx:id="searchButton"
+                    onAction="#handleSearchButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/SearchBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button
+                    style="-fx-background-color:transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/AiBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
 
-        <Label>
-            <graphic>
-                <ImageView fitHeight="20" fitWidth="20">
-                    <image>
-                        <Image url="@Icons/AiBlack.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Label>
+            <Button fx:id="profileButton"
+                    onAction="#handleProfileButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/profileBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
 
-        <Button fx:id="profileButton"
-                onAction="#handleProfileButton"
-                style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="20" fitWidth="20">
-                    <image>
-                        <Image url="@Icons/profileBlack.png"/>
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-
-    </HBox>
-
-
+    </VBox>
 </AnchorPane>
