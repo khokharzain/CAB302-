@@ -30,87 +30,61 @@ import java.util.stream.Collectors;
 
 public class mainController {
 
+    // ================== STATE ==================
     private User currentUser;
 
 
-    @FXML
-    private VBox mainContent;
-    @FXML
-    private ImageView profilePicture;
+    // ================== MAIN LAYOUT ==================
+    @FXML private VBox mainContent;
+    @FXML private StackPane popupLayer;
 
-    @FXML
-    private Label firstNameLabel;
 
-    @FXML
-    private Label lastNameLabel;
+    // ================== HEADER ==================
+    @FXML private HBox headerBar;
+    @FXML private Region profileStrip;
 
-    @FXML
-    private Label emailLabel;
 
-    @FXML
-    private Label phoneLabel;
+    // ================== NAVIGATION ==================
+    @FXML private HBox bottomNav;
+    @FXML private Button profileButton;
+    @FXML private Button postButton;
+    @FXML private Button searchButton;
+    @FXML private Button requestPageButton;
 
-    @FXML
-    private Button profileButton;
 
-    @FXML
-    private Button postButton;
+    // ================== PROFILE SECTION ==================
+    @FXML private VBox profilelayout;
+    @FXML private ImageView profilePicture;
 
-    @FXML
-    private VBox profilelayout;
+    @FXML private Label firstNameLabel;
+    @FXML private Label lastNameLabel;
+    @FXML private Label emailLabel;
+    @FXML private Label phoneLabel;
 
-    @FXML
-    private Button searchButton;
 
-    @FXML
-    private HBox headerBar;
+    // ================== AI PANEL ==================
+    @FXML private VBox aiPanel;
+    @FXML private HBox aiHeader;
+    @FXML private VBox aiResponseArea;
 
-    @FXML
-    private HBox bottomNav;
+    @FXML private Button floatingAISummoner;
+    @FXML private Button exitButton;
 
-    @FXML
-    private Region profileStrip;
 
-    @FXML
-    private Button floatingAISummoner;
+    // ================== ACTION PANELS ==================
+    @FXML private VBox actionButtonsPanel;
 
-    @FXML
-    private VBox aiPanel;
 
-    @FXML
-    private VBox actionButtonsPanel;
+    // ================== SKILL SELECTION ==================
+    @FXML private VBox skillSelectionPanel;
+    @FXML private ComboBox<String> skillCombo;
 
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button requestPageButton;
 
-    @FXML
-    private VBox comparePanel;
-
-    @FXML
-    private VBox skillSelectionPanel;
-
-    @FXML
-    private ComboBox<String> skillCombo;
-
-    @FXML
-    private VBox compareSkillSelectionPanel;
-
-    @FXML
-    private ComboBox<String> compareSkillCombo;
-
-    @FXML
-    private VBox usersToCompareContainer;
-
-    @FXML
-    private VBox aiResponseArea;
-    @FXML
-    private HBox aiHeader;
-
-    @FXML
-    private StackPane popupLayer;
-
+    // ================== COMPARE FEATURE ==================
+    @FXML private VBox comparePanel;
+    @FXML private VBox compareSkillSelectionPanel;
+    @FXML private ComboBox<String> compareSkillCombo;
+    @FXML private VBox usersToCompareContainer;
     private UserDAOImpl userDAO = new UserDAOImpl();
     private List<User> allUsers = new ArrayList<>();
     private List<User> filteredUsers = new ArrayList<>();
@@ -349,6 +323,10 @@ public class mainController {
             mainContent.getChildren().add(card);
         }
     }
+
+
+
+    // this is the main post cards
     private StackPane createPostCard(Post post, User user){
 
         PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
@@ -507,8 +485,6 @@ public class mainController {
 
 
 
-    //getting userInfomration
-    // this is just an popup layer that pops up after clicking user card
     private void showUserPopUp(User user) {
 
         popupLayer.getChildren().clear();
@@ -616,83 +592,14 @@ public class mainController {
                 )
         );
 
+        Label rating = new Label("rating: " + String.valueOf(user.getAverageRating()));
+        rating.setStyle("_fx-text-fill: gold");
 
-        Label reviewTitle = new Label("Leave a Review");
-        reviewTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
 
-        ComboBox<Integer> ratingBox = new ComboBox<>();
-        ratingBox.getItems().addAll(1, 2, 3, 4, 5);
-        ratingBox.setPromptText("Rating / 5");
+        // ===== ADD ALL =====
+        Separator separator = new Separator();
 
-        TextArea reviewArea = new TextArea();
-        reviewArea.setPromptText("Write your review...");
-        reviewArea.setPrefRowCount(3);
-        reviewArea.setWrapText(true);
-        reviewArea.setMaxWidth(260);
-
-        Button submitReviewButton = new Button("Submit Review");
-        submitReviewButton.setStyle(
-                "-fx-background-color: " + ThemeManager.primaryStart + ";" +
-                        "-fx-text-fill: white;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-background-radius: 10;" +
-                        "-fx-padding: 7 12;"
-        );
-
-        submitReviewButton.setOnAction(e -> {
-            Integer rating = ratingBox.getValue();
-            String comment = reviewArea.getText().trim();
-
-            if (rating == null || comment.isEmpty()) {
-                Notifier.showToast(popupLayer,"Please select a rating and write a review.");
-
-                return;
-            }
-
-            User reviewer = SessionManager.getUser();
-
-            if (reviewer == null) {
-                Notifier.showToast(popupLayer,"You must be logged in to leave a review.");
-
-                return;
-            }
-
-            Review review = new Review(
-                    0,
-                    reviewer.getId(),
-                    user.getId(),
-                    0,
-                    rating,
-                    comment,
-                    java.time.LocalDateTime.now()
-            );
-
-            UserDAOImpl dao = new UserDAOImpl();
-            boolean saved = dao.addReview(review);
-
-            if (saved) {
-                Notifier.showToast(popupLayer,"Review submitted successfully.");
-
-                ratingBox.setValue(null);
-                reviewArea.clear();
-            } else {
-
-                Notifier.showToast(popupLayer,"Review could not be saved.");
-            }
-        });
-
-        card.getChildren().addAll(
-                topBar,
-                header,
-                email,
-                bio,
-                skills,
-                hobbies,
-                reviewTitle,
-                ratingBox,
-                reviewArea,
-                submitReviewButton
-        );
+        card.getChildren().addAll(topBar,  header, separator, email,rating,  bio, skills, hobbies);
 
         overlay.getChildren().add(card);
 

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.Parent;
 
 import java.io.File;
 import java.util.List;
@@ -233,6 +234,7 @@ public class SearchController {
     }
 
     // this is the container that show all informations from the choosen user.
+
 
     private void showUserPopUp(User user) {
 
