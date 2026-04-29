@@ -108,6 +108,9 @@ public class mainController {
     @FXML
     private HBox aiHeader;
 
+    @FXML
+    private StackPane popupLayer;
+
     private UserDAOImpl userDAO = new UserDAOImpl();
     private List<User> allUsers = new ArrayList<>();
     private List<User> filteredUsers = new ArrayList<>();
@@ -307,6 +310,7 @@ public class mainController {
         }
     }
 
+    //// Loads all users from database and filters them for display // Updated User review function and user rating system @zain
     private void loadAllUsers() {
         List<User> basicUsers = userDAO.searchUsers("");
         allUsers.clear();
@@ -323,8 +327,6 @@ public class mainController {
             }
         }
     }
-
-
 
 
 
@@ -394,6 +396,10 @@ public class mainController {
         }
 
         profileImage.setClip(new Circle(20, 20, 20));
+        profileImage.setOnMouseClicked( e->{
+            showUserPopUp(user);
+
+        });
 
         Label userName = new Label(
                 user != null ? user.getFirstName() + " " + user.getLastName() : "Unknown"
@@ -455,6 +461,10 @@ public class mainController {
                 Label name = new Label(pUser.getFirstName());
                 name.setStyle("-fx-font-size: 10px;");
                 box.getChildren().addAll(avatar, name);
+                avatar.setOnMouseClicked(e -> {
+
+                    showUserPopUp(pUser);
+                });
 
             } else {
                 // ➕ EMPTY BOX
@@ -493,6 +503,211 @@ public class mainController {
 
         return root;
     }
+
+
+
+
+    //getting userInfomration
+    // this is just an popup layer that pops up after clicking user card
+    private void showUserPopUp(User user) {
+
+        popupLayer.getChildren().clear();
+        popupLayer.setVisible(true);
+
+
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+        overlay.setAlignment(Pos.CENTER);
+
+        // the layout
+        VBox card = new VBox(15);
+        card.setMaxWidth(300);
+        card.setMaxHeight(400);
+        card.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryBackGround+ ";" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-padding: 20;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-border-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-border-width: 5;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
+        );
+
+        // ===== TOP BAR =====
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.TOP_RIGHT);
+
+        Button closeBtn = new Button("X");
+        closeBtn.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                        "-fx-font-weight: bold;"
+        );
+        closeBtn.setOnAction(e -> popupLayer.setVisible(false));
+
+        topBar.getChildren().add(closeBtn);
+
+        // ===== PROFILE (IMAGE + NAME) =====
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+
+        Image image;
+        try {
+            if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+                File file = new File("profile_images/" + user.getProfilePicture());
+                if (file.exists()) {
+                    image = new Image(file.toURI().toString());
+                } else {
+                    image = new Image(getClass()
+                            .getResource("/com/example/newdesign/images/default.png")
+                            .toString());
+                }
+            } else {
+                image = new Image(getClass()
+                        .getResource("/com/example/newdesign/images/default.png")
+                        .toString());
+            }
+        } catch (Exception e) {
+            image = new Image(getClass()
+                    .getResource("/com/example/newdesign/images/default.png")
+                    .toString());
+        }
+
+        imageView.setImage(image);
+
+        // make image round
+        imageView.setClip(new javafx.scene.shape.Circle(25, 25, 25));
+
+        VBox nameBox = new VBox(2);
+
+        Label name = new Label(user.getFullName());
+        name.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label username = new Label("@" + user.getUsername());
+        username.setStyle("-fx-text-fill: gray;");
+
+        nameBox.getChildren().addAll(name, username);
+        header.getChildren().addAll(imageView, nameBox);
+
+        // ===== INFO =====
+
+        Label email = new Label("email: " + user.getEmail());
+
+        Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
+        bio.setWrapText(true);
+
+        Label skills = new Label(
+                "Skills: " + (user.getSkills() == null || user.getSkills().isEmpty() ? "None" :
+                        user.getSkills().stream()
+                                .map(Skill::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+        Label hobbies = new Label(
+                "Hobbies: " + (user.getHobbies() == null || user.getHobbies().isEmpty() ? "None" :
+                        user.getHobbies().stream()
+                                .map(Hobby::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+
+        Label reviewTitle = new Label("Leave a Review");
+        reviewTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+
+        ComboBox<Integer> ratingBox = new ComboBox<>();
+        ratingBox.getItems().addAll(1, 2, 3, 4, 5);
+        ratingBox.setPromptText("Rating / 5");
+
+        TextArea reviewArea = new TextArea();
+        reviewArea.setPromptText("Write your review...");
+        reviewArea.setPrefRowCount(3);
+        reviewArea.setWrapText(true);
+        reviewArea.setMaxWidth(260);
+
+        Button submitReviewButton = new Button("Submit Review");
+        submitReviewButton.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 7 12;"
+        );
+
+        submitReviewButton.setOnAction(e -> {
+            Integer rating = ratingBox.getValue();
+            String comment = reviewArea.getText().trim();
+
+            if (rating == null || comment.isEmpty()) {
+                Notifier.showToast(popupLayer,"Please select a rating and write a review.");
+
+                return;
+            }
+
+            User reviewer = SessionManager.getUser();
+
+            if (reviewer == null) {
+                Notifier.showToast(popupLayer,"You must be logged in to leave a review.");
+
+                return;
+            }
+
+            Review review = new Review(
+                    0,
+                    reviewer.getId(),
+                    user.getId(),
+                    0,
+                    rating,
+                    comment,
+                    java.time.LocalDateTime.now()
+            );
+
+            UserDAOImpl dao = new UserDAOImpl();
+            boolean saved = dao.addReview(review);
+
+            if (saved) {
+                Notifier.showToast(popupLayer,"Review submitted successfully.");
+
+                ratingBox.setValue(null);
+                reviewArea.clear();
+            } else {
+
+                Notifier.showToast(popupLayer,"Review could not be saved.");
+            }
+        });
+
+        card.getChildren().addAll(
+                topBar,
+                header,
+                email,
+                bio,
+                skills,
+                hobbies,
+                reviewTitle,
+                ratingBox,
+                reviewArea,
+                submitReviewButton
+        );
+
+        overlay.getChildren().add(card);
+
+        // click outside closes popup
+        overlay.setOnMouseClicked(e -> popupLayer.setVisible(false));
+
+        // prevent closing when clicking card
+        card.setOnMouseClicked(e -> e.consume());
+
+        popupLayer.getChildren().add(overlay);
+    }
+
+
+
+
 
 
 
@@ -1428,7 +1643,7 @@ public class mainController {
         } catch (Exception e) {
             System.out.println("comment-icon.png not found");
         }
-
+    /// REVIEW SECTION ON HOME PAGE ///
         Label reviewsTitle = new Label(" REVIEWS");
         reviewsTitle.setFont(Font.font("SF Pro Text", FontWeight.BOLD, 11));
         reviewsTitle.setStyle("-fx-text-fill: #0C4D3B;");
@@ -1600,6 +1815,8 @@ public class mainController {
             fadeIn.play();
         }
     }
+
+
 
     private static class UserMatch {
         User user;

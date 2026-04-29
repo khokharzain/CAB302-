@@ -100,39 +100,56 @@
                 </VBox>
             </VBox>
 
-            <!-- BOTTOM NAV -->
+            <!-- FOOTER -->
             <HBox fx:id="bottomNav"
                   alignment="CENTER"
                   spacing="50"
-                  prefHeight="50"
-                  style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)">
+                  prefHeight="20">
 
                 <Button fx:id="homeButton"
                         onAction="#handleHomeButton"
                         style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="22" fitWidth="22">
-                            <Image url="@Icons/HomeBlack.png"/>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="@Icons/HomeBlack.png"/>
+                            </image>
                         </ImageView>
                     </graphic>
                 </Button>
 
-                <Button fx:id="searchButton"
+                <Button fx:id="searchPageButton"
                         onAction="#handleSearchButton"
                         style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="22" fitWidth="22">
-                            <Image url="@Icons/SearchBlack.png"/>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="@Icons/SearchBlack.png"/>
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="postPageButton"
+                        onAction="#handlePostPage"
+
+                        style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="@Icons/post.png"/>
+                            </image>
                         </ImageView>
                     </graphic>
                 </Button>
 
-                <Button fx:id="postButton"
-                        onAction="#handlePostButton"
+                <Button fx:id="requestPageButton"
+                        onAction="#handleRequestPage"
                         style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="22" fitWidth="22">
-                            <Image url="@Icons/post.png"/>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="@Icons/AiBlack.png"/>
+                            </image>
                         </ImageView>
                     </graphic>
                 </Button>
@@ -141,8 +158,10 @@
                         onAction="#handleProfileButton"
                         style="-fx-background-color: transparent;">
                     <graphic>
-                        <ImageView fitHeight="22" fitWidth="22">
-                            <Image url="@Icons/profileBlack.png"/>
+                        <ImageView fitHeight="20" fitWidth="20">
+                            <image>
+                                <Image url="@Icons/profileBlack.png"/>
+                            </image>
                         </ImageView>
                     </graphic>
                 </Button>
