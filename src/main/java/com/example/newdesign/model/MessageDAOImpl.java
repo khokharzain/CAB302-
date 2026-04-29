@@ -29,14 +29,38 @@ public class MessageDAOImpl implements MessageDAO{
 
     @Override
     public void deleteMessage(int id) {
+        String sql = "DELETE FROM Messages WHERE id = ?";
+
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setInt(1, id);
+
+            stmt.execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 
     @Override
-    public void addUser(int Userid) {
+    public void editMessage(int id, String message){
+        String sql = "UPDATE Messages SET message = ? WHERE id = ?";
+
+        try (Connection conn = DBconnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1, message);
+            stmt.setInt(2, id);
+
+            stmt.execute();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
-
 
     @Override
     public List<Message> getMessages(int senderId, int receiverId) {
@@ -70,6 +94,12 @@ public class MessageDAOImpl implements MessageDAO{
             e.printStackTrace();
         }
         return messages;
+    }
+
+
+    @Override
+    public void addUser(int Userid) {
+
     }
 
     @Override

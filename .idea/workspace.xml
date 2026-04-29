@@ -5,21 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Message.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/SearchController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DataBaseInitialiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DataBaseInitialiser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Post.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/UserDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/UserDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/otherUserProfile-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/otherUserProfile-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/search-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +129,7 @@
       <workItem from="1776947104944" duration="3500000" />
       <workItem from="1777102460542" duration="8701000" />
       <workItem from="1777133965196" duration="30124000" />
-      <workItem from="1777382146151" duration="1305000" />
+      <workItem from="1777382146151" duration="14261000" />
     </task>
     <servers />
   </component>

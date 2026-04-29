@@ -37,17 +37,23 @@
 
         <!-- MAIN CONTENT -->
 
-        <VBox prefHeight="620" spacing="10" HBox.hgrow="ALWAYS"
-              style="-fx-background-color: white;
-                                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
-                                 -fx-padding: 20;">
-            <VBox fx:id="messageContainer" spacing="8"/>
+        <VBox style="-fx-background-color: white;
+                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+                -fx-padding: 10;">
+            <ScrollPane prefHeight="620">
+                <VBox fx:id="messageContainer" spacing="8"/>
+            </ScrollPane>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="30">
+                <TextField fx:id="messageField" prefHeight="30"
+                           prefWidth="1100" alignment="BASELINE_LEFT"/>
+                <Button onAction="#handleSendButton" alignment="BASELINE_RIGHT" text="Send"
+                        style="-fx-background-color: #0C4D3B;
+                                           -fx-text-fill: white;
+                                           -fx-font-weight: bold;
+                                           -fx-padding: 8 20;
+                                           -fx-background-radius: 20;"/>
+            </HBox>
         </VBox>
-
-        <HBox alignment="BOTTOM_CENTER" prefHeight="20">
-            <TextField fx:id="messageField" prefWidth="1150" alignment="BASELINE_LEFT"/>
-            <Button onAction="#handleSendButton" alignment="BASELINE_RIGHT">Send</Button>
-        </HBox>
 
         <!-- ========== BOTTOM NAVIGATION ========== -->
         <HBox fx:id = "bottomNav"

@@ -29,12 +29,16 @@ public class MessagerController {
     @FXML private HBox headerBar;
     @FXML private HBox bottomNav;
 
+    @FXML private Button sendButton;
     @FXML private Button backButton;
     @FXML private Button addUserButton;
     @FXML private Button homeButton;
     @FXML private Button searchButton;
     @FXML private Button profileButton;
 
+
+    boolean editingOrSending = true; //FALSE = Editing TRUE = Sending
+    Message editingMessage;
 
     private MessageDAOImpl messageDAO = new MessageDAOImpl();
     private User currentUser = SessionManager.getUser();
@@ -44,27 +48,6 @@ public class MessagerController {
     public void initialize(){
         loadMessages();
         applyTheme();
-    }
-
-    //Themes
-    // Applying theme color in here
-    private void applyTheme(){
-        String gradient = "linear-gradient(to right, "
-                + ThemeManager.primaryStart + ", "
-                + ThemeManager.primaryEnd + ")";
-
-        String headerStyle =
-                "-fx-background-color: " + gradient + ";" +
-                        "-fx-background-radius:15;" +
-                        "-fx-border-radius:15;" +
-                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
-
-        if (headerBar != null)
-            headerBar.setStyle(headerStyle);
-
-        if (bottomNav != null)
-            bottomNav.setStyle("-fx-background-color: " + gradient + ";");
-
     }
 
 
@@ -87,22 +70,43 @@ public class MessagerController {
 
     private HBox createMessageContainer(Message message){
         HBox row = new HBox(10);
-        row.setStyle("-fx-padding: 8; -fx-background-color: #F5F5F5; -fx-background-radius: 8;");
+
+        row.setStyle("-fx-padding: 8; -fx-background-color: #f0eded; -fx-background-radius: 8; -fx-pref-width: 1175");
         row.setPrefHeight(40);
 
         Label messageLabel = new Label(message.getMessageText());
 
+        row.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(messageLabel, Priority.ALWAYS);
-
 
         if(message.getSenderId() == currentUser.getId()){
             row.setAlignment(Pos.CENTER_RIGHT);
+            row.getChildren().addAll(messageLabel);
         }
         else{
             row.setAlignment(Pos.CENTER_LEFT);
+            Button editButton = new Button("Edit");
+            Button deleteButton = new Button("Delete");
+            editButton.setStyle("-fx-background-color: #f0d16c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
+            deleteButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
+            editButton.setAlignment(Pos.BASELINE_RIGHT);
+            deleteButton.setAlignment(Pos.BASELINE_RIGHT);
+
+            deleteButton.setOnAction(e -> {
+                messageDAO.deleteMessage(message.getId());
+                loadMessages();
+            });
+
+            editButton.setOnAction(e -> {
+                messageField.setText(message.getMessageText());
+                editingOrSending = false; //Editing
+                editingMessage = message;
+            });
+
+
+            row.getChildren().addAll(messageLabel, editButton, deleteButton);
         }
 
-        row.getChildren().addAll(messageLabel);
         return row;
     }
 
@@ -110,14 +114,23 @@ public class MessagerController {
     @FXML
     private void handleSendButton(){
         String text = messageField.getText();
-        if(!text.isEmpty()){
-            messageDAO.addMessage(text, currentUser.getId(), recieverUser.getId());
-            loadMessages();
-            messageField.setText("");
+        if(editingOrSending){
+            if(!text.isEmpty()){
+                messageDAO.addMessage(text, currentUser.getId(), recieverUser.getId());
+                loadMessages();
+                messageField.setText("");
+            }
+            else{
+                showAlert("Empty Message", "Please send thoughtful messages");
+            }
         }
         else{
-            showAlert("Empty Message", "Please send thoughtful messages");
+            messageDAO.editMessage(editingMessage.getId(), text);
+            loadMessages();
+            messageField.setText("");
+            editingOrSending = true;
         }
+
 
     }
 
@@ -165,6 +178,27 @@ public class MessagerController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    //Themes
+    // Applying theme color in here
+    private void applyTheme(){
+        String gradient = "linear-gradient(to right, "
+                + ThemeManager.primaryStart + ", "
+                + ThemeManager.primaryEnd + ")";
+
+        String headerStyle =
+                "-fx-background-color: " + gradient + ";" +
+                        "-fx-background-radius:15;" +
+                        "-fx-border-radius:15;" +
+                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
+
+        if (headerBar != null)
+            headerBar.setStyle(headerStyle);
+
+        if (bottomNav != null)
+            bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+
     }
 
 }
