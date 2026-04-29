@@ -22,7 +22,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.shape.Circle;
 import java.time.format.DateTimeFormatter;
-
+import javafx.scene.layout.StackPane;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +82,8 @@ public class mainController {
 
     @FXML
     private Button exitButton;
+    @FXML
+    private Button requestPageButton;
 
     @FXML
     private VBox comparePanel;
@@ -111,18 +113,25 @@ public class mainController {
     private List<User> filteredUsers = new ArrayList<>();
     private List<CheckBox> userCheckBoxes = new ArrayList<>();
 
+
+    public static mainController instance;
+
     @FXML
     public void initialize() {
 
-        loadPosts();
+
+        instance = this;
         User sessionUser = SessionManager.getUser();
         if (sessionUser != null) {
             User fullUser = userDAO.getUserById(sessionUser.getId());
             SessionManager.setUser(fullUser);
             setUser(fullUser);
+
         }
 
         applyTheme();
+        loadPosts();
+
 
 
 
@@ -193,6 +202,7 @@ public class mainController {
         ThemeManager.primaryBackGround = "#F1FBF0";
         applyTheme();
         loadPosts();
+
     }
 
     public void setBlue() {
@@ -209,6 +219,7 @@ public class mainController {
         ThemeManager.primaryBackGround = "#FAF0FB";
         applyTheme();
         loadPosts();
+
     }
 
     public void setOrange() {
@@ -217,6 +228,7 @@ public class mainController {
         ThemeManager.primaryBackGround = "#FBF4F0";
         applyTheme();
         loadPosts();
+
     }
 
     public void setRed() {
@@ -225,6 +237,7 @@ public class mainController {
         ThemeManager.primaryBackGround = "#FBF0F0";
         applyTheme();
         loadPosts();
+
     }
 
 
@@ -312,8 +325,11 @@ public class mainController {
     }
 
 
+
+
+
     // This part load all posts from database by time and show them in the main content as cards
-    public void loadPosts(){
+    public void loadPosts() {
 
         PostDAO postdao = new PostDaoImpl();
         UserDAO userDao = new UserDAOImpl();
@@ -322,45 +338,39 @@ public class mainController {
 
         mainContent.getChildren().clear();
 
-        // 🔥 CRITICAL LINE
-        mainContent.setFillWidth(true);
-
-        for (Post post : posts){
+        for (Post post : posts) {
 
             User user = userDao.getUserById(post.getUserId());
 
-            VBox postCard = createPostCard(post, user);
+            StackPane card = createPostCard(post, user);
 
-            // 🔥 FORCE FULL WIDTH
-            postCard.setMaxWidth(Double.MAX_VALUE);
-            VBox.setVgrow(postCard, Priority.NEVER);
-
-            mainContent.getChildren().add(postCard);
+            mainContent.getChildren().add(card);
         }
     }
+    private StackPane createPostCard(Post post, User user){
 
-    private VBox createPostCard(Post post, User user){
+        PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
+        JoinRequestDao requestDAO = new JoinRequestDaoImpl();
+        UserDAO userDAO = new UserDAOImpl();
+        StackPane root = new StackPane();
 
-        VBox card = new VBox(10);
+        VBox card = new VBox(12);
 
-        // 🔥 THESE 3 LINES ARE THE KEY FIX
         card.setPrefWidth(900);
         card.setMaxWidth(900);
-
-        card.setPrefHeight(300);   // ⬅️ increase height
-        card.setMinHeight(300);
+        card.setPrefHeight(320);
 
         card.setStyle(
                 "-fx-background-color: linear-gradient(from 100% 0% to 0% 0%, " +
                         ThemeManager.primaryBackGround + ", white);" +
-                        " -fx-background-radius: 15;"+
+                        "-fx-background-radius: 15;" +
                         "-fx-padding: 15;" +
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);"
         );
 
+        // ================= USER HEADER =================
         HBox userBox = new HBox(10);
         userBox.setAlignment(Pos.CENTER_LEFT);
-        userBox.setMaxWidth(Double.MAX_VALUE);
 
         ImageView profileImage = new ImageView();
         profileImage.setFitWidth(40);
@@ -383,41 +393,106 @@ public class mainController {
             ));
         }
 
-        Circle clip = new Circle(20, 20, 20);
-        profileImage.setClip(clip);
+        profileImage.setClip(new Circle(20, 20, 20));
 
         Label userName = new Label(
                 user != null ? user.getFirstName() + " " + user.getLastName() : "Unknown"
         );
-        userName.setStyle(
-                "-fx-font-weight: bold;" +
-                        "-fx-font-size: 18px;" +
-                        "-fx-text-fill: black;"
-        );
+        userName.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy • HH:mm");
-
         Label date = new Label(post.getCreatedAt().format(formatter));
         date.setStyle("-fx-text-fill: gray; -fx-font-size: 12;");
 
         VBox nameBox = new VBox(userName, date);
-
         userBox.getChildren().addAll(profileImage, nameBox);
 
-        //  a single line in the post feed
-        Separator separator = new Separator();
-        separator.setStyle("-fx-background-color: #E0E0E0;");
-        separator.setMaxWidth(Double.MAX_VALUE);
-
+        // ================= CONTENT =================
         Label content = new Label(post.getContent());
         content.setWrapText(true);
-        content.setMaxWidth(Double.MAX_VALUE);
 
-        card.getChildren().addAll(userBox, separator,  content);
+        // ================= PARTICIPANT BOXES =================
+        HBox boxContainer = new HBox(8);
 
-        return card;
+        List<Integer> participants = participantDAO.getUserIdsByPost(post.getId());
+        int max = post.getMaxParticipants();
+
+        User currentUser = SessionManager.getUser();
+
+        for (int i = 0; i < max; i++) {
+
+            VBox box = new VBox();
+            box.setPrefSize(100, 100);
+            box.setAlignment(Pos.CENTER);
+            box.setStyle("-fx-border-color: "+ ThemeManager.primaryEnd+ "; -fx-border-radius: 5; -fx-background-radius: 5;");
+
+            if (i < participants.size()) {
+                //  FILLED BOX
+                User pUser = userDAO.getUserById(participants.get(i));
+
+                ImageView avatar = new ImageView();
+                avatar.setFitWidth(60);
+                avatar.setFitHeight(60);
+
+                try {
+                    if (pUser != null && pUser.getProfilePicture() != null) {
+                        File file = new File("profile_images/" + pUser.getProfilePicture());
+                        if (file.exists()) {
+                            avatar.setImage(new Image(file.toURI().toString()));
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (avatar.getImage() == null) {
+                    avatar.setImage(new Image(
+                            getClass().getResource("/com/example/newdesign/images/default.png").toExternalForm()
+                    ));
+                }
+
+                avatar.setClip(new Circle(30, 30, 30));
+                Label name = new Label(pUser.getFirstName());
+                name.setStyle("-fx-font-size: 10px;");
+                box.getChildren().addAll(avatar, name);
+
+            } else {
+                // ➕ EMPTY BOX
+                Label plus = new Label("+");
+                plus.setStyle("-fx-font-size: 18px; -fx-text-fill: gray;");
+
+                Label slotLabel = new Label("Member " + (i + 1));
+                slotLabel.setStyle("-fx-font-size: 10px; -fx-text-fill: gray;");
+
+                box.getChildren().addAll(plus, slotLabel);
+
+                box.setOnMouseClicked(e -> {
+                    if (currentUser == null){
+                        Notifier.showToast(root, "Please login first");
+                    return;}
+
+                    if (!requestDAO.exists(post.getId(), currentUser.getId())) {
+                        requestDAO.create(post.getId(), currentUser.getId(), "PENDING");
+                        Notifier.showToast(root, "Request sent!");
+
+
+                    } else { Notifier.showToast(root, "Already requested!");
+
+                    }
+                });
+            }
+
+            boxContainer.getChildren().add(box);
+        }
+
+        // ================= FINAL LAYOUT =================
+        Separator separator = new Separator();
+
+        card.getChildren().addAll(userBox, separator, content, boxContainer);
+        root.getChildren().add(card);
+
+        return root;
     }
-
 
 
 
@@ -445,6 +520,19 @@ public class mainController {
         fade.setToValue(1);
         fade.play();
         stage.setScene(scene);
+    }
+    public void handleRequestPage() throws Exception{
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("requests-view.fxml")
+        );
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+        stage.setScene(scene);
+
     }
 
     public void handleProfClick() throws Exception {

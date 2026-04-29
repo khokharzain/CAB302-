@@ -11,8 +11,7 @@
            fx:controller="com.example.newdesign.postController"
            fx:id="rootPane">
 
-    <!-- MAIN UI -->
-    <AnchorPane prefHeight="400.0" prefWidth="600.0"
+    <AnchorPane prefHeight="600.0" prefWidth="800.0"
                 style="-fx-background-color: #F7F5FA;">
 
         <VBox AnchorPane.topAnchor="0"
@@ -36,7 +35,7 @@
                               -fx-font-weight: bold;"/>
             </HBox>
 
-            <!-- CONTENT -->
+            <!-- MAIN CONTENT -->
             <VBox alignment="TOP_CENTER"
                   spacing="20"
                   VBox.vgrow="ALWAYS"
@@ -45,9 +44,9 @@
 
                 <!-- POST CARD -->
                 <VBox spacing="15"
-                      alignment="CENTER"
-                      maxWidth="Infinity"
-                      prefHeight="800"
+                      alignment="TOP_LEFT"
+                      fillWidth="true"
+
                       style="-fx-background-color: white;
                              -fx-background-radius: 15;
                              -fx-padding: 20;
@@ -71,17 +70,31 @@
                         </VBox>
                     </HBox>
 
-                    <!-- TEXT AREA -->
+                    <!-- POST INPUT -->
                     <TextArea fx:id="postTextArea"
-                              promptText="Hi, I am studying CAB302 at QUT and looking for a teammate with strong Java skills..."
+                              promptText="Hi, I am studying CAB302 at QUT and looking for teammates..."
                               wrapText="true"
-                              prefHeight="400"/>
+                              prefHeight="500"
+                              style="-fx-background-radius: 10;
+                                     -fx-border-radius: 10;"/>
 
-                    <!-- FOOTER -->
-                    <HBox alignment="CENTER_RIGHT">
+                    <!-- PARTICIPANT + PUBLISH ROW -->
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+
+                        <!-- NEW: Number of participants -->
+                        <TextField fx:id="maxParticipantsField"
+                                   promptText="People (e.g. 3)"
+                                   prefWidth="140"
+                                   style="-fx-background-radius: 10;
+                                          -fx-border-radius: 10;
+                                          -fx-padding: 5;" />
+
                         <Button fx:id="publishButton"
                                 text="Publish"
-                                onAction="#handlePublish"/>
+                                onAction="#handlePublish"
+                                style="-fx-background-radius: 10;
+                                       -fx-font-weight: bold;
+                                       -fx-padding: 8 20;" />
                     </HBox>
 
                 </VBox>
@@ -91,7 +104,7 @@
             <HBox fx:id="bottomNav"
                   alignment="CENTER"
                   spacing="50"
-                  prefHeight="40"
+                  prefHeight="50"
                   style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A)">
 
                 <Button fx:id="homeButton"
@@ -115,6 +128,7 @@
                 </Button>
 
                 <Button fx:id="postButton"
+                        onAction="#handlePostButton"
                         style="-fx-background-color: transparent;">
                     <graphic>
                         <ImageView fitHeight="22" fitWidth="22">

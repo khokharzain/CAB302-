@@ -100,18 +100,42 @@ public class DataBaseInitialiser {
             System.out.println("Created Reviews table ✔");
 
 
-
             String createPostsTable = "CREATE TABLE IF NOT EXISTS Posts (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "userId INTEGER NOT NULL, " +
                     "content TEXT NOT NULL, " +
                     "createdAt TEXT NOT NULL, " +
+                    "max_participants INTEGER DEFAULT 1, " +  // 👈 ADD THIS
                     "FOREIGN KEY (userId) REFERENCES Users(id)" +
                     ")";
             stmt.execute(createPostsTable);
+
+
+            String createJoinRequestTable = "CREATE TABLE IF NOT EXISTS JoinRequest (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "post_id INTEGER, " +
+                    "requester_id INTEGER, " +
+                    "status TEXT, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.execute(createJoinRequestTable);
+
+
+            String createParticipantsTable = "CREATE TABLE IF NOT EXISTS PostParticipant (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "post_id INTEGER, " +
+                    "user_id INTEGER, " +
+                    "joined_at TEXT DEFAULT CURRENT_TIMESTAMP, " +
+                    "UNIQUE(post_id, user_id)" +
+                    ")";
+            stmt.execute(createParticipantsTable);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // made some changes on the post database, new columns added as maxParticipants
+
+
 
 
 

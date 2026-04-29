@@ -7,4 +7,5 @@ public interface PostDAO {
 
     void addPost(Post post);
     List<Post> getAllPosts();
+    Post getPostById(int id);
 }
