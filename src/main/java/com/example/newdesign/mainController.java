@@ -1643,7 +1643,7 @@ public class mainController {
         } catch (Exception e) {
             System.out.println("comment-icon.png not found");
         }
-    /// REVIEW SECTION ON HOME PAGE ///
+    /// REVIEW SECTION ON HOME PAGE /// @zain
         Label reviewsTitle = new Label(" REVIEWS");
         reviewsTitle.setFont(Font.font("SF Pro Text", FontWeight.BOLD, 11));
         reviewsTitle.setStyle("-fx-text-fill: #0C4D3B;");
