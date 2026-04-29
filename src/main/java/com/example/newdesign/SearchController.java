@@ -111,7 +111,7 @@ public class SearchController {
         }
     }
 
-    //  NEW: show clickable trending skills
+    //   show clickable trending skills
     private void showSuggestions(List<String> skills) {
 
         suggestionsContainer.getChildren().clear();
@@ -311,6 +311,9 @@ public class SearchController {
         header.getChildren().addAll(imageView, nameBox);
 
         // ===== INFO =====
+
+        Label email = new Label("email: " + user.getEmail());
+
         Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
         bio.setWrapText(true);
 
@@ -331,7 +334,7 @@ public class SearchController {
         );
 
         // ===== ADD ALL =====
-        card.getChildren().addAll(topBar, header, bio, skills, hobbies);
+        card.getChildren().addAll(topBar, header, email, bio, skills, hobbies);
 
         overlay.getChildren().add(card);
 

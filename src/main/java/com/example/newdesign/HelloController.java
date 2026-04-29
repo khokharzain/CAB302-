@@ -68,7 +68,7 @@ public class HelloController {
 
         if (user != null) {
 
-            // ✅ FIX: SET USER FIRST (VERY IMPORTANT)
+
             SessionManager.setUser(user);
 
             System.out.println("LOGIN USER: " + user.getFirstName()); // debug

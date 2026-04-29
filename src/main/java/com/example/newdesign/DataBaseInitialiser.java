@@ -10,7 +10,7 @@ public class DataBaseInitialiser {
             Connection conn = DBconnection.connect();
             Statement stmt = conn.createStatement();
 
-            // ✅ Create table with profile_picture included
+            //  Create table with profile_picture included
             String sql = "CREATE TABLE IF NOT EXISTS Users (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "firstName TEXT, " +
@@ -23,7 +23,7 @@ public class DataBaseInitialiser {
 
             stmt.execute(sql);
 
-            // ✅ Safe ALTER for existing databases (won’t crash if column already exists)
+            //  Safe ALTER
             try {
                 String addProfile = "ALTER TABLE Users ADD COLUMN profile_picture TEXT DEFAULT 'default.png'";
                 stmt.execute(addProfile);
@@ -99,8 +99,45 @@ public class DataBaseInitialiser {
             stmt.execute(createReviewsTable);
             System.out.println("Created Reviews table ✔");
 
+
+            String createPostsTable = "CREATE TABLE IF NOT EXISTS Posts (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "userId INTEGER NOT NULL, " +
+                    "content TEXT NOT NULL, " +
+                    "createdAt TEXT NOT NULL, " +
+                    "max_participants INTEGER DEFAULT 1, " +  // 👈 ADD THIS
+                    "FOREIGN KEY (userId) REFERENCES Users(id)" +
+                    ")";
+            stmt.execute(createPostsTable);
+
+
+            String createJoinRequestTable = "CREATE TABLE IF NOT EXISTS JoinRequest (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "post_id INTEGER, " +
+                    "requester_id INTEGER, " +
+                    "status TEXT, " +
+                    "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+                    ")";
+            stmt.execute(createJoinRequestTable);
+
+
+            String createParticipantsTable = "CREATE TABLE IF NOT EXISTS PostParticipant (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "post_id INTEGER, " +
+                    "user_id INTEGER, " +
+                    "joined_at TEXT DEFAULT CURRENT_TIMESTAMP, " +
+                    "UNIQUE(post_id, user_id)" +
+                    ")";
+            stmt.execute(createParticipantsTable);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // made some changes on the post database, new columns added as maxParticipants
+
+
+
+
+
     }
 }
