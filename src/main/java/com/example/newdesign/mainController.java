@@ -347,6 +347,10 @@ public class mainController {
             mainContent.getChildren().add(card);
         }
     }
+
+
+
+    // this is the main post cards
     private StackPane createPostCard(Post post, User user){
 
         PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
