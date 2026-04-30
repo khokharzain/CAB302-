@@ -30,84 +30,61 @@ import java.util.stream.Collectors;
 
 public class mainController {
 
+    // ================== STATE ==================
     private User currentUser;
 
 
-    @FXML
-    private VBox mainContent;
-    @FXML
-    private ImageView profilePicture;
+    // ================== MAIN LAYOUT ==================
+    @FXML private VBox mainContent;
+    @FXML private StackPane popupLayer;
 
-    @FXML
-    private Label firstNameLabel;
 
-    @FXML
-    private Label lastNameLabel;
+    // ================== HEADER ==================
+    @FXML private HBox headerBar;
+    @FXML private Region profileStrip;
 
-    @FXML
-    private Label emailLabel;
 
-    @FXML
-    private Label phoneLabel;
+    // ================== NAVIGATION ==================
+    @FXML private HBox bottomNav;
+    @FXML private Button profileButton;
+    @FXML private Button postButton;
+    @FXML private Button searchButton;
+    @FXML private Button requestPageButton;
 
-    @FXML
-    private Button profileButton;
 
-    @FXML
-    private Button postButton;
+    // ================== PROFILE SECTION ==================
+    @FXML private VBox profilelayout;
+    @FXML private ImageView profilePicture;
 
-    @FXML
-    private VBox profilelayout;
+    @FXML private Label firstNameLabel;
+    @FXML private Label lastNameLabel;
+    @FXML private Label emailLabel;
+    @FXML private Label phoneLabel;
 
-    @FXML
-    private Button searchButton;
 
-    @FXML
-    private HBox headerBar;
+    // ================== AI PANEL ==================
+    @FXML private VBox aiPanel;
+    @FXML private HBox aiHeader;
+    @FXML private VBox aiResponseArea;
 
-    @FXML
-    private HBox bottomNav;
+    @FXML private Button floatingAISummoner;
+    @FXML private Button exitButton;
 
-    @FXML
-    private Region profileStrip;
 
-    @FXML
-    private Button floatingAISummoner;
+    // ================== ACTION PANELS ==================
+    @FXML private VBox actionButtonsPanel;
 
-    @FXML
-    private VBox aiPanel;
 
-    @FXML
-    private VBox actionButtonsPanel;
+    // ================== SKILL SELECTION ==================
+    @FXML private VBox skillSelectionPanel;
+    @FXML private ComboBox<String> skillCombo;
 
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button requestPageButton;
 
-    @FXML
-    private VBox comparePanel;
-
-    @FXML
-    private VBox skillSelectionPanel;
-
-    @FXML
-    private ComboBox<String> skillCombo;
-
-    @FXML
-    private VBox compareSkillSelectionPanel;
-
-    @FXML
-    private ComboBox<String> compareSkillCombo;
-
-    @FXML
-    private VBox usersToCompareContainer;
-
-    @FXML
-    private VBox aiResponseArea;
-    @FXML
-    private HBox aiHeader;
-
+    // ================== COMPARE FEATURE ==================
+    @FXML private VBox comparePanel;
+    @FXML private VBox compareSkillSelectionPanel;
+    @FXML private ComboBox<String> compareSkillCombo;
+    @FXML private VBox usersToCompareContainer;
     private UserDAOImpl userDAO = new UserDAOImpl();
     private List<User> allUsers = new ArrayList<>();
     private List<User> filteredUsers = new ArrayList<>();
@@ -307,6 +284,7 @@ public class mainController {
         }
     }
 
+    //// Loads all users from database and filters them for display // Updated User review function and user rating system @zain
     private void loadAllUsers() {
         List<User> basicUsers = userDAO.searchUsers("");
         allUsers.clear();
@@ -323,8 +301,6 @@ public class mainController {
             }
         }
     }
-
-
 
 
 
@@ -347,6 +323,10 @@ public class mainController {
             mainContent.getChildren().add(card);
         }
     }
+
+
+
+    // this is the main post cards
     private StackPane createPostCard(Post post, User user){
 
         PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
@@ -394,6 +374,10 @@ public class mainController {
         }
 
         profileImage.setClip(new Circle(20, 20, 20));
+        profileImage.setOnMouseClicked( e->{
+            showUserPopUp(user);
+
+        });
 
         Label userName = new Label(
                 user != null ? user.getFirstName() + " " + user.getLastName() : "Unknown"
@@ -455,6 +439,10 @@ public class mainController {
                 Label name = new Label(pUser.getFirstName());
                 name.setStyle("-fx-font-size: 10px;");
                 box.getChildren().addAll(avatar, name);
+                avatar.setOnMouseClicked(e -> {
+
+                    showUserPopUp(pUser);
+                });
 
             } else {
                 // ➕ EMPTY BOX
@@ -493,6 +481,140 @@ public class mainController {
 
         return root;
     }
+
+
+
+
+    private void showUserPopUp(User user) {
+
+        popupLayer.getChildren().clear();
+        popupLayer.setVisible(true);
+
+
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+        overlay.setAlignment(Pos.CENTER);
+
+        // the layout
+        VBox card = new VBox(15);
+        card.setMaxWidth(300);
+        card.setMaxHeight(400);
+        card.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryBackGround+ ";" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-padding: 20;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-border-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-border-width: 5;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
+        );
+
+        // ===== TOP BAR =====
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.TOP_RIGHT);
+
+        Button closeBtn = new Button("X");
+        closeBtn.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                        "-fx-font-weight: bold;"
+        );
+        closeBtn.setOnAction(e -> popupLayer.setVisible(false));
+
+        topBar.getChildren().add(closeBtn);
+
+        // ===== PROFILE (IMAGE + NAME) =====
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+
+        Image image;
+        try {
+            if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+                File file = new File("profile_images/" + user.getProfilePicture());
+                if (file.exists()) {
+                    image = new Image(file.toURI().toString());
+                } else {
+                    image = new Image(getClass()
+                            .getResource("/com/example/newdesign/images/default.png")
+                            .toString());
+                }
+            } else {
+                image = new Image(getClass()
+                        .getResource("/com/example/newdesign/images/default.png")
+                        .toString());
+            }
+        } catch (Exception e) {
+            image = new Image(getClass()
+                    .getResource("/com/example/newdesign/images/default.png")
+                    .toString());
+        }
+
+        imageView.setImage(image);
+
+        // make image round
+        imageView.setClip(new javafx.scene.shape.Circle(25, 25, 25));
+
+        VBox nameBox = new VBox(2);
+
+        Label name = new Label(user.getFullName());
+        name.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label username = new Label("@" + user.getUsername());
+        username.setStyle("-fx-text-fill: gray;");
+
+        nameBox.getChildren().addAll(name, username);
+        header.getChildren().addAll(imageView, nameBox);
+
+        // ===== INFO =====
+
+        Label email = new Label("email: " + user.getEmail());
+
+        Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
+        bio.setWrapText(true);
+
+        Label skills = new Label(
+                "Skills: " + (user.getSkills() == null || user.getSkills().isEmpty() ? "None" :
+                        user.getSkills().stream()
+                                .map(Skill::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+        Label hobbies = new Label(
+                "Hobbies: " + (user.getHobbies() == null || user.getHobbies().isEmpty() ? "None" :
+                        user.getHobbies().stream()
+                                .map(Hobby::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+        Label rating = new Label("rating: " + String.valueOf(user.getAverageRating()));
+        rating.setStyle("_fx-text-fill: gold");
+
+
+        // ===== ADD ALL =====
+        Separator separator = new Separator();
+
+        card.getChildren().addAll(topBar,  header, separator, email,rating,  bio, skills, hobbies);
+
+        overlay.getChildren().add(card);
+
+        // click outside closes popup
+        overlay.setOnMouseClicked(e -> popupLayer.setVisible(false));
+
+        // prevent closing when clicking card
+        card.setOnMouseClicked(e -> e.consume());
+
+        popupLayer.getChildren().add(overlay);
+    }
+
+
+
+
 
 
 
@@ -1428,7 +1550,7 @@ public class mainController {
         } catch (Exception e) {
             System.out.println("comment-icon.png not found");
         }
-
+    /// REVIEW SECTION ON HOME PAGE ///
         Label reviewsTitle = new Label(" REVIEWS");
         reviewsTitle.setFont(Font.font("SF Pro Text", FontWeight.BOLD, 11));
         reviewsTitle.setStyle("-fx-text-fill: #0C4D3B;");
@@ -1600,6 +1722,8 @@ public class mainController {
             fadeIn.play();
         }
     }
+
+
 
     private static class UserMatch {
         User user;
