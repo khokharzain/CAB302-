@@ -1550,7 +1550,9 @@ public class mainController {
         } catch (Exception e) {
             System.out.println("comment-icon.png not found");
         }
-    /// REVIEW SECTION ON HOME PAGE /// @zain
+        // Shows the selected user's review summary on the home/compare cards
+        // Only the first two reviews are displayed to keep the card compact
+        // REVIEW SECTION ON HOME PAGE /// @zain
         Label reviewsTitle = new Label(" REVIEWS");
         reviewsTitle.setFont(Font.font("SF Pro Text", FontWeight.BOLD, 11));
         reviewsTitle.setStyle("-fx-text-fill: #0C4D3B;");
@@ -1560,8 +1562,10 @@ public class mainController {
         reviewsTitleBox.getChildren().addAll(commentIcon, reviewsTitle);
 
         VBox reviewsBox = new VBox(4);
+        // Gets reviews already loaded from the user object/database
         List<Review> reviews = user.getReviews();
         if (reviews != null && !reviews.isEmpty()) {
+            // Display a maximum of two reviews in the card preview @zain
             for (int i = 0; i < Math.min(2, reviews.size()); i++) {
                 Review r = reviews.get(i);
                 HBox reviewRow = new HBox(5);

@@ -10,7 +10,9 @@ public class DataBaseInitialiser {
             Connection conn = DBconnection.connect();
             Statement stmt = conn.createStatement();
 
-            //  Create table with profile_picture included
+            // Creates Users table including profile_picture column
+            // Only the image filename is stored here, not the actual image file
+            // Actual images are stored locally in /profile_images/ @zain
             String sql = "CREATE TABLE IF NOT EXISTS Users (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "firstName TEXT, " +
@@ -18,6 +20,7 @@ public class DataBaseInitialiser {
                     "email TEXT UNIQUE, " +
                     "phone TEXT, " +
                     "passwordHash TEXT, " +
+                    // Stores profile image filename (default used if user has no image) @zain
                     "profile_picture TEXT DEFAULT 'default.png'" +
                     ")";
 

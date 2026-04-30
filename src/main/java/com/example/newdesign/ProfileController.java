@@ -64,7 +64,20 @@ public class ProfileController {
     @FXML private Button addTeachSkillButton;
     @FXML private Button addLearnSkillButton;
     @FXML private Button addHobbyButton;
-
+    /*
+     * ProfileController
+     *
+     * Controls the profile page of the application.
+     *
+     * Responsibilities:
+     * - Load and display current user data
+     * - Handle profile editing and image upload
+     * - Manage skills and hobbies (add/remove)
+     * - Display reviews
+     * - Show group members
+     * - Allow leaving reviews via popup
+     * - Handle navigation between pages
+     */
 
     @FXML
     private HBox headerBar;
@@ -77,6 +90,7 @@ public class ProfileController {
 
     @FXML
     public void initialize() {
+        // Load logged-in user from session
         currentUser = SessionManager.getUser();
 
         if (currentUser != null) {
@@ -124,7 +138,7 @@ public class ProfileController {
     }
 
     // ========== Load Data ==========
-
+    // Loads basic user information into UI labels
     private void loadProfileData() {
         // Basic info
         fullNameLabel.setText(currentUser.getFullName());
@@ -151,6 +165,7 @@ public class ProfileController {
 
     private void loadSkills() {
         // Clear existing content
+        // Loads teach and learn skills into their respective UI containers
         teachSkillsContainer.getChildren().clear();
         learnSkillsContainer.getChildren().clear();
 
@@ -195,6 +210,7 @@ public class ProfileController {
     }
 
     private void loadReviews() {
+        // Loads reviews (ratings + comments) from user object into UI
         reviewsContainer.getChildren().clear();
 
         List<Review> reviews = currentUser.getReviews();
@@ -212,6 +228,7 @@ public class ProfileController {
     // ========== Create UI Rows ==========
 
     private HBox createSkillRow(Skill skill) {
+        // Creates a UI row for a skill with remove button
         HBox row = new HBox(10);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setStyle("-fx-padding: 8; -fx-background-color: #F5F5F5; -fx-background-radius: 8;");
@@ -428,6 +445,7 @@ public class ProfileController {
 
     @FXML
     private void handleEditProfile() {
+        // Opens edit profile dialog and updates user details
         showEditProfileDialog();
     }
 
@@ -515,6 +533,7 @@ public class ProfileController {
 
     @FXML
     public void chooseProfilePicture() {
+        // Allows user to select and save a profile image locally
         if (currentUser == null) return;
 
         FileChooser fileChooser = new FileChooser();
