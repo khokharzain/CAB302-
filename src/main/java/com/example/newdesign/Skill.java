@@ -1,17 +1,23 @@
 package com.example.newdesign;
 
+/**
+ * A simple model class representing a skill with userId, skillName, type, proficiency and category.
+ */
 public class Skill {
     private int id;
-    private int userId;           // Which user owns this skill
-    private String skillName;     // e.g., "Java", "Guitar", "Photography"
-    private SkillType type;       // TEACH or LEARN
+    private int userId;
+    private String skillName;
+    private SkillType type;
     private Proficiency proficiency;
-    private String category;      // Optional: "Programming", "Music", etc.
+    private String category;
 
-    // Default constructor
     public Skill() {}
 
-    // Constructor for new skill
+    /**
+     * @param userId
+     * @param skillName
+     * @param type
+     */
     public Skill(int userId, String skillName, SkillType type) {
         this.userId = userId;
         this.skillName = skillName;
@@ -19,7 +25,14 @@ public class Skill {
         this.proficiency = Proficiency.BEGINNER;
     }
 
-    // Full constructor
+    /**
+     * @param id
+     * @param userId
+     * @param skillName
+     * @param type
+     * @param proficiency
+     * @param category
+     */
     public Skill(int id, int userId, String skillName, SkillType type,
                  Proficiency proficiency, String category) {
         this.id = id;
@@ -30,28 +43,44 @@ public class Skill {
         this.category = category;
     }
 
-    // Getters and Setters
+    /**
+     * @return id
+     */
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
+    /**
+     * @return userId
+     */
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
+    /**
+     * @return skillName
+     */
     public String getSkillName() { return skillName; }
     public void setSkillName(String skillName) { this.skillName = skillName; }
 
+    /**
+     * @return type
+     */
     public SkillType getType() { return type; }
     public void setType(SkillType type) { this.type = type; }
 
+    /**
+     * @return proficiency
+     */
     public Proficiency getProficiency() { return proficiency; }
     public void setProficiency(Proficiency proficiency) { this.proficiency = proficiency; }
 
+    /**
+     * @return category
+     */
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
 
     @Override
     public String toString() {
-        // Shows proficiency for all levels (including BEGINNER)
         String proficiencyText = proficiency != null ? " (" + proficiency + ")" : "";
         return skillName + proficiencyText;
     }
