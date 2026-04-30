@@ -8,7 +8,7 @@ public class Message {
     private String messageText;
 
     //Constructor
-    public Message (int id, int senderId, String messageText) {
+    public Message (int id, int senderId, int receiverId, String messageText) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;

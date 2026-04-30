@@ -80,6 +80,7 @@ public class MessageDAOImpl implements MessageDAO{
 
             while(rs.next()){
                 Message message = new Message(
+                        rs.getInt("id"),
                         rs.getInt("senderId"),
                         rs.getInt("recieverId"),
                         rs.getString("message")

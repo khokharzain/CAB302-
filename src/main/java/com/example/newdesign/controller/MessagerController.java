@@ -80,17 +80,13 @@ public class MessagerController {
         HBox.setHgrow(messageLabel, Priority.ALWAYS);
 
         if(message.getSenderId() == currentUser.getId()){
-            row.setAlignment(Pos.CENTER_RIGHT);
-            row.getChildren().addAll(messageLabel);
-        }
-        else{
             row.setAlignment(Pos.CENTER_LEFT);
             Button editButton = new Button("Edit");
             Button deleteButton = new Button("Delete");
             editButton.setStyle("-fx-background-color: #f0d16c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
             deleteButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
-            editButton.setAlignment(Pos.BASELINE_RIGHT);
-            deleteButton.setAlignment(Pos.BASELINE_RIGHT);
+            editButton.setAlignment(Pos.CENTER_RIGHT);
+            deleteButton.setAlignment(Pos.CENTER_RIGHT);
 
             deleteButton.setOnAction(e -> {
                 messageDAO.deleteMessage(message.getId());
@@ -103,8 +99,12 @@ public class MessagerController {
                 editingMessage = message;
             });
 
-
             row.getChildren().addAll(messageLabel, editButton, deleteButton);
+        }
+        else{
+
+            row.setAlignment(Pos.CENTER_RIGHT);
+            row.getChildren().addAll(messageLabel);
         }
 
         return row;
