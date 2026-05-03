@@ -17,6 +17,13 @@ public class postController {
     @FXML private HBox headerBar;
     @FXML private HBox bottomNav;
 
+    //Allowed for easy access of the navigation bar when present on post page, Also corrected the footer, formatting on post page
+    //@zain and @amir
+    @FXML private Button requestPageButton;
+    @FXML private Button postPageButton;
+    @FXML private Button searchPageButton;
+
+
     @FXML private TextArea postTextArea;
     @FXML private Button publishButton;
 
@@ -137,15 +144,29 @@ public class postController {
     public void handleSearchButton() throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) headerBar.getScene().getWindow();
+        Stage stage = (Stage) searchPageButton.getScene().getWindow();
         stage.setScene(scene);
     }
 
-    public void handlePostButton()throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) headerBar.getScene().getWindow();
+    //Allowed a new FXML Function to be able to be directed to the requests page through the search page. @zain and @amir
+    @FXML
+    private void handleRequestPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
         stage.setScene(scene);
+
+    }
+
+
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
     }
 
     public void handleProfileButton()throws Exception {

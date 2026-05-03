@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import javafx.stage.FileChooser;
@@ -21,6 +22,12 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+//importing the hashset and the arraylist
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import javafx.scene.shape.Circle;
 
 public class ProfileController {
 
@@ -44,9 +51,12 @@ public class ProfileController {
     @FXML private VBox learnSkillsContainer;
     @FXML private VBox hobbiesContainer;
     @FXML private VBox reviewsContainer;
+    @FXML private StackPane popupLayer;
 
     // Buttons
     @FXML private Button editProfileButton;
+    @FXML
+    private Button requestPageButton;
     // === BYRON: Changed backButton to logoutButton ===
     @FXML private Button logoutButton;
 
@@ -60,6 +70,8 @@ public class ProfileController {
     private HBox headerBar;
     @FXML
     private HBox bottomNav;
+    @FXML
+    private HBox membersContainer;
 
     // ========== Initialization ==========
 
@@ -72,6 +84,7 @@ public class ProfileController {
             loadSkills();
             loadHobbies();
             loadReviews();
+            loadGroupMembers();
         } else {
             showAlert("Error", "No user logged in");
         }
@@ -259,7 +272,7 @@ public class ProfileController {
 
         String stars = getStarString(review.getRating());
         Label ratingLabel = new Label(stars);
-        ratingLabel.setStyle("-fx-font-size: 14px;");
+        ratingLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gold");
 
         Label commentLabel = new Label(review.getComment());
         commentLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13px;");
@@ -279,9 +292,10 @@ public class ProfileController {
             stars.append("☆");
         }
         return stars.toString();
+
     }
 
-    // ========== Add Skill/Hobby Popups ==========
+    // ========== /Hobby Popups ==========
 
     @FXML
     private void handleAddTeachSkill() {
@@ -322,7 +336,7 @@ public class ProfileController {
         message.setStyle("-fx-text-fill: red;");
 
         Button addBtn = new Button("Add Skill");
-        addBtn.setStyle("-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
+        addBtn.setStyle("-fx-background-color: "+ ThemeManager.primaryStart + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
 
         addBtn.setOnAction(e -> {
             String skillName = skillNameField.getText().trim();
@@ -376,7 +390,7 @@ public class ProfileController {
         message.setStyle("-fx-text-fill: red;");
 
         Button addBtn = new Button("Add Hobby");
-        addBtn.setStyle("-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
+        addBtn.setStyle("-fx-background-color: "+ThemeManager.primaryStart +"; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
 
         addBtn.setOnAction(e -> {
             String hobbyName = hobbyNameField.getText().trim();
@@ -590,8 +604,12 @@ public class ProfileController {
     }
 
     @FXML
-    private void handleAIChat() {
-        showAlert("Info", "AI Chat feature coming soon!");
+    private void handleAIChat() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
     }
 
     @FXML
@@ -619,6 +637,313 @@ public class ProfileController {
         fade.play();
         stage.setScene(scene);
     }
+
+    //##################################################
+
+    // in here we can display all of the members that we execute from our database.
+    //we need their profile picture and userName only
+
+    private void loadGroupMembers(){
+        List<User> members = getMyGroupMembers();
+        membersContainer.getChildren().clear();
+
+        for(User user : members){
+            VBox memberCard = new VBox(5);
+            memberCard.setAlignment(Pos.CENTER);
+
+            ImageView avatar=new ImageView();
+            avatar.setFitHeight(50);
+            avatar.setFitWidth(50);
+
+            //getting the userPrfoile from our local folder;
+            try {
+                if (user.getProfilePicture() != null) {
+                    File file = new File("profile_images/" + user.getProfilePicture());
+                    if (file.exists()) {
+                        avatar.setImage(new Image(file.toURI().toString()));
+                    }
+                }
+            } catch (Exception e) {}
+
+            // fallback image
+            if (avatar.getImage() == null) {
+                avatar.setImage(new Image(
+                        getClass().getResource("/com/example/newdesign/images/default.png").toString()
+                ));
+            }
+
+            avatar.setClip(new Circle(25,25,25));
+
+            Label name = new Label(user.getFullName());
+            name.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black");
+            avatar.setOnMouseClicked(e ->{
+                showUserPopUp(user);
+            });
+            //adding into the card
+            memberCard.getChildren().addAll(avatar, name);
+            //now adding into our main container
+            membersContainer.getChildren().add(memberCard);
+
+        }
+    }
+
+
+
+
+
+
+
+    // in here we want to see all of our group members that are in the same group with us
+
+    private List<User> getMyGroupMembers() {
+        PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
+        UserDAO userDAO = new UserDAOImpl();
+
+        List<User> members = new ArrayList<>();
+        Set<Integer> added = new HashSet<>();
+        PostDAO postDAO = new PostDaoImpl();
+
+        // get all posts I joined
+        List<Integer> myPosts = participantDAO.getPostIdsByUser(currentUser.getId());
+
+        for (int postId : myPosts) {
+            List<Integer> users = participantDAO.getUserIdsByPost(postId);
+
+            Post post = postDAO.getPostById(postId);
+            if (post != null) {
+                int ownerId = post.getUserId();
+
+                if (ownerId != currentUser.getId() && !added.contains(ownerId)) {
+                    User owner = userDAO.getUserById(ownerId);
+                    if (owner != null) {
+                        members.add(owner);
+                        added.add(ownerId);
+                    }
+                }
+            }
+
+            for (int id : users) {
+                if (id != currentUser.getId() && !added.contains(id)) {
+                    User u = userDAO.getUserById(id);
+                    if (u != null) {
+                        members.add(u);
+                        added.add(id);
+                    }
+                }
+            }
+        }
+
+        return members;
+    }
+
+    //###########################################################################################
+
+
+
+    //###########################################################
+    // this  is the popup layer that can extend the members profile and get you be able to rate them
+    //getting userInfomration
+    // this is just an popup layer that pops up after clicking user card
+    private void showUserPopUp(User user) {
+
+        popupLayer.getChildren().clear();
+        popupLayer.setVisible(true);
+
+
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+        overlay.setAlignment(Pos.CENTER);
+
+        // the layout
+        VBox card = new VBox(15);
+        card.setMaxWidth(300);
+        card.setMaxHeight(400);
+        card.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryBackGround+ ";" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-padding: 20;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-border-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-border-width: 5;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
+        );
+
+        // ===== TOP BAR =====
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.TOP_RIGHT);
+
+        Button closeBtn = new Button("X");
+        closeBtn.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                        "-fx-font-weight: bold;"
+        );
+        closeBtn.setOnAction(e -> popupLayer.setVisible(false));
+
+        topBar.getChildren().add(closeBtn);
+
+        // ===== PROFILE (IMAGE + NAME) =====
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+
+        Image image;
+        try {
+            if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+                File file = new File("profile_images/" + user.getProfilePicture());
+                if (file.exists()) {
+                    image = new Image(file.toURI().toString());
+                } else {
+                    image = new Image(getClass()
+                            .getResource("/com/example/newdesign/images/default.png")
+                            .toString());
+                }
+            } else {
+                image = new Image(getClass()
+                        .getResource("/com/example/newdesign/images/default.png")
+                        .toString());
+            }
+        } catch (Exception e) {
+            image = new Image(getClass()
+                    .getResource("/com/example/newdesign/images/default.png")
+                    .toString());
+        }
+
+        imageView.setImage(image);
+
+        // make image round
+        imageView.setClip(new javafx.scene.shape.Circle(25, 25, 25));
+
+        VBox nameBox = new VBox(2);
+
+        Label name = new Label(user.getFullName());
+        name.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label username = new Label("@" + user.getUsername());
+        username.setStyle("-fx-text-fill: gray;");
+
+        nameBox.getChildren().addAll(name, username);
+        header.getChildren().addAll(imageView, nameBox);
+
+        // ===== INFO =====
+
+        Label email = new Label("email: " + user.getEmail());
+
+        Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
+        bio.setWrapText(true);
+
+        Label skills = new Label(
+                "Skills: " + (user.getSkills() == null || user.getSkills().isEmpty() ? "None" :
+                        user.getSkills().stream()
+                                .map(Skill::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+        Label hobbies = new Label(
+                "Hobbies: " + (user.getHobbies() == null || user.getHobbies().isEmpty() ? "None" :
+                        user.getHobbies().stream()
+                                .map(Hobby::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+
+        Label reviewTitle = new Label("Leave a Review");
+        reviewTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+
+        ComboBox<Integer> ratingBox = new ComboBox<>();
+        ratingBox.getItems().addAll(1, 2, 3, 4, 5);
+        ratingBox.setPromptText("Rating / 5");
+
+        TextArea reviewArea = new TextArea();
+        reviewArea.setPromptText("Write your review...");
+        reviewArea.setPrefRowCount(3);
+        reviewArea.setWrapText(true);
+        reviewArea.setMaxWidth(260);
+
+        Button submitReviewButton = new Button("Submit Review");
+        submitReviewButton.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 7 12;"
+        );
+
+        submitReviewButton.setOnAction(e -> {
+            Integer rating = ratingBox.getValue();
+            String comment = reviewArea.getText().trim();
+
+            if (rating == null || comment.isEmpty()) {
+                Notifier.showToast(popupLayer,"Please select a rating and write a review.");
+
+                return;
+            }
+
+            User reviewer = SessionManager.getUser();
+
+            if (reviewer == null) {
+                Notifier.showToast(popupLayer,"You must be logged in to leave a review.");
+
+                return;
+            }
+
+            Review review = new Review(
+                    0,
+                    reviewer.getId(),
+                    user.getId(),
+                    0,
+                    rating,
+                    comment,
+                    java.time.LocalDateTime.now()
+            );
+
+            UserDAOImpl dao = new UserDAOImpl();
+            boolean saved = dao.addReview(review);
+
+            if (saved) {
+                Notifier.showToast(popupLayer,"Review submitted successfully.");
+
+                ratingBox.setValue(null);
+                reviewArea.clear();
+            } else {
+
+                Notifier.showToast(popupLayer,"Review could not be saved.");
+            }
+        });
+
+        card.getChildren().addAll(
+                topBar,
+                header,
+                email,
+                bio,
+                skills,
+                hobbies,
+                reviewTitle,
+                ratingBox,
+                reviewArea,
+                submitReviewButton
+        );
+
+        overlay.getChildren().add(card);
+
+        // click outside closes popup
+        overlay.setOnMouseClicked(e -> popupLayer.setVisible(false));
+
+        // prevent closing when clicking card
+        card.setOnMouseClicked(e -> e.consume());
+
+        popupLayer.getChildren().add(overlay);
+    }
+
+    //###################################################
+
+
+
 
     // ========== Helper ==========
 

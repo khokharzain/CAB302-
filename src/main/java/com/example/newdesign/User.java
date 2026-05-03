@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A simple model class representing the user with first name, last name, email, phone, password hash and a profile
+ * picture.
+ */
 public class User {
-
     // ========== EXISTING FIELDS (Amir's) ==========
     private int id;                    // NEW: Added for database ID
     private String firstName;
@@ -38,7 +41,14 @@ public class User {
         this.joinDate = LocalDate.now();
     }
 
-    // Amir's existing constructor (for signup)
+    /**
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phone
+     * @param password
+     * @param profilePicture
+     */
     public User(String firstName, String lastName, String email, String phone, String password, String profilePicture) {
         this();
         this.firstName = firstName;
@@ -52,7 +62,13 @@ public class User {
         this.joinDate = LocalDate.now();
     }
 
-    // Amir's existing constructor (for login)
+    /**
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phone
+     * @param profilePicture
+     */
     public User(String firstName, String lastName, String email, String phone, String profilePicture) {
         this();
         this.firstName = firstName;
@@ -64,7 +80,19 @@ public class User {
         this.joinDate = LocalDate.now();
     }
 
-    // Byron's full constructor (with all fields including id)
+    /**
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phone
+     * @param passwordHash
+     * @param profilePicture
+     * @param username
+     * @param bio
+     * @param location
+     * @param joinDate
+     */
     public User(int id, String firstName, String lastName, String email, String phone,
                 String passwordHash, String profilePicture, String username,
                 String bio, String location, LocalDate joinDate) {
@@ -84,11 +112,12 @@ public class User {
 
     // ========== GETTERS & SETTERS (Amir's + Byron's) ==========
 
-    // ID field (Byron's)
+    /**
+     * @return id
+     */
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    // Amir's existing getters/setters
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
@@ -107,7 +136,6 @@ public class User {
     public String getProfilePicture() { return profilePicture; }
     public void setProfilePicture(String profilePicture) { this.profilePicture = profilePicture; }
 
-    // Byron's added getters and setters
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
@@ -129,13 +157,15 @@ public class User {
     public List<Hobby> getHobbies() { return hobbies; }
     public void setHobbies(List<Hobby> hobbies) { this.hobbies = hobbies; }
 
-    // Password setter (keeps Amir's hashing method)
     public void setPassword(String password) {
         this.passwordHash = Integer.toHexString(password.hashCode());
     }
 
     // ========== SKILL MANAGEMENT ==========
 
+    /**
+     * @param skill
+     */
     public void addSkill(Skill skill) {
         if (this.skills == null) {
             this.skills = new ArrayList<>();
@@ -149,6 +179,9 @@ public class User {
         }
     }
 
+    /**
+     * @return teachSkills
+     */
     public List<Skill> getTeachSkills() {
         if (skills == null) return new ArrayList<>();
         return skills.stream()
@@ -156,6 +189,9 @@ public class User {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @return learnSkills
+     */
     public List<Skill> getLearnSkills() {
         if (skills == null) return new ArrayList<>();
         return skills.stream()
@@ -165,6 +201,9 @@ public class User {
 
     // ========== HOBBY MANAGEMENT ==========
 
+    /**
+     * @param hobby
+     */
     public void addHobby(Hobby hobby) {
         if (this.hobbies == null) {
             this.hobbies = new ArrayList<>();
@@ -180,6 +219,9 @@ public class User {
 
     // ========== REVIEW MANAGEMENT ==========
 
+    /**
+     * @param review
+     */
     public void addReview(Review review) {
         if (this.reviews == null) {
             this.reviews = new ArrayList<>();
@@ -187,6 +229,9 @@ public class User {
         this.reviews.add(review);
     }
 
+    /**
+     * @return averageRating
+     */
     public double getAverageRating() {
         if (reviews == null || reviews.isEmpty()) return 0.0;
         return reviews.stream()
@@ -195,6 +240,9 @@ public class User {
                 .orElse(0.0);
     }
 
+    /**
+     * @return formattedRating
+     */
     public String getFormattedRating() {
         double avg = getAverageRating();
         if (avg == 0.0) return "No ratings yet";
@@ -203,10 +251,16 @@ public class User {
 
     // ========== VALIDATION / BUSINESS LOGIC ==========
 
+    /**
+     * @return true or false
+     */
     public boolean isValidEmail() {
         return email != null && email.contains("@") && email.contains(".");
     }
 
+    /**
+     * @return true or false
+     */
     public boolean hasCompleteProfile() {
         return firstName != null && !firstName.trim().isEmpty()
                 && lastName != null && !lastName.trim().isEmpty()
@@ -216,10 +270,16 @@ public class User {
 
     // ========== DISPLAY HELPERS ==========
 
+    /**
+     * @return fullName
+     */
     public String getFullName() {
         return firstName + " " + lastName;
     }
 
+    /**
+     * @return displayName
+     */
     public String getDisplayName() {
         return getFullName() + (username != null ? " @" + username : "");
     }

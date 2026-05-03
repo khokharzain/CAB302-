@@ -1,35 +1,50 @@
 package com.example.newdesign;
 
-import javafx.application.Application;
-
+/**
+ * A simple model class representing a hobby with userId and hobbyName.
+ */
 public class Hobby {
     private int id;
-    private int userId;           // Which user owns this hobby
-    private String hobbyName;     // e.g., "Hiking", "Chess", "Reading"
+    private int userId;
+    private String hobbyName;
 
-    // Default constructor
     public Hobby() {}
 
-    // Constructor for new hobby
+    /**
+     * @param userId
+     * @param hobbyName
+     */
     public Hobby(int userId, String hobbyName) {
         this.userId = userId;
         this.hobbyName = hobbyName;
     }
 
-    // Full constructor
+    /**
+     * @param id
+     * @param userId
+     * @param hobbyName
+     */
     public Hobby(int id, int userId, String hobbyName) {
         this.id = id;
         this.userId = userId;
         this.hobbyName = hobbyName;
     }
 
-    // Getters and Setters
+    /**
+     * @return id
+     */
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
+    /**
+     * @return userId
+     */
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
 
+    /**
+     * @return hobbyName
+     */
     public String getHobbyName() { return hobbyName; }
     public void setHobbyName(String hobbyName) { this.hobbyName = hobbyName; }
 
@@ -37,6 +52,4 @@ public class Hobby {
     public String toString() {
         return hobbyName;
     }
-
-
 }
