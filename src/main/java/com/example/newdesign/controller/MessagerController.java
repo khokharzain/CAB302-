@@ -43,6 +43,7 @@ public class MessagerController {
     private MessageDAOImpl messageDAO = new MessageDAOImpl();
     private User currentUser = SessionManager.getUser();
     private User recieverUser = SearchController.Otheruser;
+    private int currentGroupid;
 
     @FXML
     public void initialize(){
@@ -53,21 +54,40 @@ public class MessagerController {
 
     // MAIN CONTENTS
 
+    /**
+     * A method that gets a list of messages and creates Message objects to
+     * display on the UI
+     */
     private void loadMessages(){
         messageContainer.getChildren().clear();
 
         List<Message> messages = messageDAO.getMessages(currentUser.getId(), recieverUser.getId());
 
-        if(messages != null)
+        if(messages != null && !messages.isEmpty())
         {
+            currentGroupid = messages.getFirst().getGroupId();
             for(Message message: messages)
             {
                 messageContainer.getChildren().add(createMessageContainer(message));
             }
         }
+        else
+        {
+            //Assume this is a new group chat (No ID)
+            // Create a new group ID by grabbing the max ID and adding 1
+            currentGroupid = messageDAO.getMaxGroupId() + 1;
+        }
 
     }
 
+    /**
+     * A method that creates the Message UI to display on the interface
+     * It creates a different UI depending if it's the User's message or the Reciever's
+     * A User's Message will have an edit and delete button while a reciever's does not
+     *
+     * @param message
+     * @return row
+     */
     private HBox createMessageContainer(Message message){
         HBox row = new HBox(10);
 
@@ -83,8 +103,10 @@ public class MessagerController {
             row.setAlignment(Pos.CENTER_LEFT);
             Button editButton = new Button("Edit");
             Button deleteButton = new Button("Delete");
-            editButton.setStyle("-fx-background-color: #f0d16c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
-            deleteButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
+            editButton.setStyle("-fx-background-color: #f0d16c; -fx-text-fill: white;" +
+                    " -fx-background-radius: 5; -fx-font-size: 11px;");
+            deleteButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white;" +
+                    " -fx-background-radius: 5; -fx-font-size: 11px;");
             editButton.setAlignment(Pos.CENTER_RIGHT);
             deleteButton.setAlignment(Pos.CENTER_RIGHT);
 
@@ -111,12 +133,17 @@ public class MessagerController {
     }
 
 
+    /**
+     * Send button is multifunctional
+     * If editingOrSending is TRUE: The button will Add the message to the DB and display it
+     * If editingOrSending is FALSE: The button will edit the message before reloading the messages
+     */
     @FXML
     private void handleSendButton(){
         String text = messageField.getText();
         if(editingOrSending){
             if(!text.isEmpty()){
-                messageDAO.addMessage(text, currentUser.getId(), recieverUser.getId());
+                messageDAO.addMessage(text, currentUser.getId(), recieverUser.getId(), currentGroupid);
                 loadMessages();
                 messageField.setText("");
             }
@@ -136,7 +163,10 @@ public class MessagerController {
 
 
     // Buttons
-
+    /**
+     * Any Button with this method changes the Scene to the Home Screen
+     * @throws Exception
+     */
     @FXML
     private void handleHomeButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
@@ -145,6 +175,10 @@ public class MessagerController {
         stage.setScene(scene);
     }
 
+    /**
+     * Any Button with this method changes the Scene to the User Profile Screen
+     * @throws Exception
+     */
     @FXML
     private void handleProfileButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
@@ -153,6 +187,10 @@ public class MessagerController {
         stage.setScene(scene);
     }
 
+    /**
+     * Any Button with this method changes the Scene to the Search Screen
+     * @throws Exception
+     */
     @FXML
     private void handleSearchButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
@@ -161,6 +199,10 @@ public class MessagerController {
         stage.setScene(scene);
     }
 
+    /**
+     * Any Button with this method changes the Scene to the Other User (Selected User) Profile Screen
+     * @throws Exception
+     */
     @FXML
     private void handleOtherUserButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
@@ -180,8 +222,9 @@ public class MessagerController {
         alert.showAndWait();
     }
 
-    //Themes
-    // Applying theme color in here
+    /**
+     * Applies the chosen theme to the header and footer
+     */
     private void applyTheme(){
         String gradient = "linear-gradient(to right, "
                 + ThemeManager.primaryStart + ", "

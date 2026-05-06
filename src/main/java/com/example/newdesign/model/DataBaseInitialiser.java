@@ -136,6 +136,7 @@ public class DataBaseInitialiser {
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, "+
                     "senderId INTEGER," +
                     "recieverId INTEGER," +
+                    "groupId INTEGER" +
                     "message TEXT," +
                     "FOREIGN KEY(senderId) REFERENCES Users(id)," +
                     "FOREIGN KEY(senderId) REFERENCES Users(id)"+

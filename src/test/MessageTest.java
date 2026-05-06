@@ -9,7 +9,7 @@ private Message message;
 
 @BeforeEach
     public void SetUp(){
-    message = new Message(1,19,  3,"Hello");
+    message = new Message(1,19,  3, 10,"Hello");
     }
 
     @Test

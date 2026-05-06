@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/MessageTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DataBaseInitialiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/DataBaseInitialiser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/MessageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/MessageTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/MessagingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/MessagingTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -178,6 +180,7 @@
       <workItem from="1777102460542" duration="8701000" />
       <workItem from="1777133965196" duration="30124000" />
       <workItem from="1777382146151" duration="14261000" />
+      <workItem from="1778073742809" duration="4348000" />
     </task>
     <servers />
   </component>

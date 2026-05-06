@@ -21,7 +21,7 @@ public class MessagingTest {
 
     @Test
     public void testSendMessage(){
-        messageDAO.addMessage("Hello", 10,20);
+        messageDAO.addMessage("Hello", 10,20, 10);
         messages = messageDAO.getMessages(10,20);
         id = messages.getFirst().getId();
         assertEquals(1, messages.toArray().length);
