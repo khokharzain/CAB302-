@@ -46,6 +46,8 @@ public class PostParticipantDaoImpl implements PostParticipantDAO {
         return 0;
     }
 
+
+    //in here we can get the user by post Id
     @Override
     public List<Integer> getUserIdsByPost(int postId) {
         List<Integer> users = new ArrayList<>();
@@ -67,4 +69,32 @@ public class PostParticipantDaoImpl implements PostParticipantDAO {
 
         return users;
     }
+
+    // this function needed in the profile to show all of our group members
+    //we need to get all users by Post Id
+    @Override
+    public List<Integer> getPostIdsByUser(int userId){
+        List<Integer> posts = new ArrayList<>();
+        String sql = "SELECT post_id FROM PostParticipant WHERE user_id=?";
+
+        try(Connection conn = DBconnection.connect();
+        PreparedStatement stmt= conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                posts.add(rs.getInt("post_id"));
+            }
+
+            }catch(Exception e){
+            e.printStackTrace();
+
+
+        }
+        return posts;
+
+    }
+
+
+
 }

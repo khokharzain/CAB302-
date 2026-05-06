@@ -308,8 +308,14 @@ public class RequestController {
                 )
         );
 
+        Label rating = new Label("rating: " + String.valueOf(user.getAverageRating()));
+        rating.setStyle("_fx-text-fill: gold");
+
+
         // ===== ADD ALL =====
-        card.getChildren().addAll(topBar, header, email, bio, skills, hobbies);
+        Separator separator = new Separator();
+
+        card.getChildren().addAll(topBar,  header, separator, email,rating,  bio, skills, hobbies);
 
         overlay.getChildren().add(card);
 
@@ -321,6 +327,7 @@ public class RequestController {
 
         popupLayer.getChildren().add(overlay);
     }
+
 
 
 

@@ -16,26 +16,25 @@ import java.io.File;
 
 public class postController {
 
-    @FXML
-    private HBox headerBar;
-    @FXML
-    private HBox bottomNav;
+    @FXML private HBox headerBar;
+    @FXML private HBox bottomNav;
 
-    @FXML
-    private TextArea postTextArea;
-    @FXML
-    private Button publishButton;
-
-    @FXML
-    private Label userName;
-    @FXML
-    private ImageView profileImage;
-    @FXML
-    private StackPane rootPane;
+    //Allowed for easy access of the navigation bar when present on post page, Also corrected the footer, formatting on post page
+    //@zain and @amir
+    @FXML private Button requestPageButton;
+    @FXML private Button postPageButton;
+    @FXML private Button searchPageButton;
 
 
-    @FXML
-    private TextField maxParticipantsField;
+    @FXML private TextArea postTextArea;
+    @FXML private Button publishButton;
+
+    @FXML private Label userName;
+    @FXML private ImageView profileImage;
+    @FXML private StackPane rootPane;
+
+
+    @FXML private TextField maxParticipantsField;
 
     private PostDAO postDAO = new PostDaoImpl();
 
@@ -104,17 +103,17 @@ public class postController {
     }
 
     // 🚀 FIXED PUBLISH METHOD
-    public void handlePublish() {
+    public void handlePublish(){
 
         String content = postTextArea.getText();
 
-        if (content == null || content.isEmpty()) {
+        if(content == null || content.isEmpty()){
             Notifier.showToast(rootPane, "Post cannot be empty");
             return;
         }
 
         User currentUser = SessionManager.getUser();
-        if (currentUser == null) {
+        if(currentUser == null){
             System.out.println("No user logged in");
             return;
         }
@@ -137,38 +136,50 @@ public class postController {
         postDAO.addPost(post);
 
         postTextArea.clear();
-        if (maxParticipantsField != null) maxParticipantsField.clear();
+        if(maxParticipantsField != null) maxParticipantsField.clear();
 
         Notifier.showToast(rootPane, "Post published!");
     }
 
     // ================= NAVIGATION =================
 
-    @FXML
-    private void handleHomeButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+    public void handleSearchButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) headerBar.getScene().getWindow();
+        Stage stage = (Stage) searchPageButton.getScene().getWindow();
         stage.setScene(scene);
     }
 
+    //Allowed a new FXML Function to be able to be directed to the requests page through the search page. @zain and @amir
     @FXML
-    private void handleProfileButton() throws Exception{
+    private void handleRequestPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    public void handleProfileButton()throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
     }
 
-    public void handleSearchButton() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) headerBar.getScene().getWindow();
-        stage.setScene(scene);
-    }
-
-    public void handlePostButton() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+    public void handleHomeButton()throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) headerBar.getScene().getWindow();
         stage.setScene(scene);
