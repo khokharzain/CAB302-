@@ -121,6 +121,19 @@ public class ProfileController {
                     "-fx-padding: 8 20;" +
                     " -fx-background-radius: 20;");
         }
+
+        // === BYRON: Make Add Skill and Add Hobby buttons follow theme ===
+        if(addTeachSkillButton != null){
+            String addButtonStyle = "-fx-background-color: " + ThemeManager.primaryBackGround + ";" +
+                    "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-padding: 8 15;" +
+                    "-fx-background-radius: 15;" +
+                    "-fx-cursor: hand;";
+            addTeachSkillButton.setStyle(addButtonStyle);
+            addLearnSkillButton.setStyle(addButtonStyle);
+            addHobbyButton.setStyle(addButtonStyle);
+        }
     }
 
     // ========== Load Data ==========
@@ -687,12 +700,6 @@ public class ProfileController {
         }
     }
 
-
-
-
-
-
-
     // in here we want to see all of our group members that are in the same group with us
 
     private List<User> getMyGroupMembers() {
@@ -737,8 +744,6 @@ public class ProfileController {
     }
 
     //###########################################################################################
-
-
 
     //###########################################################
     // this  is the popup layer that can extend the members profile and get you be able to rate them
@@ -941,9 +946,6 @@ public class ProfileController {
     }
 
     //###################################################
-
-
-
 
     // ========== Helper ==========
 
