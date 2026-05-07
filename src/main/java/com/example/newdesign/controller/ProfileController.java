@@ -56,7 +56,13 @@ public class ProfileController {
     @FXML private StackPane popupLayer;
 
     // Buttons
-    @FXML private Button editProfileButton;
+    // Add buttons
+    @FXML private Button addTeachSkillButton;
+    @FXML private Button addLearnSkillButton;
+    @FXML private Button addHobbyButton;
+
+    @FXML
+    private Button editProfileButton;
     @FXML
     private Button requestPageButton;
     // === BYRON: Changed backButton to logoutButton ===

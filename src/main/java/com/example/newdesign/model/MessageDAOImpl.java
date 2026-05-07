@@ -38,8 +38,11 @@ public class MessageDAOImpl implements MessageDAO{
     }
 
     @Override
-    public void addGroupMessage() {
+    public void addGroupMessage(List<User> Users, int senderId, int groupId) {
+        for(User user : Users) {
+            String sql = "INSERT INTO Messages (senderId, recieverId, groupId, message) VALUES (?,?,?,?)";
 
+        }
     }
 
 
@@ -182,6 +185,7 @@ public class MessageDAOImpl implements MessageDAO{
      */
     @Override
     public void addUser(int Userid) {
+        String sql = "";
 
     }
 

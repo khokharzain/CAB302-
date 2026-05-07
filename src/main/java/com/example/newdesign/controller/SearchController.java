@@ -251,6 +251,7 @@ public class SearchController {
     // this is the container that show all information from the choosen user.
 
 
+
     private void showUserPopUp(User user) {
 
         popupLayer.getChildren().clear();
