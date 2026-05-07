@@ -1,8 +1,6 @@
 package com.example.newdesign;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,7 +29,7 @@ import java.util.stream.Collectors;
  * AIFloatingController - Contains ALL AI Assistant logic
  * Moved from mainController.java
  */
-public class AIFloatingController {
+public class AIController {
 
     private User currentUser;
 

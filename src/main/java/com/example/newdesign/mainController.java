@@ -13,7 +13,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.animation.FadeTransition;
 import javafx.util.Duration;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.shape.Circle;
 import java.time.format.DateTimeFormatter;
@@ -62,7 +61,7 @@ public class mainController {
     @FXML private ComboBox<String> compareSkillCombo;
     @FXML private VBox usersToCompareContainer;
 
-    private AIFloatingController aiController;
+    private AIController aiController;
     public static mainController instance;
 
     @FXML
@@ -79,7 +78,7 @@ public class mainController {
         loadPosts();
 
         // Initialize AI Controller and delegate
-        aiController = new AIFloatingController();
+        aiController = new AIController();
         injectAIControllerComponents();
         aiController.initialize();
     }
@@ -88,17 +87,17 @@ public class mainController {
         try {
             java.lang.reflect.Field field;
 
-            field = AIFloatingController.class.getDeclaredField("aiPanel"); field.setAccessible(true); field.set(aiController, aiPanel);
-            field = AIFloatingController.class.getDeclaredField("aiResponseArea"); field.setAccessible(true); field.set(aiController, aiResponseArea);
-            field = AIFloatingController.class.getDeclaredField("floatingAISummoner"); field.setAccessible(true); field.set(aiController, floatingAISummoner);
-            field = AIFloatingController.class.getDeclaredField("exitButton"); field.setAccessible(true); field.set(aiController, exitButton);
-            field = AIFloatingController.class.getDeclaredField("actionButtonsPanel"); field.setAccessible(true); field.set(aiController, actionButtonsPanel);
-            field = AIFloatingController.class.getDeclaredField("skillSelectionPanel"); field.setAccessible(true); field.set(aiController, skillSelectionPanel);
-            field = AIFloatingController.class.getDeclaredField("skillCombo"); field.setAccessible(true); field.set(aiController, skillCombo);
-            field = AIFloatingController.class.getDeclaredField("comparePanel"); field.setAccessible(true); field.set(aiController, comparePanel);
-            field = AIFloatingController.class.getDeclaredField("compareSkillSelectionPanel"); field.setAccessible(true); field.set(aiController, compareSkillSelectionPanel);
-            field = AIFloatingController.class.getDeclaredField("compareSkillCombo"); field.setAccessible(true); field.set(aiController, compareSkillCombo);
-            field = AIFloatingController.class.getDeclaredField("usersToCompareContainer"); field.setAccessible(true); field.set(aiController, usersToCompareContainer);
+            field = AIController.class.getDeclaredField("aiPanel"); field.setAccessible(true); field.set(aiController, aiPanel);
+            field = AIController.class.getDeclaredField("aiResponseArea"); field.setAccessible(true); field.set(aiController, aiResponseArea);
+            field = AIController.class.getDeclaredField("floatingAISummoner"); field.setAccessible(true); field.set(aiController, floatingAISummoner);
+            field = AIController.class.getDeclaredField("exitButton"); field.setAccessible(true); field.set(aiController, exitButton);
+            field = AIController.class.getDeclaredField("actionButtonsPanel"); field.setAccessible(true); field.set(aiController, actionButtonsPanel);
+            field = AIController.class.getDeclaredField("skillSelectionPanel"); field.setAccessible(true); field.set(aiController, skillSelectionPanel);
+            field = AIController.class.getDeclaredField("skillCombo"); field.setAccessible(true); field.set(aiController, skillCombo);
+            field = AIController.class.getDeclaredField("comparePanel"); field.setAccessible(true); field.set(aiController, comparePanel);
+            field = AIController.class.getDeclaredField("compareSkillSelectionPanel"); field.setAccessible(true); field.set(aiController, compareSkillSelectionPanel);
+            field = AIController.class.getDeclaredField("compareSkillCombo"); field.setAccessible(true); field.set(aiController, compareSkillCombo);
+            field = AIController.class.getDeclaredField("usersToCompareContainer"); field.setAccessible(true); field.set(aiController, usersToCompareContainer);
         } catch (Exception e) {
             e.printStackTrace();
         }
