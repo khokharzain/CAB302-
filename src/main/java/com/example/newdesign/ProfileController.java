@@ -65,6 +65,13 @@ public class ProfileController {
     @FXML private Button addLearnSkillButton;
     @FXML private Button addHobbyButton;
 
+    // === BYRON: Headings for theme styling ===
+    @FXML private Label bioHeadingLabel;
+    @FXML private Label skillsTeachHeadingLabel;
+    @FXML private Label skillsLearnHeadingLabel;
+    @FXML private Label hobbiesHeadingLabel;
+    @FXML private Label reviewsHeadingLabel;
+    @FXML private Label teamMembersHeadingLabel;
 
     @FXML
     private HBox headerBar;
@@ -133,6 +140,21 @@ public class ProfileController {
             addTeachSkillButton.setStyle(addButtonStyle);
             addLearnSkillButton.setStyle(addButtonStyle);
             addHobbyButton.setStyle(addButtonStyle);
+        }
+
+        // === BYRON: Make headings and username follow theme ===
+        String headingStyle = "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String subHeadingStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String usernameStyle = "-fx-font-size: 14px; -fx-text-fill: " + ThemeManager.primaryEnd + ";";
+
+        if(skillsTeachHeadingLabel != null){
+            skillsTeachHeadingLabel.setStyle(headingStyle);
+            skillsLearnHeadingLabel.setStyle(headingStyle);
+            hobbiesHeadingLabel.setStyle(headingStyle);
+            reviewsHeadingLabel.setStyle(headingStyle);
+            teamMembersHeadingLabel.setStyle(subHeadingStyle);
+            bioHeadingLabel.setStyle(subHeadingStyle);
+            usernameLabel.setStyle(usernameStyle);
         }
     }
 
