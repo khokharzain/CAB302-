@@ -66,6 +66,13 @@ public class ProfileController {
     @FXML private Button addLearnSkillButton;
     @FXML private Button addHobbyButton;
 
+    // === BYRON: Headings for theme styling ===
+    @FXML private Label bioHeadingLabel;
+    @FXML private Label skillsTeachHeadingLabel;
+    @FXML private Label skillsLearnHeadingLabel;
+    @FXML private Label hobbiesHeadingLabel;
+    @FXML private Label reviewsHeadingLabel;
+    @FXML private Label teamMembersHeadingLabel;
 
     @FXML
     private HBox headerBar;
@@ -121,6 +128,34 @@ public class ProfileController {
                     "-fx-font-weight: bold;" +
                     "-fx-padding: 8 20;" +
                     " -fx-background-radius: 20;");
+        }
+
+        // === BYRON: Make Add Skill and Add Hobby buttons follow theme ===
+        if(addTeachSkillButton != null){
+            String addButtonStyle = "-fx-background-color: " + ThemeManager.primaryBackGround + ";" +
+                    "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-padding: 8 15;" +
+                    "-fx-background-radius: 15;" +
+                    "-fx-cursor: hand;";
+            addTeachSkillButton.setStyle(addButtonStyle);
+            addLearnSkillButton.setStyle(addButtonStyle);
+            addHobbyButton.setStyle(addButtonStyle);
+        }
+
+        // === BYRON: Make headings and username follow theme ===
+        String headingStyle = "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String subHeadingStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String usernameStyle = "-fx-font-size: 14px; -fx-text-fill: " + ThemeManager.primaryEnd + ";";
+
+        if(skillsTeachHeadingLabel != null){
+            skillsTeachHeadingLabel.setStyle(headingStyle);
+            skillsLearnHeadingLabel.setStyle(headingStyle);
+            hobbiesHeadingLabel.setStyle(headingStyle);
+            reviewsHeadingLabel.setStyle(headingStyle);
+            teamMembersHeadingLabel.setStyle(subHeadingStyle);
+            bioHeadingLabel.setStyle(subHeadingStyle);
+            usernameLabel.setStyle(usernameStyle);
         }
     }
 
@@ -696,12 +731,6 @@ public class ProfileController {
         }
     }
 
-
-
-
-
-
-
     // in here we want to see all of our group members that are in the same group with us
 
     private List<User> getMyGroupMembers() {
@@ -746,8 +775,6 @@ public class ProfileController {
     }
 
     //###########################################################################################
-
-
 
     //###########################################################
     // this  is the popup layer that can extend the members profile and get you be able to rate them
@@ -950,9 +977,6 @@ public class ProfileController {
     }
 
     //###################################################
-
-
-
 
     // ========== Helper ==========
 
