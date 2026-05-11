@@ -300,7 +300,12 @@ public class SearchController {
         Label email = new Label("Email: " + user.getEmail());
         email.setWrapText(true);
 
-        VBox leftCard = new VBox(14, imageView, name, username, email);
+        // rating
+        Label rating = new Label(String.valueOf(user.getAverageRating()));
+        rating.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+
+
+        VBox leftCard = new VBox(14, imageView, name, username, email, rating);
         leftCard.setAlignment(Pos.TOP_CENTER);
         leftCard.setPrefWidth(260);
         leftCard.setStyle(
@@ -352,10 +357,26 @@ public class SearchController {
         hobbies.setWrapText(true);
         hobbies.setStyle("-fx-font-size: 15px;");
 
+        // new label added to show the rating and reviews form the user
+
+        Label reviewsTitle = new Label("Reviews");
+        reviewsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label reviews = new Label(
+                user.getReviews() == null || user.getReviews().isEmpty()
+                ? "NO Reviws added yet."
+                        : user.getReviews().stream()
+                        .map(Review::toString)
+                        .collect(java.util.stream.Collectors.joining(", "))
+        );
+
+
+
         rightPanel.getChildren().addAll(
                 bioTitle, bio,
                 skillsTitle, skills,
-                hobbiesTitle, hobbies
+                hobbiesTitle, hobbies,
+                reviewsTitle, reviews
         );
 
         HBox content = new HBox(25, leftCard, rightPanel);
