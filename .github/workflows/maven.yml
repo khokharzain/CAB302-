@@ -2,9 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [ "bubase-branch" ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ "bubase-branch" ]
+    branches: [ "*" ]
 
 jobs:
   build:
