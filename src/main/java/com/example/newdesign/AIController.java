@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * AIFloatingController - Contains ALL AI Assistant logic
- * Moved from mainController.java
+ * AIFloatingController - Handles Find Matches and Compare Users features.
+ * Manages AI panel UI, skill selection, user comparison, and profile popups.
  */
 public class AIController {
 
@@ -57,6 +57,11 @@ public class AIController {
     private List<User> filteredUsers = new ArrayList<>();
     private List<CheckBox> userCheckBoxes = new ArrayList<>();
 
+    /**
+     * Initializes the AI Controller.
+     * Loads the current user from SessionManager, populates skill dropdowns,
+     * and sets up the UI components.
+     */
     @FXML
     public void initialize() {
         User sessionUser = SessionManager.getUser();
@@ -112,6 +117,10 @@ public class AIController {
         loadAllUsers();
     }
 
+    /**
+     * Loads all users from the database except the current user.
+     * Populates the internal list of users for matching and comparison.
+     */
     private void loadAllUsers() {
         List<User> basicUsers = userDAO.searchUsers("");
         allUsers.clear();
@@ -129,6 +138,11 @@ public class AIController {
         }
     }
 
+    /**
+     * Toggles the AI panel visibility with smooth fade and scale animations.
+     * When opening, the floating AI button disappears and the panel appears.
+     * When closing, the panel disappears and the button reappears.
+     */
     @FXML
     public void toggleAIPanel() {
         if (aiPanel != null && floatingAISummoner != null) {
@@ -170,6 +184,10 @@ public class AIController {
         }
     }
 
+    /**
+     * Animates the action buttons sliding in sequentially from the left.
+     * Creates a progressive reveal effect when the AI panel opens.
+     */
     private void animateButtonsSequentially() {
         if (actionButtonsPanel != null && actionButtonsPanel.getChildren() != null) {
             List<javafx.scene.Node> buttons = actionButtonsPanel.getChildren();
@@ -194,6 +212,10 @@ public class AIController {
         }
     }
 
+    /**
+     * Closes the AI panel with a fade-out animation.
+     * Resets to main menu when animation completes.
+     */
     @FXML
     public void closeAIPanel() {
         if (aiPanel != null) {
@@ -209,6 +231,11 @@ public class AIController {
         }
     }
 
+    /**
+     * Resets the AI panel to the main menu state.
+     * Shows action buttons, hides exit button, clears response area,
+     * and shows the floating AI button.
+     */
     @FXML
     public void resetToMainMenu() {
         if (actionButtonsPanel != null) {
@@ -246,6 +273,10 @@ public class AIController {
         }
     }
 
+    /**
+     * Hides the action buttons and shows the exit button.
+     * Used when entering a sub-feature (Find Matches or Compare Users).
+     */
     private void showActionAndExit() {
         if (actionButtonsPanel != null) {
             actionButtonsPanel.setVisible(false);
@@ -263,6 +294,12 @@ public class AIController {
         }
     }
 
+    /**
+     * Animates a container fading in.
+     * Used for skill selection panels and compare panels.
+     *
+     * @param container the VBox to animate
+     */
     private void animateContentFadeIn(VBox container) {
         if (container != null) {
             container.setOpacity(0);
@@ -273,6 +310,10 @@ public class AIController {
         }
     }
 
+    /**
+     * Handles the Find Matches button click.
+     * Validates user has learn skills, then shows skill selection dropdown.
+     */
     @FXML
     public void handleFindMatches() {
         if (currentUser == null) {
@@ -297,6 +338,9 @@ public class AIController {
         animateContentFadeIn(skillSelectionPanel);
     }
 
+    /**
+     * Hides the skill selection panel and returns to main menu.
+     */
     @FXML
     public void hideSkillSelectionPanel() {
         skillSelectionPanel.setVisible(false);
@@ -304,6 +348,10 @@ public class AIController {
         resetToMainMenu();
     }
 
+    /**
+     * Finds users who can teach the selected skill and displays match cards.
+     * Calculates match scores based on skill compatibility.
+     */
     @FXML
     public void findMatchesForSelectedSkill() {
         String selectedSkill = skillCombo.getValue();
@@ -373,6 +421,11 @@ public class AIController {
         displayMatchesAsButtons(matches);
     }
 
+    /**
+     * Displays match cards in a scrollable container with progressive animations.
+     *
+     * @param matches the list of matching users with their scores
+     */
     private void displayMatchesAsButtons(List<UserMatch> matches) {
         if (aiResponseArea != null) {
             aiResponseArea.getChildren().clear();
@@ -423,6 +476,13 @@ public class AIController {
         }
     }
 
+    /**
+     * Creates a visual card for a user match.
+     * Displays profile picture, name, rating, match percentage, skills, and reason.
+     *
+     * @param match the user match data
+     * @return a VBox containing the match card
+     */
     private VBox createMatchCard(UserMatch match) {
         VBox card = new VBox(8);
         card.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 12; -fx-padding: 12; -fx-cursor: hand;");
@@ -491,6 +551,12 @@ public class AIController {
         return card;
     }
 
+    /**
+     * Generates a human-readable reason why a user is a good match.
+     *
+     * @param match the user to check
+     * @return a string explaining the match reason
+     */
     private String getMatchReason(User match) {
         for (Skill myTeach : currentUser.getTeachSkills()) {
             for (Skill theirWant : match.getLearnSkills()) {
@@ -502,6 +568,9 @@ public class AIController {
         return "They can teach you a skill you want to learn!";
     }
 
+    /**
+     * Shows the Compare Users skill selection panel.
+     */
     @FXML
     public void showComparePanel() {
         if (currentUser == null) {
@@ -526,6 +595,9 @@ public class AIController {
         animateContentFadeIn(compareSkillSelectionPanel);
     }
 
+    /**
+     * Hides the compare skill selection panel and returns to main menu.
+     */
     @FXML
     public void hideCompareSkillSelectionPanel() {
         compareSkillSelectionPanel.setVisible(false);
@@ -533,6 +605,9 @@ public class AIController {
         resetToMainMenu();
     }
 
+    /**
+     * Returns to skill selection panel from user selection panel.
+     */
     @FXML
     public void backToSkillSelection() {
         comparePanel.setVisible(false);
@@ -542,6 +617,10 @@ public class AIController {
         animateContentFadeIn(compareSkillSelectionPanel);
     }
 
+    /**
+     * Shows a list of users who can teach the selected skill with checkboxes.
+     * Users can select exactly two users to compare.
+     */
     @FXML
     public void showUsersForCompare() {
         String selectedSkill = compareSkillCombo.getValue();
@@ -568,7 +647,8 @@ public class AIController {
 
         if (filteredUsers.isEmpty()) {
             StringBuilder availableSkills = new StringBuilder();
-            java.util.Set<String> uniqueSkills = new java.util.HashSet<>();            for (User user : allUsers) {
+            java.util.Set<String> uniqueSkills = new java.util.HashSet<>();
+            for (User user : allUsers) {
                 for (Skill skill : user.getTeachSkills()) {
                     uniqueSkills.add(skill.getSkillName());
                 }
@@ -621,6 +701,13 @@ public class AIController {
         animateContentFadeIn(comparePanel);
     }
 
+    /**
+     * Creates a selectable user card with a checkbox.
+     *
+     * @param user the user to display
+     * @param skillName the skill they teach
+     * @return a VBox containing the selectable user card
+     */
     private VBox createSelectableUserCard(User user, String skillName) {
         VBox card = new VBox(6);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #E0E0E0; -fx-border-radius: 10; -fx-padding: 10;");
@@ -680,6 +767,9 @@ public class AIController {
         return card;
     }
 
+    /**
+     * Compares two selected users and displays side-by-side comparison cards.
+     */
     @FXML
     public void handleCompareSelectedUsers() {
         List<User> selectedUsers = new ArrayList<>();
@@ -703,6 +793,12 @@ public class AIController {
         comparePanel.setManaged(false);
     }
 
+    /**
+     * Displays a side-by-side comparison of two users with skills, ratings, reviews, and AI recommendation.
+     *
+     * @param user1 the first user to compare
+     * @param user2 the second user to compare
+     */
     private void displayComparisonAsCards(User user1, User user2) {
         if (aiResponseArea != null) {
             aiResponseArea.getChildren().clear();
@@ -877,6 +973,13 @@ public class AIController {
         }
     }
 
+    /**
+     * Creates a comparison card for a single user.
+     * Displays profile, rating, skills they teach, skills they want to learn, and reviews.
+     *
+     * @param user the user to display
+     * @return a VBox containing the comparison card
+     */
     private VBox createComparisonCard(User user) {
         VBox card = new VBox(8);
         card.setStyle("-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: #E0E0E0; -fx-border-radius: 15; -fx-padding: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);");
@@ -1076,6 +1179,16 @@ public class AIController {
         return card;
     }
 
+    /**
+     * Calculates the compatibility match score between the current user and another user.
+     * Score is calculated as:
+     * - +50 points for each skill the other user teaches that current user wants to learn
+     * - +50 points for each skill current user teaches that other user wants to learn
+     * - Maximum score is capped at 100%
+     *
+     * @param other the other user to compare with
+     * @return match score between 0 and 100
+     */
     private int calculateMatchScore(User other) {
         int score = 0;
         for (Skill myWant : currentUser.getLearnSkills()) {
@@ -1095,6 +1208,12 @@ public class AIController {
         return Math.min(score, 100);
     }
 
+    /**
+     * Returns a list of skills that the other user can teach that the current user wants to learn.
+     *
+     * @param other the other user
+     * @return list of matching teach skills
+     */
     private List<Skill> getMatchingTeachSkills(User other) {
         List<Skill> matches = new ArrayList<>();
         for (Skill myWant : currentUser.getLearnSkills()) {
@@ -1107,6 +1226,10 @@ public class AIController {
         return matches;
     }
 
+    /**
+     * Placeholder for Group Chat feature.
+     * Shows a message indicating the feature is under development.
+     */
     @FXML
     public void handleGroupChat() {
         showActionAndExit();
@@ -1118,19 +1241,21 @@ public class AIController {
             """);
     }
 
-    // ========== USER POPUP - SAME AS SEARCH CONTROLLER ==========
+    /**
+     * Displays a popup with user details (profile picture, name, bio, skills, hobbies, rating).
+     * Same popup as used in the Search page.
+     *
+     * @param user the user to display
+     */
     private void showUserPopUp(User user) {
-        // Get the root stage
         Stage stage = (Stage) floatingAISummoner.getScene().getWindow();
         StackPane root = (StackPane) stage.getScene().getRoot();
 
-        // Create popup overlay
         StackPane popupLayer = new StackPane();
         popupLayer.setVisible(true);
         popupLayer.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
         popupLayer.setAlignment(Pos.CENTER);
 
-        // Create card
         VBox card = new VBox(15);
         card.setMaxWidth(300);
         card.setMaxHeight(400);
@@ -1144,7 +1269,6 @@ public class AIController {
                         "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
         );
 
-        // Top bar with close button
         HBox topBar = new HBox();
         topBar.setAlignment(Pos.TOP_RIGHT);
         Button closeBtn = new Button("X");
@@ -1156,7 +1280,6 @@ public class AIController {
         closeBtn.setOnAction(e -> root.getChildren().remove(popupLayer));
         topBar.getChildren().add(closeBtn);
 
-        // Profile header
         HBox header = new HBox(10);
         header.setAlignment(Pos.CENTER_LEFT);
 
@@ -1191,7 +1314,6 @@ public class AIController {
         nameBox.getChildren().addAll(name, usernameLabel);
         header.getChildren().addAll(imageView, nameBox);
 
-        // User details
         Label email = new Label("Email: " + user.getEmail());
         Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
         bio.setWrapText(true);
@@ -1218,7 +1340,6 @@ public class AIController {
         card.getChildren().addAll(topBar, header, separator, email, rating, bio, skills, hobbies);
         popupLayer.getChildren().add(card);
 
-        // Click outside to close
         popupLayer.setOnMouseClicked(e -> root.getChildren().remove(popupLayer));
         card.setOnMouseClicked(e -> e.consume());
 
@@ -1226,11 +1347,23 @@ public class AIController {
         StackPane.setAlignment(popupLayer, Pos.CENTER);
     }
 
+    /**
+     * Formats a list of skills into a comma-separated string.
+     *
+     * @param skills the list of skills to format
+     * @return comma-separated skill names, or "None" if empty/null
+     */
     private String formatSkills(List<Skill> skills) {
         if (skills == null || skills.isEmpty()) return "None";
         return skills.stream().map(Skill::getSkillName).collect(Collectors.joining(", "));
     }
 
+    /**
+     * Converts a numerical rating into a string of star symbols.
+     *
+     * @param rating the rating (1-5)
+     * @return a string of filled stars (★) and empty stars (☆)
+     */
     private String getStarString(int rating) {
         StringBuilder stars = new StringBuilder();
         for (int i = 0; i < rating; i++) stars.append("★");
@@ -1238,6 +1371,11 @@ public class AIController {
         return stars.toString();
     }
 
+    /**
+     * Displays a text response in the AI response area with a fade-in animation.
+     *
+     * @param text the text to display
+     */
     private void showResponse(String text) {
         if (aiResponseArea != null) {
             aiResponseArea.getChildren().clear();
@@ -1256,6 +1394,9 @@ public class AIController {
         }
     }
 
+    /**
+     * Inner class to hold a user and their match score.
+     */
     private static class UserMatch {
         User user;
         int score;

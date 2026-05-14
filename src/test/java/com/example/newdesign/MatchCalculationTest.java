@@ -9,19 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Unit tests for the AI Assistant features including match calculation
- * and skill formatting functionality.
- *
- * <p>This test class verifies the core logic used in:
- * <ul>
- *   <li>FIND MATCHES feature - calculating compatibility scores</li>
- *   <li>COMPARE USERS feature - comparing two users side-by-side</li>
- *   <li>Skill display formatting</li>
- * </ul>
- *
- * @author Shahad W
- * @version 1.0
- * @since Week 9
+ * Unit tests for AI Assistant features - match calculation and skill formatting.
+ * Verifies one-way match (50%), mutual match (100%), no match (0%),
+ * skill list formatting, and edge cases like empty or null lists.
  */
 public class MatchCalculationTest {
 
