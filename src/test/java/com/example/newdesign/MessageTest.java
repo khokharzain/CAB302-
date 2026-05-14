@@ -14,6 +14,7 @@ private Message message;
     message = new Message(1,19,  3, 10,"Hello");
     }
 
+
     @Test
     public void testGetId(){
         message.setId(1);

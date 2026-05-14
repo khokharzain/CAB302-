@@ -8,7 +8,6 @@ public class Hobby {
     private int userId;
     private String hobbyName;
 
-    // Default constructor
     public Hobby() {}
 
     /**
@@ -53,6 +52,4 @@ public class Hobby {
     public String toString() {
         return hobbyName;
     }
-
-
 }

@@ -12,8 +12,8 @@
         xmlns:fx="http://javafx.com/fxml"
         fx:controller="com.example.newdesign.controller.ProfileController">
     <AnchorPane
-                prefHeight="800.0" prefWidth="1200.0"
-                style="-fx-background-color: #F5F5F5;">
+            prefHeight="800.0" prefWidth="1200.0"
+            style="-fx-background-color: #F5F5F5;">
 
         <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
               AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
@@ -86,7 +86,9 @@
                             </VBox>
                         </HBox>
                         <Separator style="-fx-padding: 15 0 10 0;"/>
-                        <Label text="Bio"
+                        <!-- === BYRON: Added fx:id for Bio heading === -->
+                        <Label fx:id="bioHeadingLabel"
+                               text="Bio"
                                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                         <Label fx:id="bioLabel"
                                style="-fx-text-fill: #555555; -fx-wrap-text: true;"
@@ -103,7 +105,9 @@
                                  -fx-background-radius: 20;
                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
                                  -fx-padding: 20;">
-                            <Label text="Skills I Can Teach"
+                            <!-- === BYRON: Added fx:id for Skills Teach heading === -->
+                            <Label fx:id="skillsTeachHeadingLabel"
+                                   text="Skills I Can Teach"
                                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                             <VBox fx:id="teachSkillsContainer" spacing="8"/>
                             <Button fx:id="addTeachSkillButton"
@@ -122,7 +126,9 @@
                                  -fx-background-radius: 20;
                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
                                  -fx-padding: 20;">
-                            <Label text="Skills I Want to Learn"
+                            <!-- === BYRON: Added fx:id for Skills Learn heading === -->
+                            <Label fx:id="skillsLearnHeadingLabel"
+                                   text="Skills I Want to Learn"
                                    style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                             <VBox fx:id="learnSkillsContainer" spacing="8"/>
                             <Button fx:id="addLearnSkillButton"
@@ -144,7 +150,9 @@
                              -fx-background-radius: 20;
                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
                              -fx-padding: 20;">
-                        <Label text="Hobbies"
+                        <!-- === BYRON: Added fx:id for Hobbies heading === -->
+                        <Label fx:id="hobbiesHeadingLabel"
+                               text="Hobbies"
                                style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                         <VBox fx:id="hobbiesContainer" spacing="8"/>
                         <Button fx:id="addHobbyButton"
@@ -165,17 +173,22 @@
                              -fx-background-radius: 20;
                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
                              -fx-padding: 20;">
-                        <Label text="Reviews"
+                        <!-- === BYRON: Added fx:id for Reviews heading === -->
+                        <Label fx:id="reviewsHeadingLabel"
+                               text="Reviews"
                                style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                         <VBox fx:id="reviewsContainer" spacing="10"/>
                     </VBox>
+
+                    <!-- ========== TEAM MEMBERS SECTION ========== -->
                     <VBox alignment="CENTER_LEFT" spacing="10"
                           style="-fx-background-color: white;
                              -fx-background-radius: 20;
                              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
-                             -fx-padding: 20;"
-                    >
-                        <Label text="Team members"
+                             -fx-padding: 20;">
+                        <!-- === BYRON: Added fx:id for Team Members heading === -->
+                        <Label fx:id="teamMembersHeadingLabel"
+                               text="Team members"
                                style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;"/>
                         <HBox spacing="10"
                               fx:id="membersContainer"/>
@@ -215,7 +228,8 @@
                     </graphic>
                 </Button>
                 <Button fx:id="postButton"
-                        style="-fx-background-color: transparent;">
+                        style="-fx-background-color: transparent;"
+                onAction="#handlePostPage">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20">
                             <Image url="@Icons/post.png"/>

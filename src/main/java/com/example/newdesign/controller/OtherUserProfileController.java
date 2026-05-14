@@ -1,7 +1,8 @@
 package com.example.newdesign.controller;
 
-import com.example.newdesign.HelloApplication;
 import com.example.newdesign.model.*;
+import com.example.newdesign.*;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -11,29 +12,30 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+//importing the hashset and the arraylist
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import javafx.scene.shape.Circle;
+
 public class OtherUserProfileController {
 
-    private User otherUser;
+    private User currentUser;
 
     // ========== FXML Components ==========
-
-    //Header and Footer
-    @FXML private HBox bottomNav;
-    @FXML private HBox headerBar;
 
     // Profile Display
     @FXML private ImageView profileImage;
@@ -51,23 +53,41 @@ public class OtherUserProfileController {
     @FXML private VBox learnSkillsContainer;
     @FXML private VBox hobbiesContainer;
     @FXML private VBox reviewsContainer;
+    @FXML private StackPane popupLayer;
 
     // Buttons
-    @FXML private Button backButton;
-    @FXML private Button messageButton;
-    @FXML private Button profileButton;
+    @FXML
+    private Button requestPageButton;
+    // === BYRON: Changed backButton to logoutButton ===
+    @FXML private Button logoutButton;
+
+    // === BYRON: Headings for theme styling ===
+    @FXML private Label bioHeadingLabel;
+    @FXML private Label skillsTeachHeadingLabel;
+    @FXML private Label skillsLearnHeadingLabel;
+    @FXML private Label hobbiesHeadingLabel;
+    @FXML private Label reviewsHeadingLabel;
+    @FXML private Label teamMembersHeadingLabel;
+
+    @FXML
+    private HBox headerBar;
+    @FXML
+    private HBox bottomNav;
+    @FXML
+    private HBox membersContainer;
 
     // ========== Initialization ==========
 
     @FXML
     public void initialize() {
-        otherUser = SearchController.Otheruser;
+        currentUser = SessionManager.getUser();
 
-        if (otherUser != null) {
+        if (currentUser != null) {
             loadProfileData();
             loadSkills();
             loadHobbies();
             loadReviews();
+            loadGroupMembers();
         } else {
             showAlert("Error", "No user logged in");
         }
@@ -78,7 +98,7 @@ public class OtherUserProfileController {
         applyTheme();
     }
 
-    //Themes
+
     // Applying theme color in here
     private void applyTheme(){
         String gradient = "linear-gradient(to right, "
@@ -97,30 +117,45 @@ public class OtherUserProfileController {
         if (bottomNav != null)
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
 
-    }
+        }
 
+        // === BYRON: Make headings and username follow theme ===
+        String headingStyle = "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String subHeadingStyle = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: " + ThemeManager.primaryStart + ";";
+        String usernameStyle = "-fx-font-size: 14px; -fx-text-fill: " + ThemeManager.primaryEnd + ";";
+
+        if(skillsTeachHeadingLabel != null){
+            skillsTeachHeadingLabel.setStyle(headingStyle);
+            skillsLearnHeadingLabel.setStyle(headingStyle);
+            hobbiesHeadingLabel.setStyle(headingStyle);
+            reviewsHeadingLabel.setStyle(headingStyle);
+            teamMembersHeadingLabel.setStyle(subHeadingStyle);
+            bioHeadingLabel.setStyle(subHeadingStyle);
+            usernameLabel.setStyle(usernameStyle);
+        }
+    }
 
     // ========== Load Data ==========
 
     private void loadProfileData() {
         // Basic info
-        fullNameLabel.setText(otherUser.getFullName());
-        usernameLabel.setText("@" + (otherUser.getUsername() != null ? otherUser.getUsername() : "user"));
-        emailLabel.setText(otherUser.getEmail());
-        phoneLabel.setText(otherUser.getPhone() != null ? otherUser.getPhone() : "Not provided");
-        locationLabel.setText(otherUser.getLocation() != null ? otherUser.getLocation() : "Not specified");
-        bioLabel.setText(otherUser.getBio() != null ? otherUser.getBio() : "No bio yet.");
+        fullNameLabel.setText(currentUser.getFullName());
+        usernameLabel.setText("@" + (currentUser.getUsername() != null ? currentUser.getUsername() : "user"));
+        emailLabel.setText(currentUser.getEmail());
+        phoneLabel.setText(currentUser.getPhone() != null ? currentUser.getPhone() : "Not provided");
+        locationLabel.setText(currentUser.getLocation() != null ? currentUser.getLocation() : "Not specified");
+        bioLabel.setText(currentUser.getBio() != null ? currentUser.getBio() : "No bio yet. Click Edit Profile to add one.");
 
         // Join date
-        if (otherUser.getJoinDate() != null) {
+        if (currentUser.getJoinDate() != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-            joinDateLabel.setText("Member since: " + otherUser.getJoinDate().format(formatter));
+            joinDateLabel.setText("Member since: " + currentUser.getJoinDate().format(formatter));
         } else {
             joinDateLabel.setText("Member since: Recently");
         }
 
         // Rating
-        ratingLabel.setText(otherUser.getFormattedRating());
+        ratingLabel.setText(currentUser.getFormattedRating());
 
         // Profile image
         loadProfileImage();
@@ -132,7 +167,7 @@ public class OtherUserProfileController {
         learnSkillsContainer.getChildren().clear();
 
         // Teach Skills
-        List<Skill> teachSkills = otherUser.getTeachSkills();
+        List<Skill> teachSkills = currentUser.getTeachSkills();
         if (teachSkills.isEmpty()) {
             Label emptyLabel = new Label("No skills added yet");
             emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
@@ -144,7 +179,7 @@ public class OtherUserProfileController {
         }
 
         // Learn Skills
-        List<Skill> learnSkills = otherUser.getLearnSkills();
+        List<Skill> learnSkills = currentUser.getLearnSkills();
         if (learnSkills.isEmpty()) {
             Label emptyLabel = new Label("No skills added yet");
             emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
@@ -159,7 +194,7 @@ public class OtherUserProfileController {
     private void loadHobbies() {
         hobbiesContainer.getChildren().clear();
 
-        List<Hobby> hobbies = otherUser.getHobbies();
+        List<Hobby> hobbies = currentUser.getHobbies();
         if (hobbies == null || hobbies.isEmpty()) {
             Label emptyLabel = new Label("No hobbies added yet");
             emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
@@ -174,7 +209,7 @@ public class OtherUserProfileController {
     private void loadReviews() {
         reviewsContainer.getChildren().clear();
 
-        List<Review> reviews = otherUser.getReviews();
+        List<Review> reviews = currentUser.getReviews();
         if (reviews == null || reviews.isEmpty()) {
             Label emptyLabel = new Label("No reviews yet");
             emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
@@ -201,7 +236,18 @@ public class OtherUserProfileController {
         skillLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(skillLabel, Priority.ALWAYS);
 
-        row.getChildren().addAll(skillLabel);
+        Button removeButton = new Button("Remove");
+        removeButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
+        removeButton.setOnAction(e -> {
+            currentUser.removeSkill(skill);
+            loadSkills();
+
+            // ========== BYRON'S ADDITION: Save to database ==========
+            UserDAOImpl dao = new UserDAOImpl();
+            dao.removeSkill(skill.getId());
+        });
+
+        row.getChildren().addAll(skillLabel, removeButton);
         return row;
     }
 
@@ -216,7 +262,18 @@ public class OtherUserProfileController {
         hobbyLabel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(hobbyLabel, Priority.ALWAYS);
 
-        row.getChildren().addAll(hobbyLabel);
+        Button removeButton = new Button("Remove");
+        removeButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11px;");
+        removeButton.setOnAction(e -> {
+            currentUser.removeHobby(hobby);
+            loadHobbies();
+
+            // ========== BYRON'S ADDITION: Save to database ==========
+            UserDAOImpl dao = new UserDAOImpl();
+            dao.removeHobby(hobby.getId());
+        });
+
+        row.getChildren().addAll(hobbyLabel, removeButton);
         return row;
     }
 
@@ -227,7 +284,7 @@ public class OtherUserProfileController {
 
         String stars = getStarString(review.getRating());
         Label ratingLabel = new Label(stars);
-        ratingLabel.setStyle("-fx-font-size: 14px;");
+        ratingLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gold");
 
         Label commentLabel = new Label(review.getComment());
         commentLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13px;");
@@ -247,28 +304,14 @@ public class OtherUserProfileController {
             stars.append("☆");
         }
         return stars.toString();
+
     }
 
-    // ========== Add Skill/Hobby Popups ==========
-
-    @FXML
-    private void handleAddTeachSkill() {
-        showAddSkillDialog(SkillType.TEACH);
-    }
-
-    @FXML
-    private void handleAddLearnSkill() {
-        showAddSkillDialog(SkillType.LEARN);
-    }
-
-    @FXML
-    private void handleAddHobby() {
-        showAddHobbyDialog();
-    }
+    // ========== /Hobby Popups ==========
 
     private void showAddSkillDialog(SkillType type) {
         Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         dialog.setTitle(type == SkillType.TEACH ? "Add Skill You Can Teach" : "Add Skill You Want to Learn");
 
         VBox layout = new VBox(15);
@@ -290,7 +333,7 @@ public class OtherUserProfileController {
         message.setStyle("-fx-text-fill: red;");
 
         Button addBtn = new Button("Add Skill");
-        addBtn.setStyle("-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
+        addBtn.setStyle("-fx-background-color: "+ ThemeManager.primaryStart + "; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
 
         addBtn.setOnAction(e -> {
             String skillName = skillNameField.getText().trim();
@@ -301,10 +344,10 @@ public class OtherUserProfileController {
 
             Skill skill = new Skill(0, skillName, type);
             skill.setProficiency(proficiencyBox.getValue());
-            otherUser.addSkill(skill);
+            currentUser.addSkill(skill);
 
             // ========== BYRON'S ADDITION: Save to database ==========
-            skill.setUserId(otherUser.getId());
+            skill.setUserId(currentUser.getId());
             UserDAOImpl dao = new UserDAOImpl();
             dao.addSkill(skill);
 
@@ -327,7 +370,7 @@ public class OtherUserProfileController {
 
     private void showAddHobbyDialog() {
         Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         dialog.setTitle("Add Hobby");
 
         VBox layout = new VBox(15);
@@ -344,7 +387,7 @@ public class OtherUserProfileController {
         message.setStyle("-fx-text-fill: red;");
 
         Button addBtn = new Button("Add Hobby");
-        addBtn.setStyle("-fx-background-color: #0C4D3B; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
+        addBtn.setStyle("-fx-background-color: "+ThemeManager.primaryStart +"; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 10;");
 
         addBtn.setOnAction(e -> {
             String hobbyName = hobbyNameField.getText().trim();
@@ -354,10 +397,10 @@ public class OtherUserProfileController {
             }
 
             Hobby hobby = new Hobby(0, hobbyName);
-            otherUser.addHobby(hobby);
+            currentUser.addHobby(hobby);
 
             // ========== BYRON'S ADDITION: Save to database ==========
-            hobby.setUserId(otherUser.getId());
+            hobby.setUserId(currentUser.getId());
             UserDAOImpl dao = new UserDAOImpl();
             dao.addHobby(hobby);
 
@@ -378,7 +421,6 @@ public class OtherUserProfileController {
         dialog.showAndWait();
     }
 
-
     // ========== Edit Profile ==========
 
     @FXML
@@ -388,7 +430,7 @@ public class OtherUserProfileController {
 
     private void showEditProfileDialog() {
         Stage dialog = new Stage();
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         dialog.setTitle("Edit Profile");
 
         VBox layout = new VBox(15);
@@ -397,27 +439,27 @@ public class OtherUserProfileController {
         Label title = new Label("Edit Your Profile");
         title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #0C4D3B;");
 
-        TextField fullNameField = new TextField(otherUser.getFullName());
+        TextField fullNameField = new TextField(currentUser.getFullName());
         fullNameField.setPromptText("Full Name");
         fullNameField.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10; -fx-padding: 10;");
 
-        TextField usernameField = new TextField(otherUser.getUsername());
+        TextField usernameField = new TextField(currentUser.getUsername());
         usernameField.setPromptText("Username");
         usernameField.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10; -fx-padding: 10;");
 
-        TextField emailField = new TextField(otherUser.getEmail());
+        TextField emailField = new TextField(currentUser.getEmail());
         emailField.setPromptText("Email");
         emailField.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10; -fx-padding: 10;");
 
-        TextField phoneField = new TextField(otherUser.getPhone());
+        TextField phoneField = new TextField(currentUser.getPhone());
         phoneField.setPromptText("Phone");
         phoneField.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10; -fx-padding: 10;");
 
-        TextField locationField = new TextField(otherUser.getLocation());
+        TextField locationField = new TextField(currentUser.getLocation());
         locationField.setPromptText("Location");
         locationField.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10; -fx-padding: 10;");
 
-        TextArea bioArea = new TextArea(otherUser.getBio());
+        TextArea bioArea = new TextArea(currentUser.getBio());
         bioArea.setPromptText("Bio");
         bioArea.setPrefRowCount(4);
         bioArea.setStyle("-fx-background-color: #F5F5F5; -fx-background-radius: 10;");
@@ -430,19 +472,19 @@ public class OtherUserProfileController {
 
         saveBtn.setOnAction(e -> {
             String[] names = fullNameField.getText().trim().split(" ", 2);
-            otherUser.setFirstName(names[0]);
-            otherUser.setLastName(names.length > 1 ? names[1] : "");
-            otherUser.setUsername(usernameField.getText().trim());
-            otherUser.setEmail(emailField.getText().trim());
-            otherUser.setPhone(phoneField.getText().trim());
-            otherUser.setLocation(locationField.getText().trim());
-            otherUser.setBio(bioArea.getText().trim());
+            currentUser.setFirstName(names[0]);
+            currentUser.setLastName(names.length > 1 ? names[1] : "");
+            currentUser.setUsername(usernameField.getText().trim());
+            currentUser.setEmail(emailField.getText().trim());
+            currentUser.setPhone(phoneField.getText().trim());
+            currentUser.setLocation(locationField.getText().trim());
+            currentUser.setBio(bioArea.getText().trim());
 
             // ========== BYRON'S ADDITION: Save profile changes to database ==========
             UserDAOImpl dao = new UserDAOImpl();
-            dao.updateUserProfile(otherUser);
+            dao.updateUserProfile(currentUser);
 
-            SessionManager.setUser(otherUser);
+            SessionManager.setUser(currentUser);
             loadProfileData();
 
             dialog.close();
@@ -470,7 +512,7 @@ public class OtherUserProfileController {
 
     @FXML
     public void chooseProfilePicture() {
-        if (otherUser == null) return;
+        if (currentUser == null) return;
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Profile Picture");
@@ -482,7 +524,7 @@ public class OtherUserProfileController {
 
         if (file != null) {
             try {
-                String safeEmail = otherUser.getEmail()
+                String safeEmail = currentUser.getEmail()
                         .replace("@", "_")
                         .replace(".", "_");
 
@@ -495,8 +537,8 @@ public class OtherUserProfileController {
                 Files.copy(file.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 saveProfilePicture(newFileName);
-                otherUser.setProfilePicture(newFileName);
-                SessionManager.setUser(otherUser);
+                currentUser.setProfilePicture(newFileName);
+                SessionManager.setUser(currentUser);
                 loadProfileImage();
                 showAlert("Success", "Profile picture updated!");
 
@@ -509,11 +551,11 @@ public class OtherUserProfileController {
 
     private void saveProfilePicture(String filename) {
         try {
-            Connection conn = DBconnection.connect();
+            java.sql.Connection conn = DBconnection.connect();
             String sql = "UPDATE Users SET profile_picture = ? WHERE email = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            java.sql.PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, filename);
-            stmt.setString(2, otherUser.getEmail());
+            stmt.setString(2, currentUser.getEmail());
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -522,8 +564,8 @@ public class OtherUserProfileController {
 
     private void loadProfileImage() {
         try {
-            if (otherUser.getProfilePicture() != null) {
-                File file = new File("profile_images/" + otherUser.getProfilePicture());
+            if (currentUser.getProfilePicture() != null) {
+                File file = new File("profile_images/" + currentUser.getProfilePicture());
                 if (file.exists()) {
                     Image image = new Image(file.toURI().toString(), false);
                     profileImage.setImage(image);
@@ -543,6 +585,15 @@ public class OtherUserProfileController {
     // ========== Navigation Methods ==========
 
     @FXML
+    private void handleMessager() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) messageButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+
+    @FXML
     private void handleHome() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
@@ -559,27 +610,343 @@ public class OtherUserProfileController {
     }
 
     @FXML
-    private void handleMessager() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("messager-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) messageButton.getScene().getWindow();
+    private void handleAIChat() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
         stage.setScene(scene);
+
+    }
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postButton.getScene().getWindow();
+        stage.setScene(scene);
+
     }
 
     @FXML
-    private void handleProfile() throws IOException {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+    private void handleProfile() {
+        // Refresh profile page
+        loadProfileData();
+        loadSkills();
+        loadHobbies();
+        loadReviews();
+    }
+
+    // === BYRON: Changed from handleBack to handleLogout ===
+    @FXML
+    private void handleLogout() throws Exception {
+        // Clear the session
+        SessionManager.clear();
+
+        // Go back to login screen
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileButton.getScene().getWindow();
+        Stage stage = (Stage) logoutButton.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 
-    @FXML
-    private void handleAIChat() {
-        showAlert("Info", "AI Chat feature coming soon!");
+    //##################################################
+
+    // in here we can display all of the members that we execute from our database.
+    //we need their profile picture and userName only
+
+    private void loadGroupMembers(){
+        List<User> members = getMyGroupMembers();
+        membersContainer.getChildren().clear();
+
+        for(User user : members){
+            VBox memberCard = new VBox(5);
+            memberCard.setAlignment(Pos.CENTER);
+
+            ImageView avatar=new ImageView();
+            avatar.setFitHeight(50);
+            avatar.setFitWidth(50);
+
+            //getting the userPrfoile from our local folder;
+            try {
+                if (user.getProfilePicture() != null) {
+                    File file = new File("profile_images/" + user.getProfilePicture());
+                    if (file.exists()) {
+                        avatar.setImage(new Image(file.toURI().toString()));
+                    }
+                }
+            } catch (Exception e) {}
+
+            // fallback image
+            if (avatar.getImage() == null) {
+                avatar.setImage(new Image(
+                        getClass().getResource("/com/example/newdesign/images/default.png").toString()
+                ));
+            }
+
+            avatar.setClip(new Circle(25,25,25));
+
+            Label name = new Label(user.getFullName());
+            name.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black");
+            avatar.setOnMouseClicked(e ->{
+                showUserPopUp(user);
+            });
+            //adding into the card
+            memberCard.getChildren().addAll(avatar, name);
+            //now adding into our main container
+            membersContainer.getChildren().add(memberCard);
+
+        }
     }
 
+    // in here we want to see all of our group members that are in the same group with us
 
+    private List<User> getMyGroupMembers() {
+        PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
+        UserDAO userDAO = new UserDAOImpl();
+
+        List<User> members = new ArrayList<>();
+        Set<Integer> added = new HashSet<>();
+        PostDAO postDAO = new PostDaoImpl();
+
+        // get all posts I joined
+        List<Integer> myPosts = participantDAO.getPostIdsByUser(currentUser.getId());
+
+        for (int postId : myPosts) {
+            List<Integer> users = participantDAO.getUserIdsByPost(postId);
+
+            Post post = postDAO.getPostById(postId);
+            if (post != null) {
+                int ownerId = post.getUserId();
+
+                if (ownerId != currentUser.getId() && !added.contains(ownerId)) {
+                    User owner = userDAO.getUserById(ownerId);
+                    if (owner != null) {
+                        members.add(owner);
+                        added.add(ownerId);
+                    }
+                }
+            }
+
+            for (int id : users) {
+                if (id != currentUser.getId() && !added.contains(id)) {
+                    User u = userDAO.getUserById(id);
+                    if (u != null) {
+                        members.add(u);
+                        added.add(id);
+                    }
+                }
+            }
+        }
+
+        return members;
+    }
+
+    //###########################################################################################
+
+    //###########################################################
+    // this  is the popup layer that can extend the members profile and get you be able to rate them
+    //getting userInfomration
+    // this is just an popup layer that pops up after clicking user card
+    private void showUserPopUp(User user) {
+
+        popupLayer.getChildren().clear();
+        popupLayer.setVisible(true);
+
+
+        StackPane overlay = new StackPane();
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+        overlay.setAlignment(Pos.CENTER);
+
+        // the layout
+        VBox card = new VBox(15);
+        card.setMaxWidth(300);
+        card.setMaxHeight(400);
+        card.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryBackGround+ ";" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-padding: 20;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-border-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-border-width: 5;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
+        );
+
+        // ===== TOP BAR =====
+        HBox topBar = new HBox();
+        topBar.setAlignment(Pos.TOP_RIGHT);
+
+        Button closeBtn = new Button("X");
+        closeBtn.setStyle(
+                "-fx-background-color: transparent;" +
+                        "-fx-text-fill: " + ThemeManager.primaryStart + ";" +
+                        "-fx-font-weight: bold;"
+        );
+        closeBtn.setOnAction(e -> popupLayer.setVisible(false));
+
+        topBar.getChildren().add(closeBtn);
+
+        // ===== PROFILE (IMAGE + NAME) =====
+        HBox header = new HBox(10);
+        header.setAlignment(Pos.CENTER_LEFT);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(50);
+        imageView.setFitHeight(50);
+
+        Image image;
+        try {
+            if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
+                File file = new File("profile_images/" + user.getProfilePicture());
+                if (file.exists()) {
+                    image = new Image(file.toURI().toString());
+                } else {
+                    image = new Image(getClass()
+                            .getResource("/com/example/newdesign/images/default.png")
+                            .toString());
+                }
+            } else {
+                image = new Image(getClass()
+                        .getResource("/com/example/newdesign/images/default.png")
+                        .toString());
+            }
+        } catch (Exception e) {
+            image = new Image(getClass()
+                    .getResource("/com/example/newdesign/images/default.png")
+                    .toString());
+        }
+
+        imageView.setImage(image);
+
+        // make image round
+        imageView.setClip(new javafx.scene.shape.Circle(25, 25, 25));
+
+        VBox nameBox = new VBox(2);
+
+        Label name = new Label(user.getFullName());
+        name.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        Label username = new Label("@" + user.getUsername());
+        username.setStyle("-fx-text-fill: gray;");
+
+        nameBox.getChildren().addAll(name, username);
+        header.getChildren().addAll(imageView, nameBox);
+
+        // ===== INFO =====
+
+        Label email = new Label("email: " + user.getEmail());
+
+        Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
+        bio.setWrapText(true);
+
+        Label skills = new Label(
+                "Skills: " + (user.getSkills() == null || user.getSkills().isEmpty() ? "None" :
+                        user.getSkills().stream()
+                                .map(Skill::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+        Label hobbies = new Label(
+                "Hobbies: " + (user.getHobbies() == null || user.getHobbies().isEmpty() ? "None" :
+                        user.getHobbies().stream()
+                                .map(Hobby::toString)
+                                .collect(java.util.stream.Collectors.joining(", "))
+                )
+        );
+
+
+        Label reviewTitle = new Label("Leave a Review");
+        reviewTitle.setStyle("-fx-font-size: 15px; -fx-font-weight: bold;");
+
+        ComboBox<Integer> ratingBox = new ComboBox<>();
+        ratingBox.getItems().addAll(1, 2, 3, 4, 5);
+        ratingBox.setPromptText("Rating / 5");
+
+        TextArea reviewArea = new TextArea();
+        reviewArea.setPromptText("Write your review...");
+        reviewArea.setPrefRowCount(3);
+        reviewArea.setWrapText(true);
+        reviewArea.setMaxWidth(260);
+
+        Button submitReviewButton = new Button("Submit Review");
+        submitReviewButton.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryStart + ";" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-padding: 7 12;"
+        );
+
+        submitReviewButton.setOnAction(e -> {
+            Integer rating = ratingBox.getValue();
+            String comment = reviewArea.getText().trim();
+
+            if (rating == null || comment.isEmpty()) {
+                Notifier.showToast(popupLayer,"Please select a rating and write a review.");
+
+                return;
+            }
+
+            User reviewer = SessionManager.getUser();
+
+            if (reviewer == null) {
+                Notifier.showToast(popupLayer,"You must be logged in to leave a review.");
+
+                return;
+            }
+
+            Review review = new Review(
+                    0,
+                    reviewer.getId(),
+                    user.getId(),
+                    0,
+                    rating,
+                    comment,
+                    java.time.LocalDateTime.now()
+            );
+
+            UserDAOImpl dao = new UserDAOImpl();
+            boolean saved = dao.addReview(review);
+
+            if (saved) {
+                Notifier.showToast(popupLayer,"Review submitted successfully.");
+
+                ratingBox.setValue(null);
+                reviewArea.clear();
+            } else {
+
+                Notifier.showToast(popupLayer,"Review could not be saved.");
+            }
+        });
+
+        card.getChildren().addAll(
+                topBar,
+                header,
+                email,
+                bio,
+                skills,
+                hobbies,
+                reviewTitle,
+                ratingBox,
+                reviewArea,
+                submitReviewButton
+        );
+
+        overlay.getChildren().add(card);
+
+        // click outside closes popup
+        overlay.setOnMouseClicked(e -> popupLayer.setVisible(false));
+
+        // prevent closing when clicking card
+        card.setOnMouseClicked(e -> e.consume());
+
+        popupLayer.getChildren().add(overlay);
+    }
+
+    //###################################################
 
     // ========== Helper ==========
 

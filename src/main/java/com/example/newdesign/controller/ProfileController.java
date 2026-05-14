@@ -67,6 +67,7 @@ public class ProfileController {
     private Button requestPageButton;
     // === BYRON: Changed backButton to logoutButton ===
     @FXML private Button logoutButton;
+    @FXML private Button postButton;
 
     @FXML
     private HBox headerBar;
@@ -615,6 +616,14 @@ public class ProfileController {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) profileImage.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) postButton.getScene().getWindow();
         stage.setScene(scene);
     }
 
