@@ -1,3 +1,5 @@
+package com.example.newdesign;
+
 import com.example.newdesign.model.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,5 +53,15 @@ private Message message;
         assertEquals("How are you?", message.getMessageText());
     }
 
+    @Test
+    public void testGetGroupID(){
+        assertEquals(10, message.getGroupId());
+    }
+
+    @Test
+    public void testSetGroupID(){
+        message.setGroupId(5);
+        assertEquals(5, message.getGroupId());
+    }
 
 }
