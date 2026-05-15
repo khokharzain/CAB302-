@@ -271,7 +271,7 @@ public class User {
     // ========== DISPLAY HELPERS ==========
 
     /**
-     * @return fullName
+     * @return fullName of the user
      */
     public String getFullName() {
         return firstName + " " + lastName;
