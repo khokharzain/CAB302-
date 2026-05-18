@@ -7,8 +7,6 @@
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/signUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/signUpController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/newdesign/PostDaoImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/newdesign/PostDaoImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/newdesign/SignUpTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/newdesign/SignUpTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +135,7 @@
       <workItem from="1777382146151" duration="14261000" />
       <workItem from="1778073742809" duration="16146000" />
       <workItem from="1778711643280" duration="371000" />
-      <workItem from="1779102096395" duration="5435000" />
+      <workItem from="1779102096395" duration="6599000" />
     </task>
     <servers />
   </component>

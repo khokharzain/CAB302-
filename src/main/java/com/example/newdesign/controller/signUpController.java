@@ -110,7 +110,7 @@ public class signUpController {
 
     public boolean isValidName(String fName, String lName){
         // validation
-        if (fName.isEmpty() || lName.isEmpty()) {
+        if (fName.isEmpty() || lName.isEmpty() || fName != null || lName != null) {
             showAlert("Error", "Name fields cannot be empty");
             return false;
         }
@@ -118,7 +118,7 @@ public class signUpController {
     }
 
     public boolean isValidPhone(String number){
-        if (!number.matches("\\d{9,12}")) {
+        if (!number.matches("\\d{9,12}") || number.matches(".*[a-zA-Z].*")) {
             showAlert("Error", "Invalid phone number");
             return false;
         }
