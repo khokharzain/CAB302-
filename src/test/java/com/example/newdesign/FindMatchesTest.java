@@ -1,6 +1,6 @@
 package com.example.newdesign;
 
-import com.example.newdesign.model.SkillType;
+import com.example.newdesign.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,9 +38,9 @@ public class FindMatchesTest {
      */
     @Test
     void testFilterUsersBySkill_ReturnsOnlyMatchingUsers() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        user1.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
-        user2.addSkill(new Skill(3, "Python", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        user1.addSkill(new Skill(2, "Java", SkillType.TEACH));
+        user2.addSkill(new Skill(3, "Python", SkillType.TEACH));
 
         List<User> allUsers = Arrays.asList(user1, user2);
         String selectedSkill = "Java";
@@ -56,8 +56,8 @@ public class FindMatchesTest {
      */
     @Test
     void testFilterUsersBySkill_NoMatches_ReturnsEmpty() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        user1.addSkill(new Skill(2, "Python", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        user1.addSkill(new Skill(2, "Python", SkillType.TEACH));
 
         List<User> allUsers = Arrays.asList(user1);
         String selectedSkill = "Java";
@@ -72,8 +72,8 @@ public class FindMatchesTest {
      */
     @Test
     void testFilterUsersBySkill_CaseInsensitive() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        user1.addSkill(new Skill(2, "JAVA", SkillType.skillType.TEACH)); // Uppercase
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        user1.addSkill(new Skill(2, "JAVA", SkillType.TEACH)); // Uppercase
 
         List<User> allUsers = Arrays.asList(user1);
         String selectedSkill = "java"; // Lowercase
@@ -88,8 +88,8 @@ public class FindMatchesTest {
      */
     @Test
     void testGetMatchReason_YouCanTeachThem() {
-        currentUser.addSkill(new Skill(1, "Python", SkillType.skillType.TEACH));
-        user1.addSkill(new Skill(2, "Python", SkillType.skillType.LEARN));
+        currentUser.addSkill(new Skill(1, "Python", SkillType.TEACH));
+        user1.addSkill(new Skill(2, "Python", SkillType.LEARN));
 
         String reason = getMatchReason(currentUser, user1);
 
@@ -102,8 +102,8 @@ public class FindMatchesTest {
      */
     @Test
     void testGetMatchReason_TheyCanTeachYou() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        user1.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        user1.addSkill(new Skill(2, "Java", SkillType.TEACH));
 
         String reason = getMatchReason(currentUser, user1);
 

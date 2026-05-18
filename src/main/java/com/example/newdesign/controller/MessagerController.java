@@ -42,7 +42,7 @@ public class MessagerController {
 
     private MessageDAOImpl messageDAO = new MessageDAOImpl();
     private User currentUser = SessionManager.getUser();
-    private User recieverUser = SearchController.OtherUser;
+    private User recieverUser = SearchController.Otheruser;
     private int currentGroupid;
 
     @FXML

@@ -1,5 +1,7 @@
 package com.example.newdesign;
 
+import com.example.newdesign.model.*;
+import com.example.newdesign.controller.signUpController;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

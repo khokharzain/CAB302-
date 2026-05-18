@@ -29,11 +29,11 @@ public class signUpController {
     @FXML private TextField phoneField;
     @FXML private PasswordField passwordField;
 
-    //  Selected avatar (IMPORTANT)
+    // 🧠 Selected avatar (IMPORTANT)
     private String selectedAvatar = "default.png";
 
     // =============================
-    // INITIALIZE
+    // 🚀 INITIALIZE
     // =============================
     @FXML
     public void initialize() {
@@ -73,7 +73,7 @@ public class signUpController {
     }
 
     // =============================
-    //  REGISTER USER
+    // 📝 REGISTER USER
     // =============================
     @FXML
     public void handleRegister() {
@@ -85,22 +85,22 @@ public class signUpController {
         String password = passwordField.getText();
 
         // validation
-        if (!isValidName(fName) || !isValidName(lName)) {
+        if (fName.isEmpty() || lName.isEmpty()) {
             showAlert("Error", "Name fields cannot be empty");
             return;
         }
 
-        if (!isValidEmail(email)) {
+        if (!email.contains("@")) {
             showAlert("Error", "Invalid email");
             return;
         }
 
-        if (!isValidPhone(phone)) {
+        if (!phone.matches("\\d{9,12}")) {
             showAlert("Error", "Invalid phone number");
             return;
         }
 
-        if (isValidPassword(password)) {
+        if (password.length() < 6) {
             showAlert("Error", "Password must be at least 6 characters");
             return;
         }
@@ -113,8 +113,6 @@ public class signUpController {
 
         showAlert("Success", "User registered!");
     }
-
-
 
     // =============================
     // 🔙 BACK BUTTON
@@ -132,7 +130,7 @@ public class signUpController {
     }
 
     // =============================
-    //  HELPER METHODS
+    // 🧰 HELPER METHODS
     // =============================
     private Image loadImage(String name) {
         var url = getClass().getResource("/com/example/newdesign/images/" + name);
@@ -151,26 +149,5 @@ public class signUpController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-
-
-    /// ####################################
-    /// all validations for the user values
-
-    public boolean isValidEmail(String email) {
-        return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
-    }
-
-    public boolean isValidPhone(String phone) {
-        return phone.matches("\\d{9,12}");
-    }
-
-    public boolean isValidPassword(String password) {
-        return password.length() >= 6;
-    }
-
-    public boolean isValidName(String name) {
-        return !name.isEmpty();
     }
 }

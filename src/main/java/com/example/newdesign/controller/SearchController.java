@@ -58,8 +58,7 @@ public class SearchController {
     private StackPane popupLayer;
 
     private UserDAOImpl userDAO = new UserDAOImpl();
-    public static User OtherUser = new User();
-
+    public static User Otheruser;
 
     @FXML
     public void initialize() {
@@ -81,6 +80,7 @@ public class SearchController {
         });
 
         applyTheme();
+        Otheruser = null;
     }
 
     private void applyTheme(){
@@ -96,8 +96,6 @@ public class SearchController {
 
         if(headerBar != null){
             headerBar.setStyle(headerStyle);
-
-
         }
 
         if(bottomNav != null){
@@ -124,7 +122,7 @@ public class SearchController {
     }
 
     //   show clickable trending skills
-     private void showSuggestions(List<String> skills) {
+    private void showSuggestions(List<String> skills) {
 
         suggestionsContainer.getChildren().clear();
 
@@ -231,8 +229,8 @@ public class SearchController {
             //Set to view profile of clicked box
             card.setOnMouseClicked(event -> {
                 try {
-                    OtherUser = userDAO.getUserById(user.getId());
-                    if(OtherUser.getId() == SessionManager.getUser().getId()){
+                    Otheruser = userDAO.getUserById(user.getId());
+                    if(Otheruser.getId() == SessionManager.getUser().getId()){
                         handleProfileButton();
                     }
                     else {
@@ -248,9 +246,7 @@ public class SearchController {
         }
     }
 
-    // this is the container that show all informations from the choosen user.
-
-
+    // this is the container that show all information from the choosen user.
     private void showUserPopUp(User user) {
 
         popupLayer.getChildren().clear();
@@ -315,12 +311,7 @@ public class SearchController {
         Label email = new Label("Email: " + user.getEmail());
         email.setWrapText(true);
 
-        // rating
-        Label rating = new Label(String.valueOf(user.getAverageRating()));
-        rating.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
-
-
-        VBox leftCard = new VBox(14, imageView, name, username, email, rating);
+        VBox leftCard = new VBox(14, imageView, name, username, email);
         leftCard.setAlignment(Pos.TOP_CENTER);
         leftCard.setPrefWidth(260);
         leftCard.setStyle(
@@ -372,26 +363,10 @@ public class SearchController {
         hobbies.setWrapText(true);
         hobbies.setStyle("-fx-font-size: 15px;");
 
-        // new label added to show the rating and reviews form the user
-
-        Label reviewsTitle = new Label("Reviews");
-        reviewsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
-        Label reviews = new Label(
-                user.getReviews() == null || user.getReviews().isEmpty()
-                ? "NO Reviws added yet."
-                        : user.getReviews().stream()
-                        .map(Review::toString)
-                        .collect(java.util.stream.Collectors.joining(", "))
-        );
-
-
-
         rightPanel.getChildren().addAll(
                 bioTitle, bio,
                 skillsTitle, skills,
-                hobbiesTitle, hobbies,
-                reviewsTitle, reviews
+                hobbiesTitle, hobbies
         );
 
         HBox content = new HBox(25, leftCard, rightPanel);
@@ -414,14 +389,7 @@ public class SearchController {
         Scene scene = new Scene(fxmlloader.load(), 1200, 800);
         Stage stage = (Stage) requestPageButton.getScene().getWindow();
         stage.setScene(scene);
-    }
 
-    @FXML
-    private void handleOtherProfileButton() throws Exception {
-        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
-        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
-        Stage stage = (Stage) profileButton.getScene().getWindow();
-        stage.setScene(scene);
     }
 
     @FXML
@@ -448,4 +416,16 @@ public class SearchController {
         Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(scene);
     }
+
+    //Other User Profile views
+    @FXML
+    private void handleOtherProfileButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+
+
 }

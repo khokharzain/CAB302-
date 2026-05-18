@@ -1,6 +1,5 @@
 package com.example.newdesign;
 
-
 import com.example.newdesign.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,18 +36,18 @@ class UserTest {
 
     @Test
     void testAddSkill() {
-        Skill skill = new Skill(user.getId(), "Java", SkillType.skillType.TEACH);
-        skill.setProficiency(com.example.newdesign.model.SkillType.Proficiency.ADVANCED);
+        Skill skill = new Skill(user.getId(), "Java", SkillType.TEACH);
+        skill.setProficiency(Proficiency.ADVANCED);
         user.addSkill(skill);
 
         assertEquals(1, user.getSkills().size());
         assertEquals("Java", user.getSkills().get(0).getSkillName());
-        assertEquals(SkillType.skillType.TEACH, user.getSkills().get(0).getType());
+        assertEquals(SkillType.TEACH, user.getSkills().get(0).getType());
     }
 
     @Test
     void testRemoveSkill() {
-        Skill skill = new Skill(user.getId(), "Python", SkillType.skillType.TEACH);
+        Skill skill = new Skill(user.getId(), "Python", SkillType.TEACH);
         user.addSkill(skill);
         assertEquals(1, user.getSkills().size());
 
@@ -58,23 +57,23 @@ class UserTest {
 
     @Test
     void testGetTeachSkills() {
-        user.addSkill(new Skill(user.getId(), "Java", SkillType.skillType.TEACH));
-        user.addSkill(new Skill(user.getId(), "Guitar", SkillType.skillType.LEARN));
-        user.addSkill(new Skill(user.getId(), "Python", SkillType.skillType.TEACH));
+        user.addSkill(new Skill(user.getId(), "Java", SkillType.TEACH));
+        user.addSkill(new Skill(user.getId(), "Guitar", SkillType.LEARN));
+        user.addSkill(new Skill(user.getId(), "Python", SkillType.TEACH));
 
         List<Skill> teachSkills = user.getTeachSkills();
         assertEquals(2, teachSkills.size());
-        assertTrue(teachSkills.stream().allMatch(s -> s.getType() == SkillType.skillType.TEACH));
+        assertTrue(teachSkills.stream().allMatch(s -> s.getType() == SkillType.TEACH));
     }
 
     @Test
     void testGetLearnSkills() {
-        user.addSkill(new Skill(user.getId(), "Java", SkillType.skillType.TEACH));
-        user.addSkill(new Skill(user.getId(), "Guitar", SkillType.skillType.LEARN));
+        user.addSkill(new Skill(user.getId(), "Java", SkillType.TEACH));
+        user.addSkill(new Skill(user.getId(), "Guitar", SkillType.LEARN));
 
         List<Skill> learnSkills = user.getLearnSkills();
         assertEquals(1, learnSkills.size());
-        assertEquals(SkillType.skillType.LEARN, learnSkills.get(0).getType());
+        assertEquals(SkillType.LEARN, learnSkills.get(0).getType());
     }
 
     @Test
@@ -138,7 +137,7 @@ class UserTest {
     void testHasCompleteProfile() {
         assertFalse(user.hasCompleteProfile());
 
-        user.addSkill(new Skill(user.getId(), "Java", SkillType.skillType.TEACH));
+        user.addSkill(new Skill(user.getId(), "Java", SkillType.TEACH));
         assertTrue(user.hasCompleteProfile());
     }
 

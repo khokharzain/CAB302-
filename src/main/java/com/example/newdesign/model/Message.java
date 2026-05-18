@@ -9,10 +9,6 @@ public class Message {
     private String messageText;
 
     //Constructor
-    /*
-    * This
-    *
-    * */
     public Message (int id, int senderId, int receiverId, int groupId, String messageText) {
         this.id = id;
         this.senderId = senderId;

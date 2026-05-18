@@ -1,6 +1,6 @@
 package com.example.newdesign;
 
-import com.example.newdesign.model.SkillType;
+import com.example.newdesign.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,12 +59,12 @@ public class MatchCalculationTest {
     @Test
     void testPerfectMutualMatch_Returns100() {
         // Current wants Java, other teaches Java
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        otherUser.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        otherUser.addSkill(new Skill(2, "Java", SkillType.TEACH));
 
         // Other wants Python, current teaches Python
-        otherUser.addSkill(new Skill(2, "Python", SkillType.skillType.LEARN));
-        currentUser.addSkill(new Skill(1, "Python", SkillType.skillType.TEACH));
+        otherUser.addSkill(new Skill(2, "Python", SkillType.LEARN));
+        currentUser.addSkill(new Skill(1, "Python", SkillType.TEACH));
 
         int score = calculateMatchScore(currentUser, otherUser);
 
@@ -81,8 +81,8 @@ public class MatchCalculationTest {
      */
     @Test
     void testOneWayMatch_Returns50() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        otherUser.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        otherUser.addSkill(new Skill(2, "Java", SkillType.TEACH));
 
         int score = calculateMatchScore(currentUser, otherUser);
 
@@ -97,8 +97,8 @@ public class MatchCalculationTest {
      */
     @Test
     void testNoMatch_Returns0() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        otherUser.addSkill(new Skill(2, "Python", SkillType.skillType.TEACH));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        otherUser.addSkill(new Skill(2, "Python", SkillType.TEACH));
 
         int score = calculateMatchScore(currentUser, otherUser);
 
@@ -114,13 +114,13 @@ public class MatchCalculationTest {
     @Test
     void testMultipleMatches_CapsAt100() {
         // Three skills match - should still be 100% not 150%
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
-        currentUser.addSkill(new Skill(1, "Python", SkillType.skillType.LEARN));
-        currentUser.addSkill(new Skill(1, "C++", SkillType.skillType.LEARN));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
+        currentUser.addSkill(new Skill(1, "Python", SkillType.LEARN));
+        currentUser.addSkill(new Skill(1, "C++", SkillType.LEARN));
 
-        otherUser.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
-        otherUser.addSkill(new Skill(2, "Python", SkillType.skillType.TEACH));
-        otherUser.addSkill(new Skill(2, "C++", SkillType.skillType.TEACH));
+        otherUser.addSkill(new Skill(2, "Java", SkillType.TEACH));
+        otherUser.addSkill(new Skill(2, "Python", SkillType.TEACH));
+        otherUser.addSkill(new Skill(2, "C++", SkillType.TEACH));
 
         int score = calculateMatchScore(currentUser, otherUser);
 
@@ -166,8 +166,8 @@ public class MatchCalculationTest {
     @Test
     void testFormatSkills_WithSkills_ReturnsCommaSeparated() {
         List<Skill> skills = Arrays.asList(
-                new Skill(1, "Java", SkillType.skillType.TEACH),
-                new Skill(1, "Python", SkillType.skillType.TEACH)
+                new Skill(1, "Java", SkillType.TEACH),
+                new Skill(1, "Python", SkillType.TEACH)
         );
 
         String result = formatSkills(skills);
@@ -183,7 +183,7 @@ public class MatchCalculationTest {
      */
     @Test
     void testFormatSkills_SingleSkill_ReturnsSkillNameOnly() {
-        List<Skill> skills = Arrays.asList(new Skill(1, "Java", SkillType.skillType.TEACH));
+        List<Skill> skills = Arrays.asList(new Skill(1, "Java", SkillType.TEACH));
 
         String result = formatSkills(skills);
 

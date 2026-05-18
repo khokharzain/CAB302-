@@ -198,7 +198,7 @@
                     </graphic>
                 </Button>
 
-            </HBox>
+        </HBox>
 
         </VBox>
 
@@ -273,7 +273,7 @@
                        wrapText="true"/>
 
                 <Label style="-fx-font-size: 13px; -fx-text-fill: #888888; -fx-font-style: italic;"
-                       text="Click a button below to get started."
+                       text="Click a button above to get started."
                        wrapText="true"/>
 
             </VBox>

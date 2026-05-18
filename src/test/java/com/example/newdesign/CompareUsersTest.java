@@ -1,7 +1,6 @@
 package com.example.newdesign;
 
 import com.example.newdesign.model.*;
-import com.example.newdesign.model.SkillType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,9 +36,9 @@ public class CompareUsersTest {
      */
     @Test
     void testComparison_ShowsTeachSkills() {
-        user1.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));
-        user1.addSkill(new Skill(2, "Python", SkillType.skillType.TEACH));
-        user2.addSkill(new Skill(3, "JavaScript", SkillType.skillType.TEACH));
+        user1.addSkill(new Skill(2, "Java", SkillType.TEACH));
+        user1.addSkill(new Skill(2, "Python", SkillType.TEACH));
+        user2.addSkill(new Skill(3, "JavaScript", SkillType.TEACH));
 
         String user1Teach = formatSkills(user1.getTeachSkills());
         String user2Teach = formatSkills(user2.getTeachSkills());
@@ -53,9 +52,9 @@ public class CompareUsersTest {
      */
     @Test
     void testComparison_ShowsLearnSkills() {
-        user1.addSkill(new Skill(2, "React", SkillType.skillType.LEARN));
-        user1.addSkill(new Skill(2, "Angular", SkillType.skillType.LEARN));
-        user2.addSkill(new Skill(3, "Vue", SkillType.skillType.LEARN));
+        user1.addSkill(new Skill(2, "React", SkillType.LEARN));
+        user1.addSkill(new Skill(2, "Angular", SkillType.LEARN));
+        user2.addSkill(new Skill(3, "Vue", SkillType.LEARN));
 
         String user1Learn = formatSkills(user1.getLearnSkills());
         String user2Learn = formatSkills(user2.getLearnSkills());
@@ -69,10 +68,10 @@ public class CompareUsersTest {
      */
     @Test
     void testComparison_RecommendsHigherScore() {
-        currentUser.addSkill(new Skill(1, "Java", SkillType.skillType.LEARN));
+        currentUser.addSkill(new Skill(1, "Java", SkillType.LEARN));
 
-        user1.addSkill(new Skill(2, "Java", SkillType.skillType.TEACH));  // 50% match
-        user2.addSkill(new Skill(3, "Python", SkillType.skillType.TEACH)); // 0% match
+        user1.addSkill(new Skill(2, "Java", SkillType.TEACH));  // 50% match
+        user2.addSkill(new Skill(3, "Python", SkillType.TEACH)); // 0% match
 
         String recommendation = getRecommendation(currentUser, user1, user2);
 

@@ -1,5 +1,6 @@
 package com.example.newdesign;
 
+import com.example.newdesign.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
