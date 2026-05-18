@@ -2,6 +2,7 @@ package com.example.newdesign;
 
 import org.junit.jupiter.api.Test;
 
+import com.example.newdesign.model.*;
 import java.time.LocalDateTime;
 import java.util.List;
 

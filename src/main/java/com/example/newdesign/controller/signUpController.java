@@ -84,34 +84,55 @@ public class signUpController {
         String phone = phoneField.getText();
         String password = passwordField.getText();
 
-        // validation
-        if (fName.isEmpty() || lName.isEmpty()) {
-            showAlert("Error", "Name fields cannot be empty");
-            return;
+        if(isValidEmail(email) && isValidName(fName, lName) && isValidPassword(password)
+            && isValidPhone(phone))
+        {
+            User user = new User(fName, lName, email, phone, password, selectedAvatar);
+
+            UserDAO dao = new UserDAOImpl();
+            dao.addUser(user);
+
+            showAlert("Success", "User registered!");
         }
+    }
+
+
+    //For validation
+    public boolean isValidEmail(String email){
 
         if (!email.contains("@")) {
             showAlert("Error", "Invalid email");
-            return;
+            return false;
         }
 
-        if (!phone.matches("\\d{9,12}")) {
+        return true;
+    }
+
+    public boolean isValidName(String fName, String lName){
+        // validation
+        if (fName.isEmpty() || lName.isEmpty()) {
+            showAlert("Error", "Name fields cannot be empty");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isValidPhone(String number){
+        if (!number.matches("\\d{9,12}")) {
             showAlert("Error", "Invalid phone number");
-            return;
+            return false;
         }
 
+        return true;
+    }
+
+    public boolean isValidPassword(String password){
         if (password.length() < 6) {
             showAlert("Error", "Password must be at least 6 characters");
-            return;
+            return false;
         }
 
-
-        User user = new User(fName, lName, email, phone, password, selectedAvatar);
-
-        UserDAO dao = new UserDAOImpl();
-        dao.addUser(user);
-
-        showAlert("Success", "User registered!");
+        return true;
     }
 
     // =============================

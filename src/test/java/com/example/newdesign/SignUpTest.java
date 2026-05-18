@@ -1,6 +1,6 @@
 package com.example.newdesign;
 
-import com.example.newdesign.model.*;
+
 import com.example.newdesign.controller.signUpController;
 import org.junit.jupiter.api.Test;
 
@@ -107,7 +107,7 @@ public class SignUpTest {
         signUpController controller = new signUpController();
 
         boolean result =
-                controller.isValidName("Amir");
+                controller.isValidName("Amir", "Amir");
 
         assertTrue(result);
     }
@@ -118,7 +118,7 @@ public class SignUpTest {
         signUpController controller = new signUpController();
 
         boolean result =
-                controller.isValidName("");
+                controller.isValidName("", "");
 
         assertFalse(result);
     }
