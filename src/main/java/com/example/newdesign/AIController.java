@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -1253,100 +1254,151 @@ public class AIController {
 
         StackPane popupLayer = new StackPane();
         popupLayer.setVisible(true);
-        popupLayer.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+        popupLayer.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
         popupLayer.setAlignment(Pos.CENTER);
 
-        VBox card = new VBox(15);
-        card.setMaxWidth(300);
-        card.setMaxHeight(400);
-        card.setStyle(
-                "-fx-background-color: #DCFFE4;" +
-                        "-fx-background-radius: 20;" +
-                        "-fx-padding: 20;" +
-                        "-fx-border-radius: 20;" +
-                        "-fx-border-color: #0C4D3B;" +
-                        "-fx-border-width: 5;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 5);"
+        BorderPane popup = new BorderPane();
+        popup.setPrefSize(900, 620);
+        popup.setMaxSize(900, 620);
+        popup.setStyle(
+                "-fx-background-color:" + ThemeManager.primaryBackGround + ";" +
+                        "-fx-background-radius: 25;" +
+                        "-fx-padding: 25;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 30, 0, 0, 8);"
         );
 
-        HBox topBar = new HBox();
-        topBar.setAlignment(Pos.TOP_RIGHT);
-        Button closeBtn = new Button("X");
+        Button closeBtn = new Button("✕");
         closeBtn.setStyle(
                 "-fx-background-color: transparent;" +
-                        "-fx-text-fill: #0C4D3B;" +
-                        "-fx-font-weight: bold;"
+                        "-fx-font-size: 18px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: #7a0f6f;" +
+                        "-fx-cursor: hand;"
         );
         closeBtn.setOnAction(e -> root.getChildren().remove(popupLayer));
-        topBar.getChildren().add(closeBtn);
 
-        HBox header = new HBox(10);
-        header.setAlignment(Pos.CENTER_LEFT);
+        HBox topBar = new HBox(closeBtn);
+        topBar.setAlignment(Pos.TOP_RIGHT);
+        popup.setTop(topBar);
 
         ImageView imageView = new ImageView();
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(120);
+        imageView.setFitHeight(120);
+        imageView.setPreserveRatio(false);
 
-        Image image;
         try {
+            Image image;
             if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
                 File file = new File("profile_images/" + user.getProfilePicture());
-                if (file.exists()) {
-                    image = new Image(file.toURI().toString());
-                } else {
-                    image = new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
-                }
+                image = file.exists()
+                        ? new Image(file.toURI().toString())
+                        : new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
             } else {
                 image = new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
             }
+            imageView.setImage(image);
         } catch (Exception e) {
-            image = new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
+            imageView.setImage(new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString()));
         }
 
-        imageView.setImage(image);
-        imageView.setClip(new Circle(25, 25, 25));
+        imageView.setClip(new javafx.scene.shape.Circle(60, 60, 60));
 
-        VBox nameBox = new VBox(2);
         Label name = new Label(user.getFullName());
-        name.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        Label usernameLabel = new Label("@" + user.getUsername());
-        usernameLabel.setStyle("-fx-text-fill: gray;");
-        nameBox.getChildren().addAll(name, usernameLabel);
-        header.getChildren().addAll(imageView, nameBox);
+        name.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #222;");
+
+        Label username = new Label("@" + user.getUsername());
+        username.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
 
         Label email = new Label("Email: " + user.getEmail());
-        Label bio = new Label("Bio: " + (user.getBio() == null ? "No bio" : user.getBio()));
+        email.setWrapText(true);
+
+        Label rating = new Label(user.getFormattedRating());
+        rating.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
+
+        VBox leftCard = new VBox(14, imageView, name, username, email, rating);
+        leftCard.setAlignment(Pos.TOP_CENTER);
+        leftCard.setPrefWidth(260);
+        leftCard.setStyle(
+                "-fx-background-color:" + ThemeManager.primaryBackGround + ";" +
+                        "-fx-background-radius: 25;" +
+                        "-fx-padding: 25;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0, 0, 6);"
+        );
+
+        VBox rightPanel = new VBox(18);
+        rightPanel.setPrefWidth(560);
+        rightPanel.setStyle(
+                "-fx-background-color:" + ThemeManager.primaryBackGround + ";" +
+                        "-fx-background-radius: 25;" +
+                        "-fx-padding: 30;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0, 0, 6);"
+        );
+
+        Label bioTitle = new Label("Bio");
+        bioTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label bio = new Label(user.getBio() == null || user.getBio().isEmpty() ? "No bio added yet." : user.getBio());
         bio.setWrapText(true);
+        bio.setStyle("-fx-font-size: 15px;");
+
+        Label skillsTitle = new Label("Skills");
+        skillsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Label skills = new Label(
-                "Skills: " + (user.getSkills() == null || user.getSkills().isEmpty() ? "None" :
-                        user.getSkills().stream()
-                                .map(Skill::toString)
-                                .collect(java.util.stream.Collectors.joining(", ")))
+                user.getSkills() == null || user.getSkills().isEmpty()
+                        ? "No skills added yet."
+                        : user.getSkills().stream()
+                        .map(Skill::toString)
+                        .collect(java.util.stream.Collectors.joining(", "))
         );
+        skills.setWrapText(true);
+        skills.setStyle("-fx-font-size: 15px;");
+
+        Label hobbiesTitle = new Label("Hobbies");
+        hobbiesTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Label hobbies = new Label(
-                "Hobbies: " + (user.getHobbies() == null || user.getHobbies().isEmpty() ? "None" :
-                        user.getHobbies().stream()
-                                .map(Hobby::toString)
-                                .collect(java.util.stream.Collectors.joining(", ")))
+                user.getHobbies() == null || user.getHobbies().isEmpty()
+                        ? "No hobbies added yet."
+                        : user.getHobbies().stream()
+                        .map(Hobby::toString)
+                        .collect(java.util.stream.Collectors.joining(", "))
+        );
+        hobbies.setWrapText(true);
+        hobbies.setStyle("-fx-font-size: 15px;");
+
+        Label reviewsTitle = new Label("Reviews");
+        reviewsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label reviews = new Label(
+                user.getReviews() == null || user.getReviews().isEmpty()
+                        ? "No Reviews added yet."
+                        : user.getReviews().stream()
+                        .map(Review::toString)
+                        .collect(java.util.stream.Collectors.joining(", "))
+        );
+        reviews.setWrapText(true);
+        reviews.setStyle("-fx-font-size: 15px;");
+
+        rightPanel.getChildren().addAll(
+                bioTitle, bio,
+                skillsTitle, skills,
+                hobbiesTitle, hobbies,
+                reviewsTitle, reviews
         );
 
-        Label rating = new Label("Rating: " + user.getFormattedRating());
-        rating.setStyle("-fx-text-fill: gold");
+        HBox content = new HBox(25, leftCard, rightPanel);
+        content.setAlignment(Pos.CENTER);
 
-        Separator separator = new Separator();
+        popup.setCenter(content);
 
-        card.getChildren().addAll(topBar, header, separator, email, rating, bio, skills, hobbies);
-        popupLayer.getChildren().add(card);
-
+        popupLayer.getChildren().add(popup);
         popupLayer.setOnMouseClicked(e -> root.getChildren().remove(popupLayer));
-        card.setOnMouseClicked(e -> e.consume());
+        popup.setOnMouseClicked(e -> e.consume());
 
         root.getChildren().add(popupLayer);
         StackPane.setAlignment(popupLayer, Pos.CENTER);
     }
-
     /**
      * Formats a list of skills into a comma-separated string.
      *

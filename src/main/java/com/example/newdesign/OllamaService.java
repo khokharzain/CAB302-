@@ -25,14 +25,14 @@ public class OllamaService {
 
             if (response.statusCode() == 200) {
                 available = true;
-                System.out.println("✅ Ollama connected successfully!");
+                System.out.println("Ollama connected successfully!");
             } else {
                 available = false;
-                System.out.println("⚠️ Ollama returned status: " + response.statusCode());
+                System.out.println("Ollama returned status: " + response.statusCode());
             }
         } catch (Exception e) {
             available = false;
-            System.out.println("⚠️ Ollama not available - using fallback mode");
+            System.out.println(" Ollama not available - using fallback mode");
             System.out.println("   To enable AI, run in terminal: ollama serve");
         }
     }
