@@ -110,7 +110,7 @@ public class signUpController {
 
     public boolean isValidName(String fName, String lName){
         // validation
-        if (fName.isEmpty() || lName.isEmpty())) {
+        if (fName.isEmpty() || lName.isEmpty()) {
             showAlert("Error", "Name fields cannot be empty");
             return false;
         }
