@@ -278,7 +278,7 @@ public class User {
     }
 
     /**
-     * @return displayName
+     * @return displayName of the user
      */
     public String getDisplayName() {
         return getFullName() + (username != null ? " @" + username : "");
