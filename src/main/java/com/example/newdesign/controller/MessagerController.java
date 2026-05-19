@@ -29,28 +29,37 @@ public class MessagerController {
     @FXML private HBox headerBar;
     @FXML private HBox bottomNav;
 
-    @FXML private Button sendButton;
+    @FXML private Button SendButton;
     @FXML private Button backButton;
     @FXML private Button addUserButton;
     @FXML private Button homeButton;
     @FXML private Button searchButton;
     @FXML private Button profileButton;
+    @FXML private Button postPageButton;
+    @FXML private Button requestPageButton;
 
 
     boolean editingOrSending = true; //FALSE = Editing TRUE = Sending
     Message editingMessage;
 
     private MessageDAOImpl messageDAO = new MessageDAOImpl();
-    private User currentUser = SessionManager.getUser();
-    private User recieverUser = SearchController.Otheruser;
+    private User currentUser;
+    private User recieverUser;
     private int currentGroupid;
 
     @FXML
     public void initialize(){
-        loadMessages();
+
         applyTheme();
+        currentUser = SessionManager.getUser();
     }
 
+    public void setSelectedUser(User user){
+
+        this.recieverUser = user;
+
+        loadMessages();
+    }
 
     // MAIN CONTENTS
 
@@ -59,9 +68,18 @@ public class MessagerController {
      * display on the UI
      */
     private void loadMessages(){
+
+        if(recieverUser == null){
+            return;
+        }
+
         messageContainer.getChildren().clear();
 
-        List<Message> messages = messageDAO.getMessages(currentUser.getId(), recieverUser.getId());
+        List<Message> messages =
+                messageDAO.getMessages(
+                        currentUser.getId(),
+                        recieverUser.getId()
+                );
 
         if(messages != null && !messages.isEmpty())
         {
@@ -139,28 +157,45 @@ public class MessagerController {
      * If editingOrSending is FALSE: The button will edit the message before reloading the messages
      */
     @FXML
-    private void handleSendButton(){
+    private void handleSendButton() {
+
         String text = messageField.getText();
-        if(editingOrSending){
-            if(!text.isEmpty()){
-                messageDAO.addMessage(text, currentUser.getId(), recieverUser.getId(), currentGroupid);
+
+        if (editingOrSending) {
+
+            if (!text.isEmpty()) {
+
+                // CHECK IF RECEIVER EXISTS
+                if (recieverUser == null) {
+                    showAlert("Error", "No receiver selected.");
+                    return;
+                }
+
+                messageDAO.addMessage(
+                        text,
+                        currentUser.getId(),
+                        recieverUser.getId(),
+                        currentGroupid
+                );
+
                 loadMessages();
                 messageField.setText("");
             }
-            else{
+            else {
                 showAlert("Empty Message", "Please send thoughtful messages");
             }
+
         }
-        else{
+        else {
+
             messageDAO.editMessage(editingMessage.getId(), text);
+
             loadMessages();
             messageField.setText("");
+
             editingOrSending = true;
         }
-
-
     }
-
 
     // Buttons
     /**
@@ -205,10 +240,40 @@ public class MessagerController {
      */
     @FXML
     private void handleOtherUserButton() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("otherUserProfile-view.fxml")
+        );
+
         Scene scene = new Scene(loader.load(), 1200, 800);
+
+        // GET CONTROLLER
+        OtherUserProfileController controller = loader.getController();
+
+        // PASS THE USER
+        controller.setSelectedUser(recieverUser);
+
         Stage stage = (Stage) backButton.getScene().getWindow();
+
         stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void handleRequestPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
     }
 
 
@@ -241,6 +306,11 @@ public class MessagerController {
 
         if (bottomNav != null)
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+        if(SendButton != null)
+        {
+            SendButton.setStyle("-fx-background-color: " + gradient + ";");
+        }
+
 
     }
 

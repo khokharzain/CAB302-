@@ -12,7 +12,8 @@ public class PostParticipantDaoImpl implements PostParticipantDAO {
 
     @Override
     public void add(int postId, int userId) {
-        String sql = "INSERT INTO PostParticipant (post_id, user_id) VALUES (?, ?)";
+        String sql = "INSERT OR IGNORE INTO PostParticipant(post_id, user_id)\n" +
+                "VALUES (?, ?)";
 
         try (Connection conn = DBconnection.connect();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

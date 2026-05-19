@@ -46,21 +46,20 @@
             <HBox alignment="BOTTOM_CENTER" prefHeight="30">
                 <TextField fx:id="messageField" prefHeight="30"
                            prefWidth="1100" alignment="BASELINE_LEFT"/>
-                <Button onAction="#handleSendButton" alignment="BASELINE_RIGHT" text="Send"
-                        style="-fx-background-color: #0C4D3B;
-                                           -fx-text-fill: white;
-                                           -fx-font-weight: bold;
-                                           -fx-padding: 8 20;
-                                           -fx-background-radius: 20;"/>
+                <Button fx:id="SendButton"
+                        onAction="#handleSendButton" alignment="BASELINE_RIGHT" text="Send"
+                        />
             </HBox>
         </VBox>
 
         <!-- ========== BOTTOM NAVIGATION ========== -->
-        <HBox fx:id = "bottomNav"
+        <!-- FOOTER -->
+        <HBox fx:id="bottomNav"
               alignment="CENTER"
               spacing="50"
-              prefHeight="60"
+              prefHeight="20"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
+
             <Button fx:id="homeButton"
                     style="-fx-background-color: transparent;" onAction="#handleHomeButton"
             ><graphic>
@@ -71,19 +70,32 @@
                 </ImageView>
             </graphic>
             </Button>
+
             <Button fx:id="searchButton"
                     onAction="#handleSearchButton"
                     style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/SearchBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="postPageButton"
+                    onAction="#handlePostPage"
+
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
                         <image>
-                            <Image url="@Icons/SearchBlack.png"/>
+                            <Image url="@Icons/post.png"/>
                         </image>
                     </ImageView>
                 </graphic>
             </Button>
-            <Button
-                    style="-fx-background-color:transparent;">
+
+            <Button fx:id="requestPageButton"
+                    onAction="#handleRequestPage"
+                    style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="20" fitWidth="20">
                         <image>
@@ -104,6 +116,7 @@
                     </ImageView>
                 </graphic>
             </Button>
+
         </HBox>
 
     </VBox>

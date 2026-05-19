@@ -58,7 +58,8 @@ public class SearchController {
     private StackPane popupLayer;
 
     private UserDAOImpl userDAO = new UserDAOImpl();
-    public static User Otheruser;
+
+
 
     @FXML
     public void initialize() {
@@ -80,7 +81,7 @@ public class SearchController {
         });
 
         applyTheme();
-        Otheruser = null;
+
     }
 
     private void applyTheme(){
@@ -229,12 +230,21 @@ public class SearchController {
             //Set to view profile of clicked box
             card.setOnMouseClicked(event -> {
                 try {
-                    Otheruser = userDAO.getUserById(user.getId());
-                    if(Otheruser.getId() == SessionManager.getUser().getId()){
+
+                    User selectedUser = userDAO.getUserById(user.getId());
+
+                    User currentUser = SessionManager.getUser();
+
+                    if(currentUser == null){
+                        System.out.println("No user logged in");
+                        return;
+                    }
+
+                    if(selectedUser.getId() == currentUser.getId()){
                         handleProfileButton();
                     }
-                    else {
-                        handleOtherProfileButton();
+                    else{
+                        handleOtherProfileButton(selectedUser);
                     }
 
                 } catch (Exception e) {
@@ -247,139 +257,7 @@ public class SearchController {
     }
 
     // this is the container that show all information from the choosen user.
-    private void showUserPopUp(User user) {
 
-        popupLayer.getChildren().clear();
-        popupLayer.setVisible(true);
-
-        StackPane overlay = new StackPane();
-        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.45);");
-        overlay.setAlignment(Pos.CENTER);
-
-        BorderPane popup = new BorderPane();
-        popup.setPrefSize(900, 620);
-        popup.setMaxSize(900, 620);
-        popup.setStyle(
-                "-fx-background-color:" +  ThemeManager.primaryBackGround + ";" +
-                        "-fx-background-radius: 25;" +
-                        "-fx-padding: 25;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 30, 0, 0, 8);"
-        );
-
-        Button closeBtn = new Button("✕");
-        closeBtn.setStyle(
-                "-fx-background-color: transparent;" +
-                        "-fx-font-size: 18px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: #7a0f6f;" +
-                        "-fx-cursor: hand;"
-        );
-        closeBtn.setOnAction(e -> popupLayer.setVisible(false));
-
-        HBox topBar = new HBox(closeBtn);
-        topBar.setAlignment(Pos.TOP_RIGHT);
-        popup.setTop(topBar);
-
-        ImageView imageView = new ImageView();
-        imageView.setFitWidth(120);
-        imageView.setFitHeight(120);
-        imageView.setPreserveRatio(false);
-
-        try {
-            Image image;
-            if (user.getProfilePicture() != null && !user.getProfilePicture().isEmpty()) {
-                File file = new File("profile_images/" + user.getProfilePicture());
-                image = file.exists()
-                        ? new Image(file.toURI().toString())
-                        : new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
-            } else {
-                image = new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString());
-            }
-            imageView.setImage(image);
-        } catch (Exception e) {
-            imageView.setImage(new Image(getClass().getResource("/com/example/newdesign/images/default.png").toString()));
-        }
-
-        imageView.setClip(new javafx.scene.shape.Circle(60, 60, 60));
-
-        Label name = new Label(user.getFullName());
-        name.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #222;");
-
-        Label username = new Label("@" + user.getUsername());
-        username.setStyle("-fx-font-size: 14px; -fx-text-fill: #666;");
-
-        Label email = new Label("Email: " + user.getEmail());
-        email.setWrapText(true);
-
-        VBox leftCard = new VBox(14, imageView, name, username, email);
-        leftCard.setAlignment(Pos.TOP_CENTER);
-        leftCard.setPrefWidth(260);
-        leftCard.setStyle(
-                "-fx-background-color:" +  ThemeManager.primaryBackGround + ";" +
-                        "-fx-background-radius: 25;" +
-                        "-fx-padding: 25;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0, 0, 6);"
-        );
-
-        VBox rightPanel = new VBox(18);
-        rightPanel.setPrefWidth(560);
-        rightPanel.setStyle(
-                "-fx-background-color:" +  ThemeManager.primaryBackGround + ";" +
-                        "-fx-background-radius: 25;" +
-                        "-fx-padding: 30;" +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 18, 0, 0, 6);"
-        );
-
-        Label bioTitle = new Label("Bio");
-        bioTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
-        Label bio = new Label(user.getBio() == null || user.getBio().isEmpty() ? "No bio added yet." : user.getBio());
-        bio.setWrapText(true);
-        bio.setStyle("-fx-font-size: 15px;");
-
-        Label skillsTitle = new Label("Skills");
-        skillsTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
-        Label skills = new Label(
-                user.getSkills() == null || user.getSkills().isEmpty()
-                        ? "No skills added yet."
-                        : user.getSkills().stream()
-                        .map(Skill::toString)
-                        .collect(java.util.stream.Collectors.joining(", "))
-        );
-        skills.setWrapText(true);
-        skills.setStyle("-fx-font-size: 15px;");
-
-        Label hobbiesTitle = new Label("Hobbies");
-        hobbiesTitle.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
-        Label hobbies = new Label(
-                user.getHobbies() == null || user.getHobbies().isEmpty()
-                        ? "No hobbies added yet."
-                        : user.getHobbies().stream()
-                        .map(Hobby::toString)
-                        .collect(java.util.stream.Collectors.joining(", "))
-        );
-        hobbies.setWrapText(true);
-        hobbies.setStyle("-fx-font-size: 15px;");
-
-        rightPanel.getChildren().addAll(
-                bioTitle, bio,
-                skillsTitle, skills,
-                hobbiesTitle, hobbies
-        );
-
-        HBox content = new HBox(25, leftCard, rightPanel);
-        content.setAlignment(Pos.CENTER);
-
-        popup.setCenter(content);
-
-        overlay.getChildren().add(popup);
-        overlay.setOnMouseClicked(e -> popupLayer.setVisible(false));
-        popup.setOnMouseClicked(e -> e.consume());
-
-        popupLayer.getChildren().add(overlay);
-    }
 
 
 //Allowed a new FXML Function to be able to be directed to the requests page through the search page. @zain and @amir
@@ -419,10 +297,24 @@ public class SearchController {
 
     //Other User Profile views
     @FXML
-    private void handleOtherProfileButton() throws Exception{
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
+    private void handleOtherProfileButton(User selectedUser) throws Exception {
+
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource(
+                        "otherUserProfile-view.fxml"
+                )
+        );
+
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileButton.getScene().getWindow();
+
+        OtherUserProfileController controller =
+                loader.getController();
+
+        controller.setSelectedUser(selectedUser);
+
+        Stage stage =
+                (Stage) profileButton.getScene().getWindow();
+
         stage.setScene(scene);
     }
 

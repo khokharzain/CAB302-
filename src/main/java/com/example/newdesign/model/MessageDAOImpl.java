@@ -220,4 +220,41 @@ public class MessageDAOImpl implements MessageDAO{
         return id;
     }
 
+    // ================= GET RECEIVED MESSAGES =================
+    @Override
+    public List<Message> getMessagesForUser(int userId) {
+
+        String sql = "SELECT * FROM Messages WHERE recieverId = ?";
+
+        List<Message> messages = new ArrayList<>();
+
+        try (
+                Connection conn = DBconnection.connect();
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+
+            stmt.setInt(1, userId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                Message message = new Message(
+                        rs.getInt("id"),
+                        rs.getInt("senderId"),
+                        rs.getInt("recieverId"),
+                        rs.getInt("groupId"),
+                        rs.getString("message")
+                );
+
+                messages.add(message);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return messages;
+    }
+
 }

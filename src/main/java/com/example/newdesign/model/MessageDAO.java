@@ -21,4 +21,6 @@ public interface MessageDAO {
     List<User> getReceivers();
     int getMaxGroupId();
 
+    List<Message> getMessagesForUser(int userId);
+
 }

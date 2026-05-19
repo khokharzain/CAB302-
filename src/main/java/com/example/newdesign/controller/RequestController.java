@@ -44,15 +44,31 @@ public class RequestController {
     private StackPane popupLayer;
 
 
+    @FXML
+    private VBox messagesContainer;
+
+    private MessageDAO messageDAO = new MessageDAOImpl();
+
     private JoinRequestDao requestDAO = new JoinRequestDaoImpl();
     private UserDAO userDAO = new UserDAOImpl();
     private PostDAO postDAO = new PostDaoImpl();
     private PostParticipantDAO participantDAO = new PostParticipantDaoImpl();
     User currentUser;
+    User Otheruser;
+
+
+
+
+
+
+
 
     public void initialize() {
         loadRequests();
         applyTheme();
+        loadMessages();
+
+
     }
 
 
@@ -191,6 +207,121 @@ public class RequestController {
             mainController.instance.loadPosts();
         }
     }
+
+
+
+
+    // ================= LOAD MESSAGES =================
+    private void loadMessages() {
+
+        User currentUser = SessionManager.getUser();
+
+        if (currentUser == null) {
+            System.out.println("No user logged in");
+            return;
+        }
+
+        List<Message> messages =
+                messageDAO.getMessagesForUser(currentUser.getId());
+
+        messagesContainer.getChildren().clear();
+
+        for (Message msg : messages) {
+            VBox card = createMessageCard(msg);
+            messagesContainer.getChildren().add(card);
+        }
+    }
+
+    // ================= CREATE MESSAGE CARD =================
+    private VBox createMessageCard(Message message) {
+
+        User sender = userDAO.getUserById(message.getSenderId());
+
+        VBox card = new VBox(10);
+
+        card.setStyle(
+                "-fx-background-color: white;" +
+                        "-fx-padding: 12;" +
+                        "-fx-background-radius: 10;" +
+                        "-fx-border-color: #ddd;" +
+                        "-fx-border-radius: 10;"
+        );
+
+        // sender name
+        Label name = new Label(
+                sender.getFirstName() + " " + sender.getLastName()
+        );
+
+        name.setStyle(
+                "-fx-font-weight: bold; -fx-font-size: 14;"
+        );
+
+        // message content
+        Label content = new Label(message.getMessageText());
+
+        content.setWrapText(true);
+
+        // reply button
+        HBox actions = new HBox(10);
+
+
+
+        //add button
+        Button profBtn = new Button("Check my profile if you are interested!");
+        profBtn.setStyle(
+                "-fx-background-color: " + ThemeManager.primaryStart +";"+
+                        "-fx-text-fill: white;"
+        );
+
+        //remove button
+        Button remBtn = new Button("Remove");
+        remBtn.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
+
+        actions.getChildren().addAll(profBtn, remBtn);
+
+        //Set to view profile of clicked box
+        profBtn.setOnAction(e -> {
+
+            try {
+
+                User selectedUser =
+                        userDAO.getUserById(message.getSenderId());
+
+                FXMLLoader loader = new FXMLLoader(
+                        HelloApplication.class.getResource(
+                                "otherUserProfile-view.fxml"
+                        )
+                );
+
+                Scene scene = new Scene(loader.load(), 1200, 800);
+
+                OtherUserProfileController controller =
+                        loader.getController();
+
+                controller.setSelectedUser(selectedUser);
+
+                Stage stage =
+                        (Stage) profBtn.getScene().getWindow();
+
+                stage.setScene(scene);
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        remBtn.setOnAction(e->{
+            messageDAO.deleteMessage(message.getId());
+            loadMessages();
+        });
+
+
+
+        card.getChildren().addAll(name, content, actions);
+
+        return card;
+    }
+
 
 
 
@@ -339,6 +470,9 @@ public class RequestController {
 
 
     //handling all Buttons in here
+
+
+
     @FXML
     private void handleHomeButton() throws Exception{
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
@@ -379,18 +513,32 @@ public class RequestController {
         fade.play();
         stage.setScene(scene);
     }
-
     public void handleSearchButton() throws Exception {
+
         FXMLLoader loader = new FXMLLoader(
                 HelloApplication.class.getResource("search-view.fxml")
         );
+
         Scene scene = new Scene(loader.load(), 1200, 800);
-        SessionManager.setUser(currentUser);
+
         Stage stage = (Stage) searchButton.getScene().getWindow();
-        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+
+        FadeTransition fade =
+                new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+
         fade.setFromValue(0);
         fade.setToValue(1);
         fade.play();
+
+        stage.setScene(scene);
+    }
+
+    //Other User Profile views
+    @FXML
+    private void handleOtherProfileButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(scene);
     }
 }

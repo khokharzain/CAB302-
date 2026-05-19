@@ -60,6 +60,7 @@ public class ProfileController {
     @FXML private Button addTeachSkillButton;
     @FXML private Button addLearnSkillButton;
     @FXML private Button addHobbyButton;
+    @FXML private Button postButton;
 
     @FXML
     private Button editProfileButton;
@@ -615,6 +616,18 @@ public class ProfileController {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) profileImage.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private void handlePostButton() throws Exception{
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) postButton.getScene().getWindow();
+        FadeTransition fade = new FadeTransition(Duration.seconds(0.5), scene.getRoot());
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
         stage.setScene(scene);
     }
 

@@ -16,7 +16,8 @@
           AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
 
         <!-- HEADER -->
-        <HBox prefHeight="60"
+        <HBox  fx:id="headerBar"
+                prefHeight="60"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
                -fx-background-radius:15;
               -fx-border-radius:15;
@@ -34,6 +35,7 @@
         <HBox alignment ="CENTER">
 
             <Label text="Find Your Skill Match"
+                   fx:id="searchLabel"
                    style = "-fx-background-color: transparent;-fx-text-fill: linear-gradient(to right, #0C4D3B, #0EBB8A); -fx-font-size: 36px; -fx-font-weight: bold;"/>
 
         </HBox>
@@ -71,7 +73,8 @@
 
 
         <!-- FOOTER -->
-        <HBox alignment="CENTER"
+        <HBox fx:id="bottomNav"
+                alignment="CENTER"
               spacing="50"
               prefHeight="20"
               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">

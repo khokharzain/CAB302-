@@ -1686,18 +1686,46 @@ public class mainController {
      * Loads selected User's profile from the AI assistant
      * */
     private void openUserProfile(User user) {
+
         try {
-            SearchController.Otheruser = userDAO.getUserById(user.getId());
-            FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("otherUserProfile-view.fxml"));
-            Scene scene = new Scene(loader.load(), 1200, 800);
-            Stage stage = (Stage) floatingAISummoner.getScene().getWindow();
+
+            User selectedUser =
+                    userDAO.getUserById(user.getId());
+
+            FXMLLoader loader = new FXMLLoader(
+                    HelloApplication.class.getResource(
+                            "otherUserProfile-view.fxml"
+                    )
+            );
+
+            Scene scene = new Scene(
+                    loader.load(),
+                    1200,
+                    800
+            );
+
+            OtherUserProfileController controller =
+                    loader.getController();
+
+            controller.setSelectedUser(selectedUser);
+
+            Stage stage =
+                    (Stage) floatingAISummoner
+                            .getScene()
+                            .getWindow();
+
             stage.setScene(scene);
+
         } catch (Exception e) {
+
             e.printStackTrace();
-            showResponse("Could not open profile: " + e.getMessage());
+
+            showResponse(
+                    "Could not open profile: "
+                            + e.getMessage()
+            );
         }
     }
-
     private String formatSkills(List<Skill> skills) {
         if (skills == null || skills.isEmpty()) return "None";
         return skills.stream().map(Skill::getSkillName).collect(Collectors.joining(", "));

@@ -54,6 +54,10 @@ public class OtherUserProfileController {
 
     // Buttons
     @FXML private Button backButton;
+    @FXML private Button homeButton;
+    @FXML private Button requestPageButton;
+    @FXML private Button postPageButton;
+    @FXML private Button searchButton;
     @FXML private Button messageButton;
     @FXML private Button profileButton;
 
@@ -64,18 +68,20 @@ public class OtherUserProfileController {
      */
     @FXML
     public void initialize() {
-        otherUser = SearchController.Otheruser;
+
+        applyTheme();
+    }
+
+    public void setSelectedUser(User user){
+
+        this.otherUser = user;
 
         if (otherUser != null) {
             loadProfileData();
             loadSkills();
             loadHobbies();
             loadReviews();
-        } else {
-            showAlert("Error", "No user logged in");
         }
-
-        applyTheme();
     }
 
     /**
@@ -99,6 +105,9 @@ public class OtherUserProfileController {
 
         if (bottomNav != null)
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+        if(messageButton != null){
+            messageButton.setStyle("-fx-background-color: " + gradient + ";");
+        }
 
     }
 
@@ -283,32 +292,25 @@ public class OtherUserProfileController {
 
     // ========== Navigation Methods ==========
 
+    // Buttons
+    /**
+     * Any Button with this method changes the Scene to the Home Screen
+     * @throws Exception
+     */
     @FXML
-    private void handleHome() throws Exception {
+    private void handleHomeButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileImage.getScene().getWindow();
+        Stage stage = (Stage) homeButton.getScene().getWindow();
         stage.setScene(scene);
     }
 
+    /**
+     * Any Button with this method changes the Scene to the User Profile Screen
+     * @throws Exception
+     */
     @FXML
-    private void handleSearch() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) profileImage.getScene().getWindow();
-        stage.setScene(scene);
-    }
-
-    @FXML
-    private void handleMessager() throws Exception {
-        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("messager-view.fxml"));
-        Scene scene = new Scene(loader.load(), 1200, 800);
-        Stage stage = (Stage) messageButton.getScene().getWindow();
-        stage.setScene(scene);
-    }
-
-    @FXML
-    private void handleProfile() throws IOException {
+    private void handleProfileButton() throws Exception {
         FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
         Scene scene = new Scene(loader.load(), 1200, 800);
         Stage stage = (Stage) profileButton.getScene().getWindow();
@@ -316,9 +318,48 @@ public class OtherUserProfileController {
     }
 
     @FXML
-    private void handleAIChat() {
-        showAlert("Info", "AI Chat feature coming soon!");
+    private void handleSearchButton() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) searchButton.getScene().getWindow();
+        stage.setScene(scene);
     }
+
+    @FXML
+    private void handleRequestPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handleMessager() throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("messager-view.fxml")
+        );
+
+        Scene scene = new Scene(loader.load());
+
+        MessagerController controller = loader.getController();
+        controller.setSelectedUser(otherUser);
+
+        Stage stage = (Stage) messageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
 
 
 
