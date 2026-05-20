@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="final touches on the ui of our project done, a lots of buggs deugged. request page implemented again. only need zain to do his part and push it to the main branch.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main_branch" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ArabellaRivera&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/khokharzain/CAB302-&quot;,
+    &quot;accountId&quot;: &quot;6ade803c-4b00-4fed-ba3f-b369709fc861&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3AVKgC9nVHHtN3efVLtBEpmfC5x" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Launcher.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MessageTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MessagingTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.MessagingTest.testEditingMessage.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.MessagingTest.testSendMessage.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.PostParticipantDaoImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;amir-branch&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/arabe/OneDrive/Desktop/Projects/QUT Stuff/Sem 1/CAB302/Assessments/Group Project/CAB302-&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\arabe\OneDrive\Desktop\Projects\QUT Stuff\Sem 1\CAB302\Assessments\Group Project\CAB302-" />
+      <recent name="C:\Users\arabe\OneDrive\Desktop\Projects\QUT Stuff\Sem 1\CAB302\Assessments\Group Project\CAB302-\src\main\resources\com\example\newdesign" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\arabe\OneDrive\Desktop\Projects\QUT Stuff\Sem 1\CAB302\Assessments\Group Project\CAB302-\src\main\java\com\example\newdesign\model" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.example.newdesign" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.newdesign.controller" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="" />
+      <created>1772672406881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1772672406881</updated>
+      <workItem from="1772672408115" duration="23000" />
+      <workItem from="1772672561900" duration="3000" />
+      <workItem from="1774486489865" duration="1226000" />
+      <workItem from="1774488557037" duration="342000" />
+      <workItem from="1774489195955" duration="506000" />
+      <workItem from="1774490565933" duration="736000" />
+      <workItem from="1775046590040" duration="10781000" />
+      <workItem from="1775391213155" duration="1712000" />
+      <workItem from="1775392946074" duration="969000" />
+      <workItem from="1775551731347" duration="888000" />
+      <workItem from="1776069770299" duration="11097000" />
+      <workItem from="1776237882359" duration="17617000" />
+      <workItem from="1776947104944" duration="3500000" />
+      <workItem from="1777102460542" duration="8701000" />
+      <workItem from="1777133965196" duration="30124000" />
+      <workItem from="1777382146151" duration="14261000" />
+      <workItem from="1778073742809" duration="16146000" />
+      <workItem from="1778711643280" duration="371000" />
+      <workItem from="1779102096395" duration="7031000" />
+    </task>
+    <task id="LOCAL-00001" summary="final touches on the ui of our project done, a lots of buggs deugged. request page implemented again. only need zain to do his part and push it to the main branch.">
+      <option name="closed" value="true" />
+      <created>1779233201474</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779233201474</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="final touches on the ui of our project done, a lots of buggs deugged. request page implemented again. only need zain to do his part and push it to the main branch." />
+    <option name="LAST_COMMIT_MESSAGE" value="final touches on the ui of our project done, a lots of buggs deugged. request page implemented again. only need zain to do his part and push it to the main branch." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/AIController.java</url>
+          <line>433</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/newdesign/model/MessageDAOImpl.java</url>
+          <line>120</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

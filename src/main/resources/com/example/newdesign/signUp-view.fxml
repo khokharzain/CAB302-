@@ -10,7 +10,7 @@
 <AnchorPane fx:id="signUp"
         xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.newdesign.signUpController"
+            fx:controller="com.example.newdesign.controller.signUpController"
             prefHeight="500" prefWidth="800"
            >
     <ImageView fitHeight="${signUp.height}"

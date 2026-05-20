@@ -10,7 +10,7 @@
 <StackPane
         xmlns="http://javafx.com/javafx/21"
         xmlns:fx="http://javafx.com/fxml"
-        fx:controller="com.example.newdesign.ProfileController">
+        fx:controller="com.example.newdesign.controller.ProfileController">
     <AnchorPane
                 prefHeight="800.0" prefWidth="1200.0"
                 style="-fx-background-color: #F5F5F5;">
@@ -215,7 +215,8 @@
                     </graphic>
                 </Button>
                 <Button fx:id="postButton"
-                        style="-fx-background-color: transparent;">
+                        style="-fx-background-color: transparent;"
+                onAction="#handlePostButton">
                     <graphic>
                         <ImageView fitHeight="20" fitWidth="20">
                             <Image url="@Icons/post.png"/>

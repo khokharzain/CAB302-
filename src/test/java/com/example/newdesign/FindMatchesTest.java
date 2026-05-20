@@ -1,5 +1,6 @@
 package com.example.newdesign;
 
+import com.example.newdesign.model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
