@@ -3,14 +3,13 @@ package com.example.newdesign.controller;
 import com.example.newdesign.HelloApplication;
 import com.example.newdesign.model.*;
 import com.example.newdesign.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -52,6 +51,7 @@ public class MessagerController {
 
         applyTheme();
         currentUser = SessionManager.getUser();
+        messageContainer.setFillWidth(true);
     }
 
     public void setSelectedUser(User user){
@@ -106,50 +106,121 @@ public class MessagerController {
      * @param message
      * @return row
      */
-    private HBox createMessageContainer(Message message){
-        HBox row = new HBox(10);
+    private HBox createMessageContainer(Message message) {
 
-        row.setStyle("-fx-padding: 8; -fx-background-color: #f0eded; -fx-background-radius: 8; -fx-pref-width: 1175");
-        row.setPrefHeight(40);
+
+
+        HBox container = new HBox();
+        container.setPadding(new Insets(6, 12, 6, 12));
+        container.setMaxWidth(Double.MAX_VALUE);
+        container.prefWidthProperty().bind(messageContainer.widthProperty());
+
+
+
+        HBox row = new HBox(10);
+        row.setPadding(new Insets(10, 14, 10, 14));
+        row.setMinHeight(40);
+        row.setMaxWidth(420);
+
 
         Label messageLabel = new Label(message.getMessageText());
 
-        row.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(messageLabel, Priority.ALWAYS);
+        messageLabel.setWrapText(true);
 
-        if(message.getSenderId() == currentUser.getId()){
-            row.setAlignment(Pos.CENTER_LEFT);
-            Button editButton = new Button("Edit");
-            Button deleteButton = new Button("Delete");
-            editButton.setStyle("-fx-background-color: #f0d16c; -fx-text-fill: white;" +
-                    " -fx-background-radius: 5; -fx-font-size: 11px;");
-            deleteButton.setStyle("-fx-background-color: #E57373; -fx-text-fill: white;" +
-                    " -fx-background-radius: 5; -fx-font-size: 11px;");
-            editButton.setAlignment(Pos.CENTER_RIGHT);
-            deleteButton.setAlignment(Pos.CENTER_RIGHT);
+        messageLabel.setStyle(
+                "-fx-text-fill: white;" +
+                        "-fx-font-size: 14px;" +
+                        "-fx-font-family: 'Segoe UI';"
+        );
 
-            deleteButton.setOnAction(e -> {
-                messageDAO.deleteMessage(message.getId());
-                loadMessages();
-            });
 
-            editButton.setOnAction(e -> {
+
+
+
+        if (message.getSenderId() == currentUser.getId()) {
+
+            container.setAlignment(Pos.CENTER_RIGHT);
+
+            row.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom right, " +
+                            ThemeManager.primaryStart + ", " +
+                            ThemeManager.primaryEnd + ");" +
+
+                            "-fx-background-radius: 22 22 6 22;" +
+                            "-fx-border-radius: 22 22 6 22;" +
+
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 10, 0.2, 0, 3);"
+            );
+
+
+
+            MenuButton menuButton = new MenuButton("⋮");
+
+            MenuItem editItem = new MenuItem("Edit");
+            MenuItem deleteItem = new MenuItem("Delete");
+
+            menuButton.getItems().addAll(editItem, deleteItem);
+
+            menuButton.setStyle(
+                    "-fx-background-color: transparent;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-font-size: 15px;" +
+                            "-fx-cursor: hand;"
+            );
+
+
+            editItem.setOnAction(e -> {
+
                 messageField.setText(message.getMessageText());
-                editingOrSending = false; //Editing
+
+                editingOrSending = false;
                 editingMessage = message;
             });
 
-            row.getChildren().addAll(messageLabel, editButton, deleteButton);
-        }
-        else{
 
-            row.setAlignment(Pos.CENTER_RIGHT);
-            row.getChildren().addAll(messageLabel);
+
+            deleteItem.setOnAction(e -> {
+
+                messageDAO.deleteMessage(message.getId());
+
+                Platform.runLater(this::loadMessages);
+            });
+
+            row.getChildren().addAll(messageLabel, menuButton);
         }
 
-        return row;
+
+        else {
+
+            container.setAlignment(Pos.CENTER_LEFT);
+
+            row.setStyle(
+                    "-fx-background-color: rgba(100,100,100,0.3);" +
+                            "-fx-background-radius: 22 22 22 6;" +
+                            "-fx-border-radius: 22 22 22 6;"
+            );
+
+            messageLabel.setStyle(
+                    "-fx-text-fill: black;" +
+                            "-fx-font-size: 14px;" +
+                            "-fx-font-family: 'Segoe UI';"
+            );
+
+            row.getChildren().add(messageLabel);
+        }
+
+
+
+        row.setOnMouseEntered(e -> row.setOpacity(0.92));
+
+        row.setOnMouseExited(e -> row.setOpacity(1));
+
+
+
+        container.getChildren().add(row);
+
+        return container;
     }
-
 
     /**
      * Send button is multifunctional
@@ -308,7 +379,7 @@ public class MessagerController {
             bottomNav.setStyle("-fx-background-color: " + gradient + ";");
         if(SendButton != null)
         {
-            SendButton.setStyle("-fx-background-color: " + gradient + ";");
+            SendButton.setStyle("-fx-background-color: " + ThemeManager.primaryEnd + ";");
         }
 
 

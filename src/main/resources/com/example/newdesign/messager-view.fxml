@@ -40,8 +40,13 @@
         <VBox style="-fx-background-color: white;
                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
                 -fx-padding: 10;">
-            <ScrollPane prefHeight="620">
-                <VBox fx:id="messageContainer" spacing="8"/>
+            <ScrollPane prefHeight="620" fitToWidth="true"
+                        hbarPolicy="NEVER">
+
+                <VBox fx:id="messageContainer"
+                      spacing="8"
+                      fillWidth="true"
+                      prefWidth="Infinity"/>
             </ScrollPane>
             <HBox alignment="BOTTOM_CENTER" prefHeight="30">
                 <TextField fx:id="messageField" prefHeight="30"
