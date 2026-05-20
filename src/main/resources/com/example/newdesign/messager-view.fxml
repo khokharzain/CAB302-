@@ -37,26 +37,44 @@
 
         <!-- MAIN CONTENT -->
 
-        <VBox style="-fx-background-color: white;
-                -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
-                -fx-padding: 10;">
-            <ScrollPane prefHeight="620" fitToWidth="true"
-                        hbarPolicy="NEVER">
+        <VBox style="
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+    -fx-padding: 10;">
 
-                <VBox fx:id="messageContainer"
-                      spacing="8"
-                      fillWidth="true"
-                      prefWidth="Infinity"/>
-            </ScrollPane>
+            <StackPane prefHeight="620"
+                       style="
+                   -fx-background-image: url('/com/example/newdesign/images/oceanwavesbg.jpg');
+                   -fx-background-size: cover;
+                   -fx-background-position: center center;
+                   -fx-background-repeat: stretch;">
+
+                <ScrollPane prefHeight="620"
+                            fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            style="-fx-background-color: transparent; -fx-background: transparent;">
+
+                    <VBox fx:id="messageContainer"
+                          style="-fx-background-color: transparent;"
+                          spacing="8"
+                          fillWidth="true"
+                          prefWidth="Infinity"/>
+                </ScrollPane>
+
+            </StackPane>
+
             <HBox alignment="BOTTOM_CENTER" prefHeight="30">
-                <TextField fx:id="messageField" prefHeight="30"
-                           prefWidth="1100" alignment="BASELINE_LEFT"/>
+                <TextField fx:id="messageField"
+                           prefHeight="30"
+                           prefWidth="1100"
+                           alignment="BASELINE_LEFT"/>
+
                 <Button fx:id="SendButton"
-                        onAction="#handleSendButton" alignment="BASELINE_RIGHT" text="Send"
-                        />
+                        onAction="#handleSendButton"
+                        alignment="BASELINE_RIGHT"
+                        text="Send"/>
             </HBox>
         </VBox>
-
         <!-- ========== BOTTOM NAVIGATION ========== -->
         <!-- FOOTER -->
         <HBox fx:id="bottomNav"
