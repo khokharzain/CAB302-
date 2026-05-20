@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MessageTest {
 
-private Message message;
+    private Message message;
 
-@BeforeEach
+    @BeforeEach
     public void SetUp(){
     message = new Message(1,19,  3, 10,"Hello");
     }

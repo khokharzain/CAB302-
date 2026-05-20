@@ -83,6 +83,17 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- ... other plugins -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <destDir>javadoc</destDir>
+                    <reportOutputDirectory>${project.build.directory}/docs</reportOutputDirectory>
+                </configuration>
+            </plugin>
+            <!-- ... other plugins -->
         </plugins>
     </build>
 </project>
