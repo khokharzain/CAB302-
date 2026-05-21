@@ -248,7 +248,8 @@ public class OtherUserProfileController {
 
         String stars = getStarString(review.getRating());
         Label ratingLabel = new Label(stars);
-        ratingLabel.setStyle("-fx-font-size: 14px;");
+
+        ratingLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gold;");
 
         Label commentLabel = new Label(review.getComment());
         commentLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13px;");

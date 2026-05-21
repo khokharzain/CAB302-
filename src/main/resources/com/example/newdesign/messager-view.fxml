@@ -38,16 +38,16 @@
         <!-- MAIN CONTENT -->
 
         <VBox style="
-    -fx-background-color: white;
+    -fx-background-image: url('/com/example/newdesign/images/oceanwavesbg.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: stretch;
+
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
     -fx-padding: 10;">
 
             <StackPane prefHeight="620"
-                       style="
-                   -fx-background-image: url('/com/example/newdesign/images/oceanwavesbg.jpg');
-                   -fx-background-size: cover;
-                   -fx-background-position: center center;
-                   -fx-background-repeat: stretch;">
+                       >
 
                 <ScrollPane prefHeight="620"
                             fitToWidth="true"
@@ -63,11 +63,12 @@
 
             </StackPane>
 
-            <HBox alignment="BOTTOM_CENTER" prefHeight="30">
+            <HBox alignment="BOTTOM_CENTER" prefHeight="30" spacing="10">
                 <TextField fx:id="messageField"
                            prefHeight="30"
                            prefWidth="1100"
-                           alignment="BASELINE_LEFT"/>
+                           alignment="BASELINE_LEFT"
+                style="-fx-background-color: rgba(250,250,250,0.8); -fx-border-color: white; -fx-background-radius:25; -fx-border-radius:25"/>
 
                 <Button fx:id="SendButton"
                         onAction="#handleSendButton"

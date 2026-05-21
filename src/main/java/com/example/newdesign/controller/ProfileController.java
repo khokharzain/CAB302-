@@ -258,7 +258,9 @@ public class ProfileController {
         row.setStyle("-fx-padding: 10; -fx-background-color: #FAFAFA; -fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8;");
 
         String stars = getStarString(review.getRating());
+
         Label ratingLabel = new Label(stars);
+        ratingLabel.setStyle("-fx-text-fill: gold;");
         ratingLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gold");
 
         Label commentLabel = new Label(review.getComment());

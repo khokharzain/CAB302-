@@ -195,7 +195,7 @@ public class MessagerController {
             container.setAlignment(Pos.CENTER_LEFT);
 
             row.setStyle(
-                    "-fx-background-color: rgba(100,100,100,0.3);" +
+                    "-fx-background-color: rgba(209,208,213,0.8);" +
                             "-fx-background-radius: 22 22 22 6;" +
                             "-fx-border-radius: 22 22 22 6;"
             );
