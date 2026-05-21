@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53476f36-69a0-4227-915b-69390cbffad1" name="Changes" comment="final touches on the ui of our project done, a lots of buggs deugged. request page implemented again. only need zain to do his part and push it to the main branch.">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/images/chatbg5.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profile_images/amir_example_com.png" beforeDir="false" afterPath="$PROJECT_DIR$/profile_images/amir_example_com.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/MessagerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/OtherUserProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/newdesign/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/newdesign/messager-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,10 +62,12 @@
   "keyToString": {
     "Application.HelloApplication.executor": "Debug",
     "Application.Launcher.executor": "Run",
+    "JUnit.JoinRequestDaoImplTest.executor": "Run",
     "JUnit.MessageTest.executor": "Run",
     "JUnit.MessagingTest.executor": "Debug",
     "JUnit.MessagingTest.testEditingMessage.executor": "Debug",
     "JUnit.MessagingTest.testSendMessage.executor": "Debug",
+    "JUnit.PostDaoImplTest.executor": "Run",
     "JUnit.PostParticipantDaoImplTest.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -79,7 +75,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "amir-branch",
+    "git-widget-placeholder": "main__branch",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/amirsorabi/IdeaProjects/newDesign/src/main/resources/com/example/newdesign/images",
     "node.js.detected.package.eslint": "true",
