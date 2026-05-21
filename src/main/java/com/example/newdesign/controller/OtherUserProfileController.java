@@ -1,0 +1,376 @@
+package com.example.newdesign.controller;
+
+import com.example.newdesign.HelloApplication;
+import com.example.newdesign.model.*;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+public class OtherUserProfileController {
+
+    private User otherUser;
+
+    // ========== FXML Components ==========
+
+    //Header and Footer
+    @FXML private HBox bottomNav;
+    @FXML private HBox headerBar;
+
+    // Profile Display
+    @FXML private ImageView profileImage;
+    @FXML private Label fullNameLabel;
+    @FXML private Label usernameLabel;
+    @FXML private Label emailLabel;
+    @FXML private Label phoneLabel;
+    @FXML private Label locationLabel;
+    @FXML private Label joinDateLabel;
+    @FXML private Label bioLabel;
+    @FXML private Label ratingLabel;
+
+    // Skills Containers
+    @FXML private VBox teachSkillsContainer;
+    @FXML private VBox learnSkillsContainer;
+    @FXML private VBox hobbiesContainer;
+    @FXML private VBox reviewsContainer;
+
+    // Buttons
+    @FXML private Button backButton;
+    @FXML private Button homeButton;
+    @FXML private Button requestPageButton;
+    @FXML private Button postPageButton;
+    @FXML private Button searchButton;
+    @FXML private Button messageButton;
+    @FXML private Button profileButton;
+
+    // ========== Initialization ==========
+
+    /**
+     * Loads the other User's profile
+     */
+    @FXML
+    public void initialize() {
+
+        applyTheme();
+    }
+
+    public void setSelectedUser(User user){
+
+        this.otherUser = user;
+
+        if (otherUser != null) {
+            loadProfileData();
+            loadSkills();
+            loadHobbies();
+            loadReviews();
+        }
+    }
+
+    /**
+    * Applies themes to the Scene
+    * */
+    //Themes
+    // Applying theme color in here
+    private void applyTheme(){
+        String gradient = "linear-gradient(to right, "
+                + ThemeManager.primaryStart + ", "
+                + ThemeManager.primaryEnd + ")";
+
+        String headerStyle =
+                "-fx-background-color: " + gradient + ";" +
+                        "-fx-background-radius:15;" +
+                        "-fx-border-radius:15;" +
+                        "-fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);";
+
+        if (headerBar != null)
+            headerBar.setStyle(headerStyle);
+
+        if (bottomNav != null)
+            bottomNav.setStyle("-fx-background-color: " + gradient + ";");
+        if(messageButton != null){
+            messageButton.setStyle("-fx-background-color: " + gradient + ";");
+        }
+
+    }
+
+
+    // ========== Load Data ==========
+
+    /**
+    * Loads the selected User data
+    * */
+    private void loadProfileData() {
+        // Basic info
+        fullNameLabel.setText(otherUser.getFullName());
+        usernameLabel.setText("@" + (otherUser.getUsername() != null ? otherUser.getUsername() : "user"));
+        emailLabel.setText(otherUser.getEmail());
+        phoneLabel.setText(otherUser.getPhone() != null ? otherUser.getPhone() : "Not provided");
+        locationLabel.setText(otherUser.getLocation() != null ? otherUser.getLocation() : "Not specified");
+        bioLabel.setText(otherUser.getBio() != null ? otherUser.getBio() : "No bio yet.");
+
+        // Join date
+        if (otherUser.getJoinDate() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+            joinDateLabel.setText("Member since: " + otherUser.getJoinDate().format(formatter));
+        } else {
+            joinDateLabel.setText("Member since: Recently");
+        }
+
+        // Rating
+        ratingLabel.setText(otherUser.getFormattedRating());
+
+        // Profile image
+        loadProfileImage();
+    }
+
+    private void loadSkills() {
+        // Clear existing content
+        teachSkillsContainer.getChildren().clear();
+        learnSkillsContainer.getChildren().clear();
+
+        // Teach Skills
+        List<Skill> teachSkills = otherUser.getTeachSkills();
+        if (teachSkills.isEmpty()) {
+            Label emptyLabel = new Label("No skills added yet");
+            emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
+            teachSkillsContainer.getChildren().add(emptyLabel);
+        } else {
+            for (Skill skill : teachSkills) {
+                teachSkillsContainer.getChildren().add(createSkillRow(skill));
+            }
+        }
+
+        // Learn Skills
+        List<Skill> learnSkills = otherUser.getLearnSkills();
+        if (learnSkills.isEmpty()) {
+            Label emptyLabel = new Label("No skills added yet");
+            emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
+            learnSkillsContainer.getChildren().add(emptyLabel);
+        } else {
+            for (Skill skill : learnSkills) {
+                learnSkillsContainer.getChildren().add(createSkillRow(skill));
+            }
+        }
+    }
+
+    /**
+    * Loads selected user hobbies
+    * */
+    private void loadHobbies() {
+        hobbiesContainer.getChildren().clear();
+
+        List<Hobby> hobbies = otherUser.getHobbies();
+        if (hobbies == null || hobbies.isEmpty()) {
+            Label emptyLabel = new Label("No hobbies added yet");
+            emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
+            hobbiesContainer.getChildren().add(emptyLabel);
+        } else {
+            for (Hobby hobby : hobbies) {
+                hobbiesContainer.getChildren().add(createHobbyRow(hobby));
+            }
+        }
+    }
+
+    /**
+     * Loads selected user reviews
+     * */
+    private void loadReviews() {
+        reviewsContainer.getChildren().clear();
+
+        List<Review> reviews = otherUser.getReviews();
+        if (reviews == null || reviews.isEmpty()) {
+            Label emptyLabel = new Label("No reviews yet");
+            emptyLabel.setStyle("-fx-text-fill: #888888; -fx-font-style: italic;");
+            reviewsContainer.getChildren().add(emptyLabel);
+        } else {
+            for (Review review : reviews) {
+                reviewsContainer.getChildren().add(createReviewRow(review));
+            }
+        }
+    }
+
+    // ========== Create UI Rows ==========
+
+    private HBox createSkillRow(Skill skill) {
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setStyle("-fx-padding: 8; -fx-background-color: #F5F5F5; -fx-background-radius: 8;");
+        row.setPrefHeight(40);
+
+        // Shows skill name with proficiency
+        String proficiencyText = skill.getProficiency() != null ? " (" + skill.getProficiency() + ")" : "";
+        Label skillLabel = new Label(skill.getSkillName() + proficiencyText);
+        skillLabel.setStyle("-fx-text-fill: #1F1F1F; -fx-font-size: 14px;");
+        skillLabel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(skillLabel, Priority.ALWAYS);
+
+        row.getChildren().addAll(skillLabel);
+        return row;
+    }
+
+    private HBox createHobbyRow(Hobby hobby) {
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setStyle("-fx-padding: 8; -fx-background-color: #F5F5F5; -fx-background-radius: 8;");
+        row.setPrefHeight(40);
+
+        Label hobbyLabel = new Label(hobby.getHobbyName());
+        hobbyLabel.setStyle("-fx-text-fill: #1F1F1F; -fx-font-size: 14px;");
+        hobbyLabel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(hobbyLabel, Priority.ALWAYS);
+
+        row.getChildren().addAll(hobbyLabel);
+        return row;
+    }
+
+    private HBox createReviewRow(Review review) {
+        HBox row = new HBox(10);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.setStyle("-fx-padding: 10; -fx-background-color: #FAFAFA; -fx-background-radius: 8; -fx-border-color: #E0E0E0; -fx-border-radius: 8;");
+
+        String stars = getStarString(review.getRating());
+        Label ratingLabel = new Label(stars);
+
+        ratingLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gold;");
+
+        Label commentLabel = new Label(review.getComment());
+        commentLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13px;");
+        commentLabel.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(commentLabel, Priority.ALWAYS);
+
+        row.getChildren().addAll(ratingLabel, commentLabel);
+        return row;
+    }
+
+    private String getStarString(int rating) {
+        StringBuilder stars = new StringBuilder();
+        for (int i = 0; i < rating; i++) {
+            stars.append("★");
+        }
+        for (int i = rating; i < 5; i++) {
+            stars.append("☆");
+        }
+        return stars.toString();
+    }
+
+    private void loadProfileImage() {
+        try {
+            if (otherUser.getProfilePicture() != null) {
+                File file = new File("profile_images/" + otherUser.getProfilePicture());
+                if (file.exists()) {
+                    Image image = new Image(file.toURI().toString(), false);
+                    profileImage.setImage(image);
+                    return;
+                }
+            }
+            // fallback default
+            Image defaultImage = new Image(
+                    getClass().getResource("/com/example/newdesign/images/default.png").toString()
+            );
+            profileImage.setImage(defaultImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // ========== Navigation Methods ==========
+
+    // Buttons
+    /**
+     * Any Button with this method changes the Scene to the Home Screen
+     * @throws Exception
+     */
+    @FXML
+    private void handleHomeButton() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) homeButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    /**
+     * Any Button with this method changes the Scene to the User Profile Screen
+     * @throws Exception
+     */
+    @FXML
+    private void handleProfileButton() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("profile-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) profileButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private void handleSearchButton() throws Exception {
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("search-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1200, 800);
+        Stage stage = (Stage) searchButton.getScene().getWindow();
+        stage.setScene(scene);
+    }
+
+    @FXML
+    private void handleRequestPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("requests-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) requestPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handlePostPage() throws Exception {
+        FXMLLoader fxmlloader = new FXMLLoader(HelloApplication.class.getResource("post-view.fxml"));
+        Scene scene = new Scene(fxmlloader.load(), 1200, 800);
+        Stage stage = (Stage) postPageButton.getScene().getWindow();
+        stage.setScene(scene);
+
+    }
+
+    @FXML
+    private void handleMessager() throws Exception {
+        FXMLLoader loader = new FXMLLoader(
+                HelloApplication.class.getResource("messager-view.fxml")
+        );
+
+        Scene scene = new Scene(loader.load());
+
+        MessagerController controller = loader.getController();
+        controller.setSelectedUser(otherUser);
+
+        Stage stage = (Stage) messageButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+
+
+
+    // ========== Helper ==========
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}

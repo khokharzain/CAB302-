@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.newdesign.controller.MessagerController"
+            prefHeight="800.0" prefWidth="1200.0"
+            style="-fx-background-color: #F5F5F5;">
+
+    <VBox spacing="0" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+          AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+
+        <!-- ========== HEADER ========== -->
+        <HBox  fx:id="headerBar"
+               prefHeight="100"
+               style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);
+                     -fx-background-radius: 0 0 15 15;
+                     -fx-effect: dropshadow(gaussian, #899793, 15, 0.5, 0, 0);"
+              alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+            <Label text="SkillDev"
+                   style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="backButton"
+                    text="Back"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px;"
+                    onAction="#handleOtherUserButton"/>
+        </HBox>
+
+
+        <!-- MAIN CONTENT -->
+
+        <VBox style="
+    -fx-background-image: url('/com/example/newdesign/images/oceanwavesbg.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+    -fx-background-repeat: stretch;
+
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 25, 0.2, 0, 8);
+    -fx-padding: 10;">
+
+            <StackPane prefHeight="620"
+                       >
+
+                <ScrollPane prefHeight="620"
+                            fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            style="-fx-background-color: transparent; -fx-background: transparent;">
+
+                    <VBox fx:id="messageContainer"
+                          style="-fx-background-color: transparent;"
+                          spacing="8"
+                          fillWidth="true"
+                          prefWidth="Infinity"/>
+                </ScrollPane>
+
+            </StackPane>
+
+            <HBox alignment="BOTTOM_CENTER" prefHeight="30" spacing="10">
+                <TextField fx:id="messageField"
+                           prefHeight="30"
+                           prefWidth="1100"
+                           alignment="BASELINE_LEFT"
+                style="-fx-background-color: rgba(250,250,250,0.8); -fx-border-color: white; -fx-background-radius:25; -fx-border-radius:25"/>
+
+                <Button fx:id="SendButton"
+                        onAction="#handleSendButton"
+                        alignment="BASELINE_RIGHT"
+                        text="Send"/>
+            </HBox>
+        </VBox>
+        <!-- ========== BOTTOM NAVIGATION ========== -->
+        <!-- FOOTER -->
+        <HBox fx:id="bottomNav"
+              alignment="CENTER"
+              spacing="50"
+              prefHeight="20"
+              style="-fx-background-color: linear-gradient(to right, #0C4D3B, #0EBB8A);">
+
+            <Button fx:id="homeButton"
+                    style="-fx-background-color: transparent;" onAction="#handleHomeButton"
+            ><graphic>
+                <ImageView fitHeight="20" fitWidth="20">
+                    <image>
+                        <Image url="@Icons/HomeBlack.png"/>
+                    </image>
+                </ImageView>
+            </graphic>
+            </Button>
+
+            <Button fx:id="searchButton"
+                    onAction="#handleSearchButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <Image url="@Icons/SearchBlack.png"/>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="postPageButton"
+                    onAction="#handlePostPage"
+
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/post.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="requestPageButton"
+                    onAction="#handleRequestPage"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/AiBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="profileButton"
+                    onAction="#handleProfileButton"
+                    style="-fx-background-color: transparent;">
+                <graphic>
+                    <ImageView fitHeight="20" fitWidth="20">
+                        <image>
+                            <Image url="@Icons/profileBlack.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+        </HBox>
+
+    </VBox>
+</AnchorPane>
