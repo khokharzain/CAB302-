@@ -101,7 +101,6 @@ public class signUpController {
     public boolean isValidEmail(String email){
 
         if (!email.contains("@")) {
-            showAlert("Error", "Invalid email");
             return false;
         }
 
@@ -109,17 +108,17 @@ public class signUpController {
     }
 
     public boolean isValidName(String fName, String lName){
-        // validation
+
         if (fName.isEmpty() || lName.isEmpty()) {
-            showAlert("Error", "Name fields cannot be empty");
             return false;
         }
+
         return true;
     }
 
     public boolean isValidPhone(String number){
+
         if (!number.matches("\\d{9,12}") || number.matches(".*[a-zA-Z].*")) {
-            showAlert("Error", "Invalid phone number");
             return false;
         }
 
@@ -127,14 +126,13 @@ public class signUpController {
     }
 
     public boolean isValidPassword(String password){
+
         if (password.length() < 6) {
-            showAlert("Error", "Password must be at least 6 characters");
             return false;
         }
 
         return true;
     }
-
     // =============================
     // 🔙 BACK BUTTON
     // =============================
