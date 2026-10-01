@@ -1,0 +1,3 @@
+# Generated Javadoc should not determine the application's primary language.
+docs/** linguist-generated=true
+src/main/java/com.example.newdesign/** linguist-generated=true
