@@ -108,3 +108,7 @@ pom.xml                     dependencies, runner and JavaFX configuration
 ## Scope and next improvements
 
 This is an educational desktop prototype. The current password representation uses Java `hashCode`, which is not a password-hashing algorithm; use synthetic accounts and do not reuse a real password. Before using real account data, replace it with a salted password KDF, isolate test databases, remove bundled development data, and harden AI response parsing and timeouts. SQLite keeps the data on one machine; this is not a multi-user hosted service.
+
+## Explore the portfolio
+
+[Back to Zain Khokhar’s project directory](https://github.com/khokharzain#project-directory)
